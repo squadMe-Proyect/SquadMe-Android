@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "348777490563",
+    "project_id": "squadme-15232",
+    "storage_bucket": "squadme-15232.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:348777490563:android:6a56b9411b7363fc1f13b6",
+        "android_client_info": {
+          "package_name": "com.example.squadme"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwJUbkA3gz109gVaydMT3Tfg8cuRtB2Yw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

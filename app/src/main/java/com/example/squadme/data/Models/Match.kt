@@ -1,4 +1,4 @@
-package com.example.squadme.Models
+package com.example.squadme.data.Models
 
 import java.util.Date
 

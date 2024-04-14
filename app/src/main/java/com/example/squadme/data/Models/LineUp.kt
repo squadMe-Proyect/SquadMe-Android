@@ -1,4 +1,4 @@
-package com.example.squadme.Models
+package com.example.squadme.data.Models
 
 data class LineUp(
     val id: String,

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginRegister.Fragments.RegisterFragment">
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="167dp"
+        android:layout_height="108dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </ImageView>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/name_label"
+        android:layout_width="304dp"
+        android:layout_height="59dp"
+        android:layout_marginTop="20dp"
+        android:hint="Nombre"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image">
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/name_input"
+        android:layout_width="278dp"
+        android:layout_height="41dp"
+        app:layout_constraintBottom_toBottomOf="@+id/name_label"
+        app:layout_constraintEnd_toEndOf="@+id/name_label"
+        app:layout_constraintStart_toStartOf="@+id/name_label"
+        app:layout_constraintTop_toTopOf="@+id/name_label">
+
+    </com.google.android.material.textfield.TextInputEditText>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/surname_label"
+        android:layout_width="304dp"
+        android:layout_height="59dp"
+        android:layout_marginTop="16dp"
+        android:hint="Apellidos"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name_label">
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/surname_input"
+        android:layout_width="278dp"
+        android:layout_height="41dp"
+        app:layout_constraintBottom_toBottomOf="@+id/surname_label"
+        app:layout_constraintEnd_toEndOf="@+id/surname_label"
+        app:layout_constraintStart_toStartOf="@+id/surname_label"
+        app:layout_constraintTop_toTopOf="@+id/surname_label">
+
+    </com.google.android.material.textfield.TextInputEditText>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/email_label"
+        android:layout_width="304dp"
+        android:layout_height="59dp"
+        android:layout_marginTop="36dp"
+        android:hint="Email"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/surname_label">
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/email_input"
+        android:layout_width="278dp"
+        android:layout_height="41dp"
+        app:layout_constraintBottom_toBottomOf="@+id/email_label"
+        app:layout_constraintEnd_toEndOf="@+id/email_label"
+        app:layout_constraintStart_toStartOf="@+id/email_label"
+        app:layout_constraintTop_toTopOf="@+id/email_label">
+
+    </com.google.android.material.textfield.TextInputEditText>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/nacionality_label"
+        android:layout_width="304dp"
+        android:layout_height="59dp"
+        android:layout_marginTop="36dp"
+        android:hint="Nacionalidad"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/email_label">
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/nacionality_input"
+        android:layout_width="278dp"
+        android:layout_height="41dp"
+        app:layout_constraintBottom_toBottomOf="@+id/nacionality_label"
+        app:layout_constraintEnd_toEndOf="@+id/nacionality_label"
+        app:layout_constraintStart_toStartOf="@+id/nacionality_label"
+        app:layout_constraintTop_toTopOf="@+id/nacionality_label">
+
+    </com.google.android.material.textfield.TextInputEditText>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/team_label"
+        android:layout_width="304dp"
+        android:layout_height="59dp"
+        android:layout_marginTop="24dp"
+        android:hint="Equipo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nacionality_label">
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/team_input"
+        android:layout_width="278dp"
+        android:layout_height="41dp"
+        app:layout_constraintBottom_toBottomOf="@+id/team_label"
+        app:layout_constraintEnd_toEndOf="@+id/team_label"
+        app:layout_constraintStart_toStartOf="@+id/team_label"
+        app:layout_constraintTop_toTopOf="@+id/team_label">
+
+    </com.google.android.material.textfield.TextInputEditText>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/password_label"
+        android:layout_width="304dp"
+        android:layout_height="59dp"
+        android:layout_marginTop="24dp"
+        android:hint="Contraseña"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/team_label">
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/password_input"
+        android:layout_width="278dp"
+        android:layout_height="41dp"
+        app:layout_constraintBottom_toBottomOf="@+id/password_label"
+        app:layout_constraintEnd_toEndOf="@+id/password_label"
+        app:layout_constraintStart_toStartOf="@+id/password_label"
+        app:layout_constraintTop_toTopOf="@+id/password_label">
+
+    </com.google.android.material.textfield.TextInputEditText>
+
+
+    <Button
+        android:id="@+id/register_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Registro"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password_label"></Button>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
