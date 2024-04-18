@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity.UserProfile.user_profileFragment">
+
+
+
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_width="242dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="124dp"
+        android:text="Nombre: "
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/user_surname"
+        android:layout_width="242dp"
+        android:layout_height="66dp"
+        android:text="Apellido: "
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_name">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/user_email"
+        android:layout_width="242dp"
+        android:layout_height="66dp"
+        android:text="Email: "
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_surname">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/user_nacionality"
+        android:layout_width="242dp"
+        android:layout_height="66dp"
+        android:text="Nacionalidad: "
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_email">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/user_role"
+        android:layout_width="242dp"
+        android:layout_height="66dp"
+        android:text="Rol: "
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_nacionality">
+
+    </TextView>
+
+    <Button
+        android:id="@+id/logout_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="96dp"
+        android:backgroundTint="@color/design_default_color_error"
+        android:text="Cerrar sesión"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_role"></Button>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

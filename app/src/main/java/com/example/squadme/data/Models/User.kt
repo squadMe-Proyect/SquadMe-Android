@@ -9,5 +9,5 @@ data class User(
     val rol: Role,
     val password: String,
     val player: Player?,
-    val mister: Mister?
+    val mister: Coach?
     )
