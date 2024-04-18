@@ -28,7 +28,6 @@ class user_profileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //val currentUser: Coach | Player = firebaseAuth.currentUser()
     }
 
 }
