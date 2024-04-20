@@ -73,23 +73,39 @@ class RegisterFragment : Fragment() {
         }
     }
 
-    private fun postRegister(coach:Coach){
+
+    private fun postRegister(coach: Coach) {
         if (coach.name.isEmpty() || coach.email.isEmpty() || coach.nationality.isEmpty() || coach.surname.isEmpty() || coach.team.isEmpty()) {
             showToast("Por favor, complete todos los campos")
             return
-        }else{
-            db.collection("coaches").add(coach).addOnCompleteListener{
-                if (it.isSuccessful){
+        }
+
+        val currentUser = firebaseAuth.currentUser
+        if (currentUser != null) {
+            val userId = currentUser.uid
+            val coachData = hashMapOf(
+                "name" to coach.name,
+                "email" to coach.email,
+                "nationality" to coach.nationality,
+                "surname" to coach.surname,
+                "team" to coach.team,
+                "role" to "Admin"
+            )
+
+            db.collection("coaches").document(userId).set(coachData)
+                .addOnSuccessListener {
                     val intent = Intent(requireContext(), MainActivity::class.java)
                     startActivity(intent)
                     activity?.finish()
-                }else{
-                    showToast("Error al añadir un user a la coleccion")
                 }
-            }
+                .addOnFailureListener {
+                    showToast("Error al añadir un usuario a la colección")
+                }
+        } else {
+            showToast("Error: Usuario actual nulo")
         }
-
     }
+
 
 
     private fun showAlert(message: String) {
@@ -99,76 +115,4 @@ class RegisterFragment : Fragment() {
     private fun showToast(message: String) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
-
-    /*
-    private fun register(coach: Coach, password:String){
-        if (coach.email.isNotEmpty() && password.isNotEmpty()){
-
-            firebaseAuth.createUserWithEmailAndPassword(coach.email, password).addOnCompleteListener{
-                if (task.isSuccessful){
-                    postRegister(coach)
-                }else{
-                    showAlert()
-                }
-            }
-        }else{
-            showToast("Error")
-        }
-    }
-
-    private fun showAlert(){
-        val builder = AlertDialog.Builder(context)
-        builder.setTitle("Error")
-        builder.setMessage("Se ha producido un error al loguear un usuario")
-        builder.setPositiveButton("Aceptar", null)
-        val dialog: AlertDialog = builder.create()
-        dialog.show()
-    }
-
-    private fun showToast(message: String) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-    }
-
-
-    private fun postRegister(coach: Coach) {
-        if (coach.name.isEmpty() || coach.email.isEmpty() || coach.nationality.isEmpty() || coach.surname.isEmpty() || coach.team.isEmpty()) {
-            showToast("Por favor, complete todos los campos")
-            return
-        }
-
-        val userId = firebaseAuth.currentUser?.uid
-        if (userId != null) {
-            // Obtén una instancia de Firebase Firestore
-            val db = Firebase.firestore
-
-            // Crea un HashMap con los datos del coach
-            val coachData = hashMapOf(
-                "name" to coach.name,
-                "email" to coach.email,
-                "nationality" to coach.nationality,
-                "surname" to coach.surname,
-                "team" to coach.team,
-                "role" to "Coach"
-            )
-
-            // Agrega los datos del coach a la colección "coaches" con el UID del usuario como identificador del documento
-            db.collection("coaches")
-                .document(userId)
-                .set(coachData)
-                .addOnSuccessListener {
-                    showToast("Coach registrado correctamente")
-                    val intent = Intent(requireContext(), MainActivity::class.java)
-                    startActivity(intent)
-                    activity?.finish()
-                }
-                .addOnFailureListener { exception ->
-                    showToast("Error al agregar coach a Firebase Firestore: ${exception.message}")
-                }
-        } else {
-            showToast("Error: Usuario actual no encontrado")
-        }
-    }
-    */
-
-
 }

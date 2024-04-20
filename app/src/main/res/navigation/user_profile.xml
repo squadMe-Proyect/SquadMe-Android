@@ -2,11 +2,12 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/user_profile"
-    app:startDestination="@id/user_profileFragment">
+    android:id="@+id/profile"
+    app:startDestination="@id/user_profile">
 
     <fragment
-        android:id="@+id/user_profileFragment"
+
+        android:id="@+id/user_profile"
         android:name="com.example.squadme.MainActivity.UserProfile.user_profileFragment"
         android:label="fragment_user_profile"
         tools:layout="@layout/fragment_user_profile" />

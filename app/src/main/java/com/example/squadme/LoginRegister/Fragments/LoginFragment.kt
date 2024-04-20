@@ -56,14 +56,18 @@ class LoginFragment : Fragment() {
                     val intent = Intent(requireContext(), MainActivity::class.java)
                     startActivity(intent)
                     activity?.finish()
-                }else{
+                } else {
                     showAlert()
                 }
+            }.addOnFailureListener { exception ->
+                // Maneja la excepción aquí
+                showToast("Error: ${exception.message}")
             }
-        }else{
+        } else {
             showToast("Error")
         }
     }
+
 
     private fun showAlert(){
         val builder = AlertDialog.Builder(context)

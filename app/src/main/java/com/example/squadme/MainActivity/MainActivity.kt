@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
 
         appBarConfiguration = AppBarConfiguration(
             setOf(
+                R.id.playerListFragment,
                 R.id.user_profile
             )
         )
