@@ -28,7 +28,7 @@ class PlayerListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnCreationPlayer.setOnClickListener {
-            val action = PlayerListFragmentDirections.actionPlayerListFragmentToPlayerCreationFragment()
+            val action = PlayerListFragmentDirections.actionPlayerListFragmentToCameraPreviewFragment()
             view.findNavController().navigate(action)
         }
     }

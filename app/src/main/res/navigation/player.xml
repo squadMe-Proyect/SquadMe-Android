@@ -11,12 +11,30 @@
         android:label="fragment_player_list"
         tools:layout="@layout/fragment_player_list" >
         <action
-            android:id="@+id/action_playerListFragment_to_playerCreationFragment"
-            app:destination="@id/playerCreationFragment" />
+            android:id="@+id/action_playerListFragment_to_cameraPreviewFragment"
+            app:destination="@id/cameraPreviewFragment" />
     </fragment>
     <fragment
         android:id="@+id/playerCreationFragment"
         android:name="com.example.squadme.MainActivity.playerCreation.PlayerCreationFragment"
         android:label="fragment_player_creation"
-        tools:layout="@layout/fragment_player_creation" />
+        tools:layout="@layout/fragment_player_creation" >
+        <action
+            android:id="@+id/action_playerCreationFragment_to_playerListFragment"
+            app:destination="@id/playerListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cameraPreviewFragment"
+        android:name="com.example.squadme.MainActivity.playerCreation.CameraPreviewFragment"
+        android:label="fragment_camera_preview"
+        tools:layout="@layout/fragment_camera_preview" >
+        <action
+            android:id="@+id/action_cameraPreviewFragment_to_playerCreationFragment"
+            app:destination="@id/playerCreationFragment">
+            <argument
+                android:name="imageUri"
+                app:argType="string">
+            </argument>
+        </action>
+    </fragment>
 </navigation>
