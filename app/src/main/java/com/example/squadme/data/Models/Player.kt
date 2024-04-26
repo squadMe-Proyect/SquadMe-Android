@@ -1,7 +1,6 @@
 package com.example.squadme.data.Models
 
 data class Player(
-    val id:String,
     val coachId:String,
     val picture: String,
     val email:String,
@@ -10,7 +9,7 @@ data class Player(
     val teamName:String,
     val nation:String,
     val numbers: Int,
-    val position: Position,
+    val position: String,
     val goal:Int,
     val assists: Int,
     val yellowCards: Int,
