@@ -1,17 +1,19 @@
 package com.example.squadme.data.Models
 
+import com.google.firebase.database.IgnoreExtraProperties
+@IgnoreExtraProperties
 data class Player(
-    val coachId:String,
-    val picture: String,
-    val email:String,
-    val name:String,
-    val surname:String,
-    val teamName:String,
-    val nation:String,
-    val numbers: Int,
-    val position: String,
-    val goal:Int,
-    val assists: Int,
-    val yellowCards: Int,
-    val redCards:Int
+    val coachId: String? = null,
+    val picture: String? = null,
+    val email: String? = null,
+    val name: String? = null,
+    val surname: String? = null,
+    val teamName: String? = null,
+    val nation: String? = null,
+    val numbers: Int? = null,
+    val position: String? = null,
+    val goal: Int? = null,
+    val assists: Int? = null,
+    val yellowCards: Int? = null,
+    val redCards: Int? = null
 )
