@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_playerListFragment_to_cameraPreviewFragment"
             app:destination="@id/cameraPreviewFragment" />
+        <action
+            android:id="@+id/action_playerListFragment_to_playerDetailFragment"
+            app:destination="@id/playerDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/playerCreationFragment"
@@ -36,5 +39,14 @@
                 app:argType="string">
             </argument>
         </action>
+    </fragment>
+    <fragment
+        android:id="@+id/playerDetailFragment"
+        android:name="com.example.squadme.MainActivity.playerDetail.PlayerDetailFragment"
+        android:label="fragment_player_detail"
+        tools:layout="@layout/fragment_player_detail">
+        <argument
+            android:name="player"
+            app:argType="com.example.squadme.data.Models.Player"></argument>
     </fragment>
 </navigation>

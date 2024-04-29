@@ -1,8 +1,11 @@
 package com.example.squadme.data.Models
 
 import com.google.firebase.database.IgnoreExtraProperties
+import java.io.Serializable
+
 @IgnoreExtraProperties
 data class Player(
+    val id:String? = null,
     val coachId: String? = null,
     val picture: String? = null,
     val email: String? = null,
@@ -16,4 +19,4 @@ data class Player(
     val assists: Int? = null,
     val yellowCards: Int? = null,
     val redCards: Int? = null
-)
+) : Serializable

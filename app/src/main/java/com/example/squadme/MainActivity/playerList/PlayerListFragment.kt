@@ -42,7 +42,10 @@ class PlayerListFragment : Fragment() {
         firestore = FirebaseFirestore.getInstance()
         currentUserId = auth.currentUser?.uid ?: ""
 
-        adapter = PlayerListAdapter(requireContext())
+        adapter = PlayerListAdapter(requireContext()) { _, player ->
+            val actionToDetail = PlayerListFragmentDirections.actionPlayerListFragmentToPlayerDetailFragment(player)
+            view.findNavController().navigate(actionToDetail)
+        }
         binding.playerList.adapter = adapter
 
         val playersRef = firestore.collection("players")

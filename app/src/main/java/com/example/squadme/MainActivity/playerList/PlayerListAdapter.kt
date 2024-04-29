@@ -2,6 +2,7 @@ package com.example.squadme.MainActivity.playerList
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -12,7 +13,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 
 
-class PlayerListAdapter(private val context: Context) :
+class PlayerListAdapter(private val context: Context, private val onClick:((View, Player) ->Unit)) :
     ListAdapter<Player, PlayerListAdapter.PlayerViewHolder>(DiffCallback) {
 
     inner class PlayerViewHolder(private val binding: PlayerListItemBinding) :
@@ -24,6 +25,9 @@ class PlayerListAdapter(private val context: Context) :
                 .load(player.picture)
                 .apply(RequestOptions().centerCrop())
                 .into(binding.playerImg)
+            binding.playerCard.setOnClickListener {
+                onClick(it, player)
+            }
         }
     }
 
