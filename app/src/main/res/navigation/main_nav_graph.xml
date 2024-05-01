@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:startDestination="@id/player"
+    app:startDestination="@id/profile"
     android:id="@+id/main_nav_graph">
 
+    <include app:graph="@navigation/match"></include>
     <include app:graph="@navigation/player"></include>
     <include app:graph="@navigation/user_profile"></include>
 </navigation>
