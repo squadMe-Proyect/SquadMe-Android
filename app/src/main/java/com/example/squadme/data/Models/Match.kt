@@ -1,10 +1,13 @@
 package com.example.squadme.data.Models
 
+import com.google.firebase.database.IgnoreExtraProperties
+import java.io.Serializable
 import java.util.Date
 
+@IgnoreExtraProperties
 data class Match(
-    val coachId: String,
-    val date:String,
-    val opponent: String,
-    val result:String
-)
+    val coachId: String? = null,
+    val date:String? = null,
+    val opponent: String? = null,
+    val result:String? = null
+): Serializable
