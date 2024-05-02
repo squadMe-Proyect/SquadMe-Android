@@ -18,5 +18,9 @@
         android:id="@+id/matchCreationFragment"
         android:name="com.example.squadme.MainActivity.matches.matchesCreation.MatchCreationFragment"
         android:label="fragment_match_creation"
-        tools:layout="@layout/fragment_match_creation" />
+        tools:layout="@layout/fragment_match_creation" >
+        <action
+            android:id="@+id/action_matchCreationFragment_to_matchListFragment"
+            app:destination="@id/matchListFragment" />
+    </fragment>
 </navigation>
