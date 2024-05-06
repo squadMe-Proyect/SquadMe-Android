@@ -49,6 +49,11 @@ class MatchDetailFragment : Fragment() {
             findNavController().popBackStack()
         }
 
+        binding.editBtn.setOnClickListener {
+            val action = MatchDetailFragmentDirections.actionMatchDetailFragmentToMatchUpdateFragment(match)
+            findNavController().navigate(action)
+        }
+
         binding.deleteBtn.setOnClickListener {
             val db = FirebaseFirestore.getInstance()
 

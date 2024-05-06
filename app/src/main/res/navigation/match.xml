@@ -34,5 +34,20 @@
         <argument
             android:name="match"
             app:argType="com.example.squadme.data.Models.Match"></argument>
+        <action
+            android:id="@+id/action_matchDetailFragment_to_matchUpdateFragment"
+            app:destination="@id/matchUpdateFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/matchUpdateFragment"
+        android:name="com.example.squadme.MainActivity.matches.matchesUpdate.MatchUpdateFragment"
+        android:label="fragment_match_update"
+        tools:layout="@layout/fragment_match_update">
+        <argument
+            android:name="match"
+            app:argType="com.example.squadme.data.Models.Match"></argument>
+        <action
+            android:id="@+id/action_matchUpdateFragment_to_matchListFragment"
+            app:destination="@id/matchListFragment" />
     </fragment>
 </navigation>

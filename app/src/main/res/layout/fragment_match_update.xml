@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity.matches.matchesUpdate.MatchUpdateFragment">
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/opponent_label"
+        android:layout_width="249dp"
+        android:layout_height="59dp"
+        android:hint="Oponente"
+        app:layout_constraintBottom_toTopOf="@+id/Cancelar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.543"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.173">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/opponent_input"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </com.google.android.material.textfield.TextInputEditText>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/result_label"
+        android:layout_width="249dp"
+        android:layout_height="59dp"
+        android:layout_marginStart="88dp"
+        android:layout_marginTop="32dp"
+        android:hint="Resultado"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/opponent_label">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/result_input"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </com.google.android.material.textfield.TextInputEditText>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/btnFecha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="84dp"
+        android:text="Fecha"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnHora">
+
+    </Button>
+
+    <Button
+        android:id="@+id/btnHora"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="68dp"
+        android:layout_marginEnd="40dp"
+        android:text="Hora"
+        app:layout_constraintEnd_toStartOf="@+id/editTextFecha"
+        app:layout_constraintTop_toBottomOf="@+id/result_label">
+
+    </Button>
+
+    <Button
+        android:id="@+id/Actualizar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="88dp"
+        android:layout_marginBottom="88dp"
+        android:text="Actualizar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/Cancelar"></Button>
+
+    <Button
+        android:id="@+id/Cancelar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="88dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="88dp"
+        android:text="Cancelar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+    </Button>
+
+    <EditText
+        android:id="@+id/editTextFecha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Fecha"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.474"
+        app:layout_constraintStart_toEndOf="@+id/btnFecha"
+        app:layout_constraintTop_toBottomOf="@+id/result_label" />
+
+    <EditText
+        android:id="@+id/editTextTHora"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="68dp"
+        android:layout_marginEnd="60dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Hora"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/result_label" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
