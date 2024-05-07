@@ -1,4 +1,4 @@
-package com.example.squadme.MainActivity.playerCreation
+package com.example.squadme.MainActivity.players.playerCreation
 
 
 import android.Manifest
@@ -61,7 +61,8 @@ class CameraPreviewFragment : Fragment() {
             startCamera()
         }else{
             ActivityCompat.requestPermissions(
-                requireActivity(), REQUIRED_PERMISSIONS,  REQUEST_CODE_PERMISSIONS)
+                requireActivity(), REQUIRED_PERMISSIONS,  REQUEST_CODE_PERMISSIONS
+            )
         }
         binding.buttonPhoto.setOnClickListener {
             takePhoto()

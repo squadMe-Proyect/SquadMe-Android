@@ -1,4 +1,4 @@
-package com.example.squadme.MainActivity.playerList
+package com.example.squadme.MainActivity.players.playerList
 
 import android.content.Context
 import android.view.LayoutInflater

@@ -1,4 +1,4 @@
-package com.example.squadme.MainActivity.playerDetail
+package com.example.squadme.MainActivity.players.playerDetail
 
 import android.content.ContentValues.TAG
 import android.os.Bundle
@@ -10,8 +10,6 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.load
-import com.bumptech.glide.Glide
-import com.example.squadme.R
 import com.example.squadme.data.Models.Player
 import com.example.squadme.databinding.FragmentPlayerDetailBinding
 import com.google.firebase.firestore.DocumentReference
@@ -47,10 +45,25 @@ class PlayerDetailFragment : Fragment() {
 
 
         binding.playerImg.load(player.picture)
-        binding.playerName.text = player.name
+        binding.playerName.text = "Nombre ${player.name}"
+        binding.playerSurname.text = "Apellido ${player.surname}"
+        binding.playerEmail.text = "Email ${player.email}"
+        binding.playerNation.text = "Nacionalidad ${player.nation}"
+        binding.playerTeam.text = "Equipo ${player.teamName}"
+        binding.playerPosition.text = "Posición ${player.position}"
+        binding.playerDorsal.text = "Dorsal ${player.numbers}"
+        binding.goles.text = "${player.goal}"
+        binding.asistencias.text =  "${player.assists}"
+        binding.amarillas.text = "${player.yellowCards}"
+        binding.rojas.text = "${player.redCards}"
 
         binding.toolbar.setOnClickListener {
             findNavController().popBackStack()
+        }
+
+        binding.editBtn.setOnClickListener {
+            val action = PlayerDetailFragmentDirections.actionPlayerDetailFragmentToPlayerUpdateFragment(player)
+            findNavController().navigate(action)
         }
 
         binding.deleteBtn.setOnClickListener {

@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.load
-import com.example.squadme.MainActivity.playerDetail.PlayerDetailFragmentArgs
 import com.example.squadme.R
 import com.example.squadme.data.Models.Match
 import com.example.squadme.data.Models.Player
@@ -41,9 +40,9 @@ class MatchDetailFragment : Fragment() {
 
 
 
-        binding.matchOpponent.text = match.opponent
-        binding.matchResult.text = match.result
-        binding.matchDate.text = match.date
+        binding.matchOpponent.text =  "Oponente: $match.opponent"
+        binding.matchResult.text = "Resultado: $match.result"
+        binding.matchDate.text = "Fecha: $match.date"
 
         binding.toolbar.setOnClickListener {
             findNavController().popBackStack()

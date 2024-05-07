@@ -1,4 +1,4 @@
-package com.example.squadme.MainActivity.playerCreation
+package com.example.squadme.MainActivity.players.playerCreation
 
 import android.content.ContentValues.TAG
 import android.net.Uri

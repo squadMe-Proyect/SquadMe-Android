@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/playerListFragment"
-        android:name="com.example.squadme.MainActivity.playerList.PlayerListFragment"
+        android:name="com.example.squadme.MainActivity.players.playerList.PlayerListFragment"
         android:label="fragment_player_list"
         tools:layout="@layout/fragment_player_list" >
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/playerCreationFragment"
-        android:name="com.example.squadme.MainActivity.playerCreation.PlayerCreationFragment"
+        android:name="com.example.squadme.MainActivity.players.playerCreation.PlayerCreationFragment"
         android:label="fragment_player_creation"
         tools:layout="@layout/fragment_player_creation" >
         <action
@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/cameraPreviewFragment"
-        android:name="com.example.squadme.MainActivity.playerCreation.CameraPreviewFragment"
+        android:name="com.example.squadme.MainActivity.players.playerCreation.CameraPreviewFragment"
         android:label="fragment_camera_preview"
         tools:layout="@layout/fragment_camera_preview" >
         <action
@@ -42,11 +42,26 @@
     </fragment>
     <fragment
         android:id="@+id/playerDetailFragment"
-        android:name="com.example.squadme.MainActivity.playerDetail.PlayerDetailFragment"
+        android:name="com.example.squadme.MainActivity.players.playerDetail.PlayerDetailFragment"
         android:label="fragment_player_detail"
         tools:layout="@layout/fragment_player_detail">
         <argument
             android:name="player"
             app:argType="com.example.squadme.data.Models.Player"></argument>
+        <action
+            android:id="@+id/action_playerDetailFragment_to_playerUpdateFragment"
+            app:destination="@id/playerUpdateFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/playerUpdateFragment"
+        android:name="com.example.squadme.MainActivity.players.playerUpdate.PlayerUpdateFragment"
+        android:label="fragment_player_update"
+        tools:layout="@layout/fragment_player_update" >
+        <argument
+            android:name="player"
+            app:argType="com.example.squadme.data.Models.Player"></argument>
+        <action
+            android:id="@+id/action_playerUpdateFragment_to_playerListFragment"
+            app:destination="@id/playerListFragment" />
     </fragment>
 </navigation>

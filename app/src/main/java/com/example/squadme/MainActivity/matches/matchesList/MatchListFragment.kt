@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
-import com.example.squadme.MainActivity.playerList.PlayerListFragmentDirections
 import com.example.squadme.data.Models.Match
 import com.example.squadme.data.Models.Player
 import com.example.squadme.databinding.FragmentMatchListBinding
