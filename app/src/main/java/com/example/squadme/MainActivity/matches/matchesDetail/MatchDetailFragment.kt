@@ -40,9 +40,9 @@ class MatchDetailFragment : Fragment() {
 
 
 
-        binding.matchOpponent.text =  "Oponente: $match.opponent"
-        binding.matchResult.text = "Resultado: $match.result"
-        binding.matchDate.text = "Fecha: $match.date"
+        binding.matchOpponent.text =  "Oponente: ${match.opponent}"
+        binding.matchResult.text = "Resultado: ${match.result}"
+        binding.matchDate.text = "Fecha: ${match.date}"
 
         binding.toolbar.setOnClickListener {
             findNavController().popBackStack()
