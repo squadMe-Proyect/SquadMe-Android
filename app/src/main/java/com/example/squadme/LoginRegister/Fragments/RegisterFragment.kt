@@ -104,6 +104,7 @@ class RegisterFragment : Fragment() {
         } else {
             showToast("Error: Usuario actual nulo")
         }
+
     }
 
 
