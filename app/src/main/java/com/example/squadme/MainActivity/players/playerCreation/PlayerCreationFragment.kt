@@ -102,7 +102,7 @@ class PlayerCreationFragment : Fragment() {
                             email = email,
                             name = name,
                             surname = surname,
-                            teamName = teamName?:"", // Debes obtener este valor correctamente del documento del entrenador
+                            teamName = teamName?:"",
                             nation = nation,
                             numbers = number,
                             position = position,

@@ -66,7 +66,6 @@ class user_profileFragment : Fragment() {
                     }
                 }
                 .addOnFailureListener { exception ->
-                    // Maneja la excepción aquí
                     showToast("Error al obtener los datos del usuario: ${exception.message}")
                 }
         }

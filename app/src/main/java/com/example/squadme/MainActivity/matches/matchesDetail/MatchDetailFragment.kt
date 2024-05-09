@@ -87,7 +87,6 @@ class MatchDetailFragment : Fragment() {
                 .addOnFailureListener { e ->
                     // Error al realizar la consulta
                     Log.w(ContentValues.TAG, "Error querying match document", e)
-                    // Manejar el error según sea necesario (por ejemplo, mostrar un mensaje de error)
                 }
         }
 

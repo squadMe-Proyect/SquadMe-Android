@@ -102,7 +102,6 @@ class PlayerDetailFragment : Fragment() {
                 .addOnFailureListener { e ->
                     // Error al realizar la consulta
                     Log.w(TAG, "Error querying player document", e)
-                    // Manejar el error según sea necesario (por ejemplo, mostrar un mensaje de error)
                 }
         }
 
