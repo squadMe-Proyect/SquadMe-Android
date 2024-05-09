@@ -80,8 +80,7 @@ class PlayerUpdateFragment : Fragment() {
     private fun openGallery() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         if (intent.resolveActivity(requireActivity().packageManager) != null) {
-            startActivity(intent)
-            //startActivityForResult(intent, GALLERY_REQUEST_CODE)
+            startActivityForResult(intent, GALLERY_REQUEST_CODE)
         } else {
             Toast.makeText(requireContext(), "No se pudo acceder a la galería", Toast.LENGTH_SHORT).show()
         }

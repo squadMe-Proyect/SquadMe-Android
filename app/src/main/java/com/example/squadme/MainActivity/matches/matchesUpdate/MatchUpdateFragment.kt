@@ -78,8 +78,7 @@ class MatchUpdateFragment : Fragment() {
             val opponent = binding.opponentInput.text.toString()
             val result = binding.resultInput.text.toString()
 
-            // Verificamos que todos los campos obligatorios estén llenos
-                // Creamos el objeto Player con los datos recolectados
+
                 val match = Match(
                     date = date,
                     opponent = opponent,
@@ -155,7 +154,6 @@ class MatchUpdateFragment : Fragment() {
                         "opponent" to newOpponent,
                         "date" to "$newDate - $newTime", // Combinar fecha y hora en un solo campo
                         "result" to newResult
-                        // Agrega otros campos según sea necesario
                     )
 
                     // Actualizar el partido en Firestore
