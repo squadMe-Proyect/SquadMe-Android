@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/squad"
+    app:startDestination="@id/squadListFragment">
+
+    <fragment
+        android:id="@+id/squadListFragment"
+        android:name="com.example.squadme.MainActivity.squads.squadList.SquadListFragment"
+        android:label="fragment_squad_list"
+        tools:layout="@layout/fragment_squad_list" >
+        <action
+            android:id="@+id/action_squadListFragment_to_squadCreationFragment"
+            app:destination="@id/squadCreationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/squadCreationFragment"
+        android:name="com.example.squadme.MainActivity.squads.squadCreation.SquadCreationFragment"
+        android:label="fragment_squad_creation"
+        tools:layout="@layout/fragment_squad_creation" />
+</navigation>

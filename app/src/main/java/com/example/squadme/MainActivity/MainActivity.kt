@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener {
                 _, destination,_ ->
             when(destination.id){
-                R.id.cameraPreviewFragment, R.id.playerCreationFragment-> binding.navView.visibility = View.GONE
+                R.id.cameraPreviewFragment, R.id.playerCreationFragment, R.id.playerUpdateFragment-> binding.navView.visibility = View.GONE
                 else ->  binding.navView.visibility = View.VISIBLE
             }
         }
@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.matchListFragment,
                 R.id.playerListFragment,
                 R.id.user_profile,
-                R.id.playerUpdateFragment
+                R.id.squadListFragment
             )
         )
         navView.setupWithNavController(navController)
