@@ -13,10 +13,22 @@
         <action
             android:id="@+id/action_squadListFragment_to_squadCreationFragment"
             app:destination="@id/squadCreationFragment" />
+        <action
+            android:id="@+id/action_squadListFragment_to_squadDetailFragment"
+            app:destination="@id/squadDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/squadCreationFragment"
         android:name="com.example.squadme.MainActivity.squads.squadCreation.SquadCreationFragment"
         android:label="fragment_squad_creation"
         tools:layout="@layout/fragment_squad_creation" />
+    <fragment
+        android:id="@+id/squadDetailFragment"
+        android:name="com.example.squadme.MainActivity.squads.squadDetail.SquadDetailFragment"
+        android:label="fragment_squad_detail"
+        tools:layout="@layout/fragment_squad_detail">
+        <argument
+            android:name="squad"
+            app:argType="com.example.squadme.data.Models.LineUp"></argument>
+    </fragment>
 </navigation>
