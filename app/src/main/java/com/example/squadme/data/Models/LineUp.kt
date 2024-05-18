@@ -6,6 +6,6 @@ import java.io.Serializable
 data class LineUp(
     val coachId: String?=null,
     val name: String?=null,
-    val formation: String?=null,
+    val lineUp: String?=null,
     val players: List<Player> = listOf()
 ): Serializable

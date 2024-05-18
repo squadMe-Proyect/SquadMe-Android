@@ -43,11 +43,12 @@
 
         <ImageView
             android:id="@+id/squad_image"
-            android:layout_width="151dp"
-            android:layout_height="85dp"
-            android:layout_marginTop="52dp"
+            android:layout_width="342dp"
+            android:layout_height="178dp"
+            android:layout_marginTop="8dp"
             android:src="@mipmap/image_football_squad_foreground"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.492"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/squad_formation">
 

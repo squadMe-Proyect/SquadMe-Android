@@ -21,7 +21,11 @@
         android:id="@+id/squadCreationFragment"
         android:name="com.example.squadme.MainActivity.squads.squadCreation.SquadCreationFragment"
         android:label="fragment_squad_creation"
-        tools:layout="@layout/fragment_squad_creation" />
+        tools:layout="@layout/fragment_squad_creation" >
+        <action
+            android:id="@+id/action_squadCreationFragment_to_squadListFragment"
+            app:destination="@id/squadListFragment" />
+    </fragment>
     <fragment
         android:id="@+id/squadDetailFragment"
         android:name="com.example.squadme.MainActivity.squads.squadDetail.SquadDetailFragment"

@@ -290,7 +290,7 @@ class SquadCreationFragment : Fragment() {
 
     private fun createSquad() {
         val squadName = binding.nameInput.text.toString()
-        val formation = binding.formationItem.text
+        val formation = binding.formationItem.text.toString()
 
         if (squadName.isEmpty()) {
             Toast.makeText(requireContext(), "Por favor, ingrese un nombre para la plantilla.", Toast.LENGTH_SHORT).show()
@@ -329,6 +329,8 @@ class SquadCreationFragment : Fragment() {
             .addOnSuccessListener {
                 Toast.makeText(requireContext(), "Plantilla creada exitosamente.", Toast.LENGTH_SHORT).show()
                 // Aquí puedes limpiar los campos o hacer cualquier otra acción post creación
+                val action = SquadCreationFragmentDirections.actionSquadCreationFragmentToSquadListFragment()
+                findNavController().navigate(action)
             }
             .addOnFailureListener { e ->
                 Toast.makeText(requireContext(), "Error al crear la plantilla: ${e.message}", Toast.LENGTH_SHORT).show()

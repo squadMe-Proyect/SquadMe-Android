@@ -1,5 +1,6 @@
 package com.example.squadme.MainActivity.squads.squadList
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +18,9 @@ class SquadListAdapter(private val onClick:((View, LineUp) ->Unit)) :
 
         fun bindLineUp(lineUp: LineUp) {
             binding.squadTitle.text = lineUp.name
-            binding.squadFormation.text = lineUp.formation
+            binding.squadFormation.text = lineUp.lineUp
+            //binding.squadFormation.text = lineUp.formation
+            Log.d("SquadListAdapter", "Binding LineUp: ${lineUp.name}, Formation: ${lineUp.lineUp}")
             binding.squadCard.setOnClickListener {
                 onClick(it, lineUp)
             }
