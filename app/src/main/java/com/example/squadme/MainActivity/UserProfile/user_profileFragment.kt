@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.example.squadme.LoginRegister.Fragments.ResetPasswordFragment
 import com.example.squadme.LoginRegister.LoginActivity
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -74,6 +75,13 @@ class user_profileFragment : Fragment() {
             binding.logoutBtn.setOnClickListener {
                 firebaseAuth.signOut()
                 val intent = Intent(requireContext(), LoginActivity::class.java)
+                startActivity(intent)
+                activity?.finish()
+            }
+
+            binding.cambioPasswordBtn.setOnClickListener {
+                val intent = Intent(this.requireContext(), LoginActivity::class.java)
+                intent.putExtra("fragment_to_open", "reset_password_fragment")
                 startActivity(intent)
                 activity?.finish()
             }

@@ -39,7 +39,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.matchListFragment,
                 R.id.playerListFragment,
                 R.id.user_profile,
-                R.id.squadListFragment
+                R.id.squadListFragment,
+                R.id.trainingListFragment
             )
         )
         navView.setupWithNavController(navController)

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/train"
+    app:startDestination="@id/trainingListFragment">
+
+    <fragment
+        android:id="@+id/trainingListFragment"
+        android:name="com.example.squadme.MainActivity.training.trainingList.TrainingListFragment"
+        android:label="fragment_training_list"
+        tools:layout="@layout/fragment_training_list" >
+        <action
+            android:id="@+id/action_trainingListFragment_to_trainingCreationFragment"
+            app:destination="@id/trainingCreationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/trainingCreationFragment"
+        android:name="com.example.squadme.MainActivity.training.trainingDetail.TrainingCreationFragment"
+        android:label="fragment_training_creation"
+        tools:layout="@layout/fragment_training_creation" />
+</navigation>
