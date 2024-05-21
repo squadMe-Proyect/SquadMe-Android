@@ -5,7 +5,7 @@ import java.io.Serializable
 
 @IgnoreExtraProperties
 data class Player(
-    val id:String? = null,
+    var id:String? = null,
     val coachId: String? = null,
     val picture: String? = null,
     val email: String? = null,
