@@ -1,4 +1,4 @@
-package com.example.squadme.MainActivity.training.trainingDetail
+package com.example.squadme.MainActivity.training.trainingCreation
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog

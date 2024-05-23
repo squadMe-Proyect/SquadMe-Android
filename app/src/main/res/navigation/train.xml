@@ -13,10 +13,22 @@
         <action
             android:id="@+id/action_trainingListFragment_to_trainingCreationFragment"
             app:destination="@id/trainingCreationFragment" />
+        <action
+            android:id="@+id/action_trainingListFragment_to_trainingDetailFragment"
+            app:destination="@id/trainingDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/trainingCreationFragment"
-        android:name="com.example.squadme.MainActivity.training.trainingDetail.TrainingCreationFragment"
+        android:name="com.example.squadme.MainActivity.training.trainingCreation.TrainingCreationFragment"
         android:label="fragment_training_creation"
         tools:layout="@layout/fragment_training_creation" />
+    <fragment
+        android:id="@+id/trainingDetailFragment"
+        android:name="com.example.squadme.MainActivity.training.trainingDetail.TrainingDetailFragment"
+        android:label="fragment_training_detail"
+        tools:layout="@layout/fragment_training_detail">
+        <argument
+            android:name="training"
+            app:argType="com.example.squadme.data.Models.Training"></argument>
+    </fragment>
 </navigation>
