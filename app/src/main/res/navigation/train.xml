@@ -30,5 +30,20 @@
         <argument
             android:name="training"
             app:argType="com.example.squadme.data.Models.Training"></argument>
+        <action
+            android:id="@+id/action_trainingDetailFragment_to_trainingUpdateFragment"
+            app:destination="@id/trainingUpdateFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/trainingUpdateFragment"
+        android:name="com.example.squadme.MainActivity.training.trainingUpdate.TrainingUpdateFragment"
+        android:label="fragment_training_update"
+        tools:layout="@layout/fragment_training_update">
+        <argument
+            android:name="training"
+            app:argType="com.example.squadme.data.Models.Training"></argument>
+        <action
+            android:id="@+id/action_trainingUpdateFragment_to_trainingListFragment"
+            app:destination="@id/trainingListFragment" />
     </fragment>
 </navigation>

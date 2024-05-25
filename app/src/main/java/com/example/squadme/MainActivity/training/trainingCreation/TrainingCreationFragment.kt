@@ -16,11 +16,14 @@ import androidx.navigation.fragment.findNavController
 import com.example.squadme.R
 import com.example.squadme.data.Models.Training
 import com.example.squadme.databinding.FragmentTrainingCreationBinding
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 
 @AndroidEntryPoint
@@ -105,7 +108,7 @@ class TrainingCreationFragment : Fragment() {
     }
 
     private fun updateTimeEditText() {
-        val formattedTime = "${calendar.get(Calendar.HOUR_OF_DAY)}:${calendar.get(Calendar.MINUTE)}"
+        val formattedTime = String.format("%02d:%02d", calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE))
         binding.editTextHora.setText(formattedTime)
     }
 
@@ -148,7 +151,16 @@ class TrainingCreationFragment : Fragment() {
         // Convert date and time strings to a Date object
         val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
         val dateString = "$fecha $hora"
-        val date = dateFormat.parse(dateString)
+        val date: Date
+        try {
+            date = dateFormat.parse(dateString) ?: throw IllegalArgumentException("Fecha inválida")
+        } catch (e: ParseException) {
+            Toast.makeText(context, "Error en el formato de fecha y hora", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Convert the Date object to a Timestamp
+        val timestamp = Timestamp(date)
 
         // Get the current user ID
         val currentUser = auth.currentUser
@@ -160,9 +172,9 @@ class TrainingCreationFragment : Fragment() {
         }
 
         // Create a Training object
-        val training = Training(
+        var training = Training(
             coachId = coachId,
-            date = date,
+            date = timestamp,
             exercises = ejercicios,
             completed = false // Set completed to false
         )
@@ -170,12 +182,22 @@ class TrainingCreationFragment : Fragment() {
         db.collection("trainings")
             .add(training)
             .addOnSuccessListener { documentReference ->
-                Toast.makeText(context, "Entrenamiento creado exitosamente", Toast.LENGTH_SHORT).show()
-                findNavController().popBackStack()
+                // Guardar el ID del documento
+                training.id = documentReference.id
+                db.collection("trainings").document(training.id!!).set(training)
+                    .addOnSuccessListener {
+                        Toast.makeText(context, "Entrenamiento creado exitosamente", Toast.LENGTH_SHORT).show()
+                        findNavController().popBackStack()
+                    }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(context, "Error al crear el entrenamiento: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
             }
             .addOnFailureListener { e ->
                 Toast.makeText(context, "Error al crear el entrenamiento: ${e.message}", Toast.LENGTH_SHORT).show()
             }
     }
 }
+
+
 

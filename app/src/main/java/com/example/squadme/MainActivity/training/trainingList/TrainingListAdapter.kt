@@ -24,14 +24,20 @@ class TrainingListAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bindTraining(training: Training) {
-            binding.trainingDayLabel.text = "Día del entreno"
-
             // Formatear la fecha y la hora
             val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
             val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
-            val formattedDate = dateFormat.format(training.date)
-            val formattedTime = timeFormat.format(training.date)
-            binding.trainingDateTime.text = "Fecha: $formattedDate, Hora: $formattedTime"
+
+            // Convertir Timestamp a Date antes de formatear
+            val date = training.date?.toDate()
+            if (date != null) {
+                val formattedDate = dateFormat.format(date)
+                val formattedTime = timeFormat.format(date)
+                binding.trainingDayLabel.text = "Día del entreno: $formattedDate"
+                binding.trainingDateTime.text = "Hora: $formattedTime"
+            } else {
+                binding.trainingDateTime.text = "Fecha no disponible"
+            }
 
             // Seleccionar una imagen aleatoria del array de URLs proporcionado
             if (imageUrls.isNotEmpty()) {
