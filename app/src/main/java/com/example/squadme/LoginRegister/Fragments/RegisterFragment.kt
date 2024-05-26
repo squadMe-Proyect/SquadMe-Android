@@ -2,6 +2,7 @@ package com.example.squadme.LoginRegister.Fragments
 
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -24,10 +25,10 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class RegisterFragment : Fragment() {
-
     private lateinit var binding: FragmentRegisterBinding
     private lateinit var firebaseAuth: FirebaseAuth
     private val db = Firebase.firestore
+    private val sharedPreferences by lazy { requireActivity().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE) }
 
 
 
@@ -65,6 +66,7 @@ class RegisterFragment : Fragment() {
         }else{
             firebaseAuth.createUserWithEmailAndPassword(coach.email, password).addOnCompleteListener{
                 if (it.isSuccessful){
+                    savePasswordToPreferences(password)
                     postRegister(coach)
                 }else{
                     showAlert("Error al registrar un usuario ")
@@ -105,6 +107,13 @@ class RegisterFragment : Fragment() {
             showToast("Error: Usuario actual nulo")
         }
 
+    }
+
+    private fun savePasswordToPreferences(password: String) {
+        with(sharedPreferences.edit()) {
+            putString("coachPassword", password)
+            apply()
+        }
     }
 
 

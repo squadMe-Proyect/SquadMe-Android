@@ -2,6 +2,7 @@ package com.example.squadme.LoginRegister.Fragments
 
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -18,9 +19,9 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
-
     private lateinit var binding:FragmentLoginBinding
     private lateinit var firebaseAuth:FirebaseAuth
+    private val sharedPreferences by lazy { requireActivity().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,6 +60,7 @@ class LoginFragment : Fragment() {
         if (email.isNotEmpty() && password.isNotEmpty()){
             firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener{
                 if (it.isSuccessful){
+                    savePasswordToPreferences(password)
                     val intent = Intent(requireContext(), MainActivity::class.java)
                     startActivity(intent)
                     activity?.finish()
@@ -71,6 +73,13 @@ class LoginFragment : Fragment() {
             }
         } else {
             showToast("Error")
+        }
+    }
+
+    private fun savePasswordToPreferences(password: String) {
+        with(sharedPreferences.edit()) {
+            putString("coachPassword", password)
+            apply()
         }
     }
 

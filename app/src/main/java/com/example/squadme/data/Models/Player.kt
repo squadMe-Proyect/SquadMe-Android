@@ -18,5 +18,6 @@ data class Player(
     val goal: Int? = null,
     val assists: Int? = null,
     val yellowCards: Int? = null,
-    val redCards: Int? = null
+    val redCards: Int? = null,
+    val role: String? = null
 ) : Serializable

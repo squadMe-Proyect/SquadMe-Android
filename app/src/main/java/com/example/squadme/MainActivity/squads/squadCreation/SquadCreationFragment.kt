@@ -8,23 +8,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.TextView
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.squadme.R
+import com.example.squadme.data.Models.LineUp
 import com.example.squadme.data.Models.Player
 import com.example.squadme.databinding.FragmentSquadCreationBinding
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
+
 /*
 @AndroidEntryPoint
 class SquadCreationFragment : Fragment() {
@@ -73,6 +70,7 @@ class SquadCreationFragment : Fragment() {
             snapshot?.documents?.forEach { document ->
                 val player = document.toObject(Player::class.java)
                 player?.let {
+                    it.id = document.id  // Set the document ID as the player's ID
                     if (it.coachId == currentUserId && !it.name.isNullOrEmpty()) {
                         playerList.add(it)
                     }
@@ -118,7 +116,8 @@ class SquadCreationFragment : Fragment() {
     }
 
     private fun showPlayerSelectionDialog() {
-        val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_player_selection, null)
+        val dialogView =
+            LayoutInflater.from(context).inflate(R.layout.dialog_player_selection, null)
         val recyclerView = dialogView.findViewById<RecyclerView>(R.id.dialogRecyclerView)
 
         recyclerView.adapter = playerAdapter
@@ -144,19 +143,54 @@ class SquadCreationFragment : Fragment() {
         val formation = binding.formationItem.text.toString()
 
         if (squadName.isEmpty()) {
-            Toast.makeText(requireContext(), "Por favor, ingrese un nombre para la plantilla.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                requireContext(),
+                "Por favor, ingrese un nombre para la plantilla.",
+                Toast.LENGTH_SHORT
+            ).show()
             return
         }
 
         if (formation.isEmpty()) {
-            Toast.makeText(requireContext(), "Por favor, seleccione una formación.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                requireContext(),
+                "Por favor, seleccione una formación.",
+                Toast.LENGTH_SHORT
+            ).show()
             return
         }
 
         if (selectedPlayers.size != 2) {
-            Toast.makeText(requireContext(), "Debe seleccionar exactamente 11 jugadores.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                requireContext(),
+                "Debe seleccionar exactamente 11 jugadores.",
+                Toast.LENGTH_SHORT
+            ).show()
             return
         }
+
+        /*
+        val playersArray = selectedPlayers.map { player ->
+            mapOf(
+                "id" to player.id,
+                "name" to player.name,
+                "picture" to player.picture,
+                "position" to player.position,
+                "surname" to player.surname
+            )
+        }
+
+         */
+
+        /*
+        val squad = hashMapOf(
+            "name" to squadName,
+            "lineUp" to formation,
+            "players" to playersArray,
+            "coachId" to currentUserId
+        )
+
+         */
 
         val playersArray = selectedPlayers.map { player ->
             mapOf(
@@ -168,23 +202,33 @@ class SquadCreationFragment : Fragment() {
             )
         }
 
-        val squad = hashMapOf(
-            "name" to squadName,
-            "lineUp" to formation,
-            "players" to playersArray,
-            "coachId" to currentUserId
+        val squad = LineUp(
+            name = squadName,
+            lineUp = formation,
+            players = playersArray,
+            coachId = currentUserId
         )
 
         firestore.collection("squads")
             .add(squad)
-            .addOnSuccessListener {
-                Toast.makeText(requireContext(), "Plantilla creada exitosamente.", Toast.LENGTH_SHORT).show()
+            .addOnSuccessListener { documentReference ->
+                 squad.id = documentReference.id
+                Toast.makeText(
+                    requireContext(),
+                    "Plantilla creada exitosamente.",
+                    Toast.LENGTH_SHORT
+                ).show()
                 // Aquí puedes limpiar los campos o hacer cualquier otra acción post creación
-                val action = SquadCreationFragmentDirections.actionSquadCreationFragmentToSquadListFragment()
+                val action =
+                    SquadCreationFragmentDirections.actionSquadCreationFragmentToSquadListFragment()
                 findNavController().navigate(action)
             }
             .addOnFailureListener { e ->
-                Toast.makeText(requireContext(), "Error al crear la plantilla: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Error al crear la plantilla: ${e.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
     }
 }
@@ -337,6 +381,8 @@ class SquadCreationFragment : Fragment() {
             return
         }
 
+
+
         val playersArray = selectedPlayers.map { player ->
             mapOf(
                 "id" to player.id,
@@ -347,16 +393,17 @@ class SquadCreationFragment : Fragment() {
             )
         }
 
-        val squad = hashMapOf(
-            "name" to squadName,
-            "lineUp" to formation,
-            "players" to playersArray,
-            "coachId" to currentUserId
+        val squad = LineUp(
+            name = squadName,
+            lineUp = formation,
+            players = selectedPlayers.toList(),
+            coachId = currentUserId
         )
 
         firestore.collection("squads")
             .add(squad)
-            .addOnSuccessListener {
+            .addOnSuccessListener { documentReference ->
+                squad.id = documentReference.id
                 Toast.makeText(
                     requireContext(),
                     "Plantilla creada exitosamente.",
