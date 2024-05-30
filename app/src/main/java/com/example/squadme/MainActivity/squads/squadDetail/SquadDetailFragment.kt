@@ -5,20 +5,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.squadme.MainActivity.players.playerDetail.PlayerDetailFragmentArgs
-import com.example.squadme.MainActivity.squads.squadCreation.PlayerAdapterDropdown
 import com.example.squadme.data.Models.LineUp
-import com.example.squadme.data.Models.Player
 import com.example.squadme.databinding.FragmentSquadDetailBinding
+import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SquadDetailFragment : Fragment() {
     private lateinit var binding: FragmentSquadDetailBinding
     private lateinit var playerAdapter: SquadPlayerAdapter
+    private val db = FirebaseFirestore.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,5 +42,31 @@ class SquadDetailFragment : Fragment() {
         playerAdapter = SquadPlayerAdapter(squad.players)
         binding.playersRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.playersRecyclerView.adapter = playerAdapter
+
+        binding.editBtn.setOnClickListener {
+            val action = SquadDetailFragmentDirections.actionSquadDetailFragmentToSquadUpdateFragment(squad)
+            findNavController().navigate(action)
+        }
+
+        binding.deleteBtn.setOnClickListener {
+            eliminarSquad(squad.id)
+        }
+    }
+
+
+    private fun eliminarSquad(squadId: String?) {
+        if (squadId != null) {
+            db.collection("squads").document(squadId)
+                .delete()
+                .addOnSuccessListener {
+                    Toast.makeText(context, "Plantilla eliminado exitosamente", Toast.LENGTH_SHORT).show()
+                    findNavController().popBackStack()
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(context, "Error al eliminar la plantilla: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+        } else {
+            Toast.makeText(context, "ID de plantilla no válido", Toast.LENGTH_SHORT).show()
+        }
     }
 }

@@ -1,7 +1,9 @@
 package com.example.squadme.MainActivity.matches.matchesUpdate
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.ContentValues
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -13,13 +15,19 @@ import android.widget.TimePicker
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.squadme.MainActivity.matches.matchesCreation.LineUpAdapterDropdown
 import com.example.squadme.MainActivity.matches.matchesDetail.MatchDetailFragmentArgs
 import com.example.squadme.MainActivity.matches.matchesDetail.MatchDetailFragmentDirections
 import com.example.squadme.R
+import com.example.squadme.data.Models.LineUp
 import com.example.squadme.data.Models.Match
 import com.example.squadme.databinding.FragmentMatchListBinding
 import com.example.squadme.databinding.FragmentMatchUpdateBinding
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,6 +38,12 @@ class MatchUpdateFragment : Fragment() {
     private lateinit var binding: FragmentMatchUpdateBinding
     private val calendar: Calendar = Calendar.getInstance()
     private val db = Firebase.firestore
+    private lateinit var firestore: FirebaseFirestore
+    private lateinit var currentUserId: String
+    private lateinit var auth: FirebaseAuth
+    private lateinit var lineUpAdapter: LineUpUpdateAdapterDropdown
+    private lateinit var lineUpList: MutableList<LineUp>
+    private var selectedLineUp: LineUp? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,19 +61,18 @@ class MatchUpdateFragment : Fragment() {
         val match: Match = args.match
 
         val dateTimeString = match.date
-
         val partes = dateTimeString?.split(" - ")
-
         val fecha = partes?.get(0)
         val hora = partes?.get(1)
 
         // Mostrar los valores del objeto Match en los elementos correspondientes
-        binding.opponentInput.setText(match?.opponent ?: "")
+        binding.opponentInput.setText(match.opponent ?: "")
         binding.editTextFecha.setText(fecha)
         binding.editTextTHora.setText(hora)
-        binding.resultInput.setText(match?.result ?:"")
+        binding.resultInput.setText(match.result ?: "")
+        binding.switchCompleted.isChecked = match.finished
 
-
+        loadLineUps(match.squad?.id)
 
         binding.Cancelar.setOnClickListener {
             findNavController().popBackStack()
@@ -73,18 +86,25 @@ class MatchUpdateFragment : Fragment() {
             showTimePicker()
         }
 
+        binding.spinnerTextView.setOnClickListener {
+            showLineUpSelectionDialog()
+        }
+
         binding.Actualizar.setOnClickListener {
             val date = "${binding.editTextFecha.text} - ${binding.editTextTHora.text}"
             val opponent = binding.opponentInput.text.toString()
             val result = binding.resultInput.text.toString()
+            val finished = binding.switchCompleted.isChecked
 
-
-                val match = Match(
-                    date = date,
-                    opponent = opponent,
-                    result = result
-                )
-            updateMatch(match)
+            val updatedMatch = Match(
+                id = match.id,
+                date = date,
+                opponent = opponent,
+                result = result,
+                finished = finished,
+                squad = selectedLineUp
+            )
+            updateMatch(updatedMatch)
         }
     }
 
@@ -124,8 +144,7 @@ class MatchUpdateFragment : Fragment() {
     }
 
     private fun updateDateEditText() {
-        val formattedDate = "${calendar.get(Calendar.DAY_OF_MONTH)}/${calendar.get(Calendar.MONTH) + 1}/${calendar.get(
-            Calendar.YEAR)}"
+        val formattedDate = "${calendar.get(Calendar.DAY_OF_MONTH)}/${calendar.get(Calendar.MONTH) + 1}/${calendar.get(Calendar.YEAR)}"
         binding.editTextFecha.setText(formattedDate)
     }
 
@@ -134,29 +153,97 @@ class MatchUpdateFragment : Fragment() {
         binding.editTextTHora.setText(formattedTime)
     }
 
-    private fun updateMatch(match:Match){
+    private fun loadLineUps(selectedLineUpId: String?) {
+        lineUpList = mutableListOf()
+        firestore = FirebaseFirestore.getInstance()
+        auth = FirebaseAuth.getInstance()
+        currentUserId = auth.currentUser?.uid ?: ""
+        val lineUpRef = firestore.collection("squads")
+
+        lineUpRef.addSnapshotListener { snapshot, exception ->
+            if (exception != null) {
+                Log.e(ContentValues.TAG, "Error fetching lineUps: $exception")
+                return@addSnapshotListener
+            }
+
+            lineUpList.clear()
+            snapshot?.documents?.forEach { document ->
+                val lineUp = document.toObject(LineUp::class.java)
+                lineUp?.let {
+                    it.id = document.id
+                    if (it.coachId == currentUserId) {
+                        lineUpList.add(it)
+                    }
+                }
+            }
+
+            setupLineUpAdapter()
+            updateLineUpView()
+
+        }
+    }
+
+    private fun setupLineUpAdapter() {
+        lineUpAdapter = LineUpUpdateAdapterDropdown(lineUpList, selectedLineUp) { lineUp ->
+            selectedLineUp = lineUp
+            updateLineUpView()
+        }
+        lineUpAdapter.notifyDataSetChanged()
+    }
+
+    private fun updateLineUpView() {
+        binding.spinnerTextView.text = selectedLineUp?.name ?: "Selecciona una alineación"
+    }
+
+    private fun showLineUpSelectionDialog() {
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_lineup_selection, null)
+        val recyclerView = dialogView.findViewById<RecyclerView>(R.id.dialogLineUpRecyclerView)
+
+        recyclerView.adapter = lineUpAdapter
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        val dialog = AlertDialog.Builder(requireContext())
+            .setTitle("Seleccionar Alineación")
+            .setView(dialogView)
+            .setPositiveButton("OK") { dialog, _ ->
+                dialog.dismiss()
+                updateLineUpView()
+            }
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .create()
+
+        dialog.show()
+    }
+
+    private fun updateMatch(match: Match) {
         db.collection("matches")
-            .whereEqualTo("date", match.date)
+            .document(match.id!!)
             .get()
-            .addOnSuccessListener { documents ->
-                if (!documents.isEmpty) {
-                    val matchDocument = documents.first()
-                    val docId = matchDocument.id
+            .addOnSuccessListener { document ->
+                if (document.exists()) {
+                    val docId = document.id
 
-                    // Obtener los nuevos valores del partido desde los elementos de la interfaz de usuario
-                    val newOpponent = binding.opponentInput.text.toString()
-                    val newDate = binding.editTextFecha.text.toString()
-                    val newTime = binding.editTextTHora.text.toString()
-                    val newResult = binding.resultInput.text.toString()
-
-                    // Crear un objeto Map con los nuevos valores del partido
                     val updatedValues = hashMapOf(
-                        "opponent" to newOpponent,
-                        "date" to "$newDate - $newTime", // Combinar fecha y hora en un solo campo
-                        "result" to newResult
+                        "opponent" to match.opponent,
+                        "date" to match.date,
+                        "result" to match.result,
+                        "finished" to match.finished,
+                        "squad" to mapOf(
+                            "id" to selectedLineUp?.id,
+                            "name" to selectedLineUp?.name,
+                            "lineUp" to selectedLineUp?.lineUp,
+                            "players" to selectedLineUp?.players?.map { player ->
+                                mapOf(
+                                    "name" to player.name,
+                                    "surname" to player.surname,
+                                    "position" to player.position
+                                )
+                            }
+                        )
                     )
 
-                    // Actualizar el partido en Firestore
                     db.collection("matches").document(docId)
                         .update(updatedValues as Map<String, Any>)
                         .addOnSuccessListener {

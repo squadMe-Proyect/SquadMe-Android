@@ -22,11 +22,10 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="16dp"
         android:layout_marginRight="30dp"
         android:text="Oponente:"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.266"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"></TextView>
 
@@ -35,34 +34,84 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="4dp"
         android:layout_marginRight="30dp"
         android:text="Resultado:"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.266"
+        app:layout_constraintHorizontal_bias="0.733"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/match_opponent"></TextView>
+
 
     <TextView
         android:id="@+id/match_date"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="4dp"
         android:layout_marginRight="30dp"
         android:text="Fecha:"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.266"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/match_result"></TextView>
 
+    <TextView
+        android:id="@+id/matchStatus"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:text="Estado:"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/match_date" />
+
+    <TextView
+        android:id="@+id/squadTitle"
+        android:layout_width="358dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="48dp"
+        android:text="Squad Title"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.301"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/matchStatus" />
+
+    <TextView
+        android:id="@+id/squadFormation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Formation"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/squadTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/playersRecyclerView"
+        android:layout_width="383dp"
+        android:layout_height="175dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_constraintBottom_toTopOf="@+id/delete_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/squadFormation"
+        tools:listitem="@layout/item_player_detail" />
 
     <Button
         android:id="@+id/edit_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="60dp"
-        android:layout_marginBottom="160dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginBottom="124dp"
         android:backgroundTint="@color/design_default_color_secondary"
         android:drawableLeft="@drawable/edit"
         android:text="Editar"
@@ -73,13 +122,13 @@
         android:id="@+id/delete_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="160dp"
+        android:layout_marginBottom="124dp"
         android:backgroundTint="@color/design_default_color_error"
         android:drawableLeft="@drawable/delete"
         android:text="Eliminar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.806"
+        app:layout_constraintHorizontal_bias="0.77"
         app:layout_constraintStart_toStartOf="parent"></Button>
 
 

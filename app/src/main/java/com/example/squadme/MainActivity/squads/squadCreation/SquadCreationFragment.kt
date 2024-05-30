@@ -382,17 +382,6 @@ class SquadCreationFragment : Fragment() {
         }
 
 
-
-        val playersArray = selectedPlayers.map { player ->
-            mapOf(
-                "id" to player.id,
-                "name" to player.name,
-                "picture" to player.picture,
-                "position" to player.position,
-                "surname" to player.surname
-            )
-        }
-
         val squad = LineUp(
             name = squadName,
             lineUp = formation,
@@ -403,23 +392,28 @@ class SquadCreationFragment : Fragment() {
         firestore.collection("squads")
             .add(squad)
             .addOnSuccessListener { documentReference ->
-                squad.id = documentReference.id
-                Toast.makeText(
-                    requireContext(),
-                    "Plantilla creada exitosamente.",
-                    Toast.LENGTH_SHORT
-                ).show()
-                // Aquí puedes limpiar los campos o hacer cualquier otra acción post creación
-                val action =
-                    SquadCreationFragmentDirections.actionSquadCreationFragmentToSquadListFragment()
-                findNavController().navigate(action)
-            }
-            .addOnFailureListener { e ->
-                Toast.makeText(
-                    requireContext(),
-                    "Error al crear la plantilla: ${e.message}",
-                    Toast.LENGTH_SHORT
-                ).show()
+                val squadId = documentReference.id
+                firestore.collection("squads").document(squadId)
+                    .update("id", squadId)
+                    .addOnSuccessListener {
+                        squad.id = squadId
+                        Toast.makeText(
+                            requireContext(),
+                            "Plantilla creada exitosamente.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        // Aquí puedes limpiar los campos o hacer cualquier otra acción post creación
+                        val action =
+                            SquadCreationFragmentDirections.actionSquadCreationFragmentToSquadListFragment()
+                        findNavController().navigate(action)
+                    }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(
+                            requireContext(),
+                            "Error al crear la plantilla: ${e.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
             }
     }
 }

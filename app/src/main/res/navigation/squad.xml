@@ -34,5 +34,20 @@
         <argument
             android:name="squad"
             app:argType="com.example.squadme.data.Models.LineUp"></argument>
+        <action
+            android:id="@+id/action_squadDetailFragment_to_squadUpdateFragment"
+            app:destination="@id/squadUpdateFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/squadUpdateFragment"
+        android:name="com.example.squadme.MainActivity.squads.squadUpdate.SquadUpdateFragment"
+        android:label="fragment_squad_update"
+        tools:layout="@layout/fragment_squad_update">
+        <argument
+            android:name="squad"
+            app:argType="com.example.squadme.data.Models.LineUp"></argument>
+        <action
+            android:id="@+id/action_squadUpdateFragment_to_squadListFragment"
+            app:destination="@id/squadListFragment" />
     </fragment>
 </navigation>
