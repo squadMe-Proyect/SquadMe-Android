@@ -23,7 +23,7 @@
         android:layout_height="53dp"
         android:layout_marginTop="52dp"
         android:drawableLeft="@drawable/camera"
-        android:text="Editar"
+        android:text="@string/editCamera"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.542"
         app:layout_constraintStart_toEndOf="@+id/photo"
@@ -34,7 +34,7 @@
         android:layout_width="304dp"
         android:layout_height="59dp"
         android:layout_marginTop="20dp"
-        android:hint="Nombre"
+        android:hint="@string/name_player_creation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/photo">
@@ -53,7 +53,7 @@
         android:layout_width="304dp"
         android:layout_height="59dp"
         android:layout_marginTop="20dp"
-        android:hint="Apellido"
+        android:hint="@string/surname_player_creation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
@@ -76,7 +76,7 @@
         android:layout_width="304dp"
         android:layout_height="59dp"
         android:layout_marginTop="20dp"
-        android:hint="Nación"
+        android:hint="@string/nacionality_player_creation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
@@ -108,7 +108,7 @@
         android:layout_height="67dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="52dp"
-        android:hint="Posición"
+        android:hint="@string/position_player_creation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nation_label">
 
@@ -128,7 +128,7 @@
         android:layout_height="25dp"
         android:layout_marginStart="52dp"
         android:layout_marginTop="12dp"
-        android:text="Dorsal"
+        android:text="@string/numberText_player_creation"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nation_label">
 
@@ -156,7 +156,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Goles" />
+                android:hint="@string/goal_player"/>
 
             <!-- Celda 2 -->
             <TextView
@@ -164,7 +164,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Asistencias" />
+                android:hint="@string/assits_player" />
 
             <!-- Celda 3 -->
             <TextView
@@ -172,7 +172,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Amarillas" />
+                android:hint="@string/yellow_player" />
 
             <!-- Celda 4 -->
             <TextView
@@ -180,7 +180,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Rojas" />
+                android:hint="@string/red_player" />
         </TableRow>
 
         <TableRow
@@ -221,7 +221,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="80dp"
         android:layout_marginTop="36dp"
-        android:text="Cancelar"
+        android:hint="@string/cancel_btn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tableLayout"></Button>
 
@@ -230,7 +230,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
-        android:text="Actulizar"
+        android:hint="@string/update_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/cancel_button"
         app:layout_constraintTop_toBottomOf="@+id/tableLayout"></Button>

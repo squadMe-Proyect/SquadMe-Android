@@ -18,7 +18,6 @@ class TrainingExerciseAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(exercise: String) {
             binding.exerciseName.text = exercise;
-
         }
     }
 

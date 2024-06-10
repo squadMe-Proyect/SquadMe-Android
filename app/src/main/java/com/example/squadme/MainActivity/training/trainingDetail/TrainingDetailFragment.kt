@@ -9,11 +9,12 @@ import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.squadme.MainActivity.squads.squadDetail.SquadPlayerAdapter
+import android.util.Log
 import com.example.squadme.R
 import com.example.squadme.data.Models.Training
 import com.example.squadme.databinding.FragmentTrainingDetailBinding
-import com.google.firebase.firestore.FirebaseFirestore
+import com.example.squadme.utils.FirestoreSingleton
+import com.example.squadme.utils.NetworkUtils
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -22,14 +23,14 @@ import java.util.Locale
 class TrainingDetailFragment : Fragment() {
     private lateinit var binding: FragmentTrainingDetailBinding
     private lateinit var exerciseAdapter: TrainingExerciseAdapter
-    private val db = FirebaseFirestore.getInstance()
+    private val db = FirestoreSingleton.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentTrainingDetailBinding.inflate(layoutInflater, container, false)
+        binding = FragmentTrainingDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -49,17 +50,19 @@ class TrainingDetailFragment : Fragment() {
             val formattedDate = dateFormat.format(date)
             val formattedTime = timeFormat.format(date)
 
-            binding.trainDate.text = "Fecha: $formattedDate"
-            binding.trainHour.text = "Hora: $formattedTime"
+            binding.trainDate.text = getString(R.string.training_detail_date) + " $formattedDate"
+            binding.trainHour.text = getString(R.string.training_detail_hour) +  " $formattedTime"
         } else {
-            binding.trainDate.text = "Fecha no disponible"
-            binding.trainHour.text = "Hora no disponible"
+            binding.trainDate.text = getString(R.string.training_detail_date_non)
+            binding.trainHour.text = getString(R.string.training_detail_hour_non)
         }
 
         binding.trainStatus.text = if (training.completed) {
-            "Estado: Completado"
+            //"Estado: Completado"
+            getString(R.string.training_detail_state_completed)
         } else {
-            "Estado: No Completado"
+            //"Estado: No Completado"
+            getString(R.string.training_detail_state_non_completed)
         }
 
         exerciseAdapter = TrainingExerciseAdapter(training.exercises)
@@ -75,11 +78,16 @@ class TrainingDetailFragment : Fragment() {
             val action = TrainingDetailFragmentDirections.actionTrainingDetailFragmentToTrainingUpdateFragment(training)
             findNavController().navigate(action)
         }
+
         binding.deleteBtn.setOnClickListener {
-            if (training.completed) {
-                eliminarTraining(training.id)
+            if (NetworkUtils.isNetworkAvailable(requireContext())) {
+                if (training.completed) {
+                    eliminarTraining(training.id)
+                } else {
+                    Toast.makeText(context, getString(R.string.toast_error_no_completed_training_delete), Toast.LENGTH_SHORT).show()
+                }
             } else {
-                Toast.makeText(context, "No se puede eliminar un entrenamiento no completado", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.toast_error_no_connection_deleteTraining), Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -89,14 +97,18 @@ class TrainingDetailFragment : Fragment() {
             db.collection("trainings").document(trainingId)
                 .delete()
                 .addOnSuccessListener {
-                    Toast.makeText(context, "Entrenamiento eliminado exitosamente", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, getString(R.string.toast_training_delete), Toast.LENGTH_SHORT).show()
                     findNavController().popBackStack()
                 }
                 .addOnFailureListener { e ->
-                    Toast.makeText(context, "Error al eliminar el entrenamiento: ${e.message}", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(context, "Error al eliminar el entrenamiento: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Log.d("TrainingDetailFragment", "Error al eliminar el entrenamiento: ${e.message}")
+                    Toast.makeText(context, getString(R.string.toast_training_delete_error), Toast.LENGTH_SHORT).show()
                 }
         } else {
-            Toast.makeText(context, "ID de entrenamiento no válido", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(context, "ID de entrenamiento no válido", Toast.LENGTH_SHORT).show()
+            Log.d("TrainingDetailFragment", "ID de entrenamiento no válido")
+            Toast.makeText(context, getString(R.string.toast_training_delete_error), Toast.LENGTH_SHORT).show()
         }
     }
 }

@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.108">
 
-        <com.google.android.material.textfield.TextInputEditText
+        s<com.google.android.material.textfield.TextInputEditText
             android:id="@+id/opponent_input"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -89,6 +89,7 @@
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="40dp"
         android:background="@drawable/borde_spinner"
+        android:hint="Eliga una plantilla"
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -101,7 +102,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="88dp"
         android:layout_marginBottom="88dp"
-        android:text="Actualizar"
+        android:text="@string/update_btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/Cancelar"></Button>

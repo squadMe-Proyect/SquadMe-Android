@@ -8,10 +8,10 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/nameLabel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="370dp"
+        android:layout_height="60dp"
         android:layout_marginTop="32dp"
-        android:hint="Nombre"
+        android:hint="@string/squad_name_creation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -25,10 +25,10 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/formationLabel"
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="368dp"
+        android:layout_height="50dp"
         android:layout_marginTop="16dp"
-        android:hint="Formación"
+        android:hint="@string/squad_formation_creation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/nameLabel">
@@ -46,6 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="40dp"
+        android:text="@string/squad_lineUp_player_creation"
         android:background="@drawable/borde_spinner"
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -57,7 +58,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:text="0/11 jugadores seleccionados"
+        android:text="@string/squad_players_counter_creation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/spinnerTextView" />
@@ -78,7 +79,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="96dp"
-        android:text="Actualizar"
+        android:text="@string/update_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/selectedPlayersRecyclerView" />
@@ -87,7 +88,7 @@
         android:id="@+id/cancelButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cancelar"
+        android:text="@string/cancel_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/updateButton" />

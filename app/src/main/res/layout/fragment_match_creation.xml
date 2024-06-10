@@ -10,7 +10,7 @@
         android:id="@+id/opponent_label"
         android:layout_width="249dp"
         android:layout_height="59dp"
-        android:hint="Oponente"
+        android:hint="@string/oponent_match_creation"
         app:layout_constraintBottom_toTopOf="@+id/Cancelar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.543"
@@ -33,8 +33,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
-        android:layout_marginTop="96dp"
-        android:text="Fecha"
+        android:layout_marginTop="68dp"
+        android:text="@string/date_match_creation"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/opponent_label">
 
@@ -45,20 +45,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
-        android:layout_marginTop="56dp"
-        android:text="Hora"
+        android:layout_marginTop="60dp"
+        android:text="@string/hour_match_creation"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnFecha">
 
     </Button>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/spinnerTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="40dp"
         android:background="@drawable/borde_spinner"
+        android:hint="@string/lineUp_match_creation"
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -71,7 +72,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="88dp"
         android:layout_marginBottom="88dp"
-        android:text="Crear"
+        android:text="@string/create_btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/Cancelar"></Button>
@@ -83,7 +84,7 @@
         android:layout_marginStart="88dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="88dp"
-        android:text="Cancelar"
+        android:text="@string/cancel_btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -91,12 +92,11 @@
 
     <EditText
         android:id="@+id/editTextFecha"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="96dp"
-        android:ems="10"
+        android:layout_width="233dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="68dp"
         android:inputType="text"
-        android:text="Fecha"
+        android:text="@string/date_match_creation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.282"
         app:layout_constraintStart_toEndOf="@+id/btnFecha"
@@ -104,14 +104,13 @@
 
     <EditText
         android:id="@+id/editTextTHora"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="225dp"
+        android:layout_height="49dp"
         android:layout_marginTop="56dp"
-        android:ems="10"
         android:inputType="text"
-        android:text="Hora"
+        android:text="@string/hour_match_creation"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.282"
+        app:layout_constraintHorizontal_bias="0.257"
         app:layout_constraintStart_toEndOf="@+id/btnHora"
         app:layout_constraintTop_toBottomOf="@+id/editTextFecha" />
 

@@ -37,14 +37,15 @@ class ResetPasswordFragment : Fragment() {
 
     private fun sendPasswordReset(email: String){
         if(email.isNullOrEmpty()){
-            Toast.makeText(this.requireContext(),"Error, email sin rellenar", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this.requireContext(),"Error, email sin rellenar", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this.requireContext(),getString(R.string.toast_error_email_empty), Toast.LENGTH_SHORT).show()
         }else{
             firebaseAuth.sendPasswordResetEmail(email)
                 .addOnCompleteListener() { task ->
                     if (task.isSuccessful){
-                        Toast.makeText(this.requireContext(),"Correo de cambio de contraseña enviado", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this.requireContext(),getString(R.string.toast_send_email), Toast.LENGTH_SHORT).show()
                     }else{
-                        Toast.makeText(this.requireContext(),"Error, no se pudo completar el proceso, introduzca bien el email", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this.requireContext(),getString(R.string.toast_error_rese_password_process_ended), Toast.LENGTH_SHORT).show()
                     }
                 }
         }

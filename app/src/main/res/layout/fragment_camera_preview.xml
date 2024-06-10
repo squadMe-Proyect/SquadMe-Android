@@ -18,7 +18,7 @@
         android:id="@+id/button_photo"
         android:layout_width="110dp"
         android:layout_height="wrap_content"
-        android:text="Foto"
+        android:text="@string/photoCamera"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

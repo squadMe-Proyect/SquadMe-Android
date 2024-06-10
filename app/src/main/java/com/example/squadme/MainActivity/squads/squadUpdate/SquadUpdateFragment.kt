@@ -19,6 +19,7 @@ import com.example.squadme.R
 import com.example.squadme.data.Models.LineUp
 import com.example.squadme.data.Models.Player
 import com.example.squadme.databinding.FragmentSquadUpdateBinding
+import com.example.squadme.utils.FirestoreSingleton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,7 +28,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class SquadUpdateFragment : Fragment() {
     private lateinit var binding: FragmentSquadUpdateBinding
     private lateinit var auth: FirebaseAuth
-    private lateinit var firestore: FirebaseFirestore
+    private var firestore = FirestoreSingleton.getInstance()
     private lateinit var currentUserId: String
     private lateinit var playerList: MutableList<Player>
     private lateinit var selectedPlayers: MutableSet<Player>
@@ -53,7 +54,6 @@ class SquadUpdateFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         auth = FirebaseAuth.getInstance()
-        firestore = FirebaseFirestore.getInstance()
         currentUserId = auth.currentUser?.uid ?: ""
 
         playerList = mutableListOf()
@@ -118,19 +118,6 @@ class SquadUpdateFragment : Fragment() {
         }
     }
 
-    /*
-    private fun setupRecyclerView() {
-        selectedPlayerAdapter = SquadPlayerUpdateAdapter(selectedPlayers.toMutableList()) { player ->
-            selectedPlayers.remove(player)
-            updateSelectedPlayersCount()
-            updateSelectedPlayerRecyclerView()
-        }
-        binding.selectedPlayersRecyclerView.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = selectedPlayerAdapter
-        }
-    }
-     */
     private fun setupRecyclerView() {
         selectedPlayerAdapter = SquadPlayerUpdateAdapter(selectedPlayers.toMutableList()) { player ->
             selectedPlayers.remove(player)
@@ -144,7 +131,7 @@ class SquadUpdateFragment : Fragment() {
     }
 
     private fun updateSelectedPlayersCount() {
-        val countText = "${selectedPlayers.size}/11 jugadores seleccionados"
+        val countText = "${selectedPlayers.size}" + getString(R.string.player_creation_squads)
         binding.selectedPlayersCount.text = countText
     }
 
@@ -161,13 +148,13 @@ class SquadUpdateFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         val dialog = AlertDialog.Builder(requireContext())
-            .setTitle("Seleccionar Jugadores")
+            .setTitle(getString(R.string.dialog_title_create_squad))
             .setView(dialogView)
-            .setPositiveButton("OK") { dialog, _ ->
+            .setPositiveButton(getString(R.string.dialog_squad_positive_btn)) { dialog, _ ->
                 dialog.dismiss()
                 updateSelectedPlayerRecyclerView()
             }
-            .setNegativeButton("Cancelar") { dialog, _ ->
+            .setNegativeButton(getString(R.string.dialog_squad_negative_btn)) { dialog, _ ->
                 dialog.dismiss()
             }
             .create()
@@ -180,29 +167,17 @@ class SquadUpdateFragment : Fragment() {
         val formation = binding.formationDropdown.text.toString()
 
         if (squadName.isEmpty()) {
-            Toast.makeText(
-                requireContext(),
-                "Por favor, ingrese un nombre para la plantilla.",
-                Toast.LENGTH_SHORT
-            ).show()
+            Toast.makeText(requireContext(), getString(R.string.toast_error_empty_name_squad_value), Toast.LENGTH_SHORT).show()
             return
         }
 
         if (formation.isEmpty()) {
-            Toast.makeText(
-                requireContext(),
-                "Por favor, seleccione una formación.",
-                Toast.LENGTH_SHORT
-            ).show()
+            Toast.makeText(requireContext(), getString(R.string.toast_error_empty_formation_squad_value), Toast.LENGTH_SHORT).show()
             return
         }
 
-        if (selectedPlayers.size != 2) {
-            Toast.makeText(
-                requireContext(),
-                "Debe seleccionar exactamente 11 jugadores.",
-                Toast.LENGTH_SHORT
-            ).show()
+        if (selectedPlayers.size != 11) {
+            Toast.makeText(requireContext(), getString(R.string.toast_error_empty_11players_squad_value), Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -217,21 +192,15 @@ class SquadUpdateFragment : Fragment() {
         firestore.collection("squads").document(squadId)
             .set(squad)
             .addOnSuccessListener {
-                Toast.makeText(
-                    requireContext(),
-                    "Plantilla actualizada exitosamente.",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(requireContext(), getString(R.string.toast_squad_update), Toast.LENGTH_SHORT).show()
                 val action =
                     SquadUpdateFragmentDirections.actionSquadUpdateFragmentToSquadListFragment()
                 findNavController().navigate(action)
             }
             .addOnFailureListener { e ->
-                Toast.makeText(
-                    requireContext(),
-                    "Error al actualizar la plantilla: ${e.message}",
-                    Toast.LENGTH_SHORT
-                ).show()
+                //Toast.makeText(requireContext(), "Error al actualizar la plantilla: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.toast_squad_update_error), Toast.LENGTH_SHORT).show()
+                Log.d("SquadUpdateFragment","Error al actualizar la plantilla: ${e.message}" )
             }
     }
 }

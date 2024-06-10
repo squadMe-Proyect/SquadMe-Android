@@ -25,6 +25,8 @@ import com.example.squadme.data.Models.LineUp
 import com.example.squadme.data.Models.Match
 import com.example.squadme.databinding.FragmentMatchListBinding
 import com.example.squadme.databinding.FragmentMatchUpdateBinding
+import com.example.squadme.utils.FirestoreSingleton
+import com.example.squadme.utils.NetworkUtils
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -38,7 +40,7 @@ class MatchUpdateFragment : Fragment() {
     private lateinit var binding: FragmentMatchUpdateBinding
     private val calendar: Calendar = Calendar.getInstance()
     private val db = Firebase.firestore
-    private lateinit var firestore: FirebaseFirestore
+    private var firestore = FirestoreSingleton.getInstance()
     private lateinit var currentUserId: String
     private lateinit var auth: FirebaseAuth
     private lateinit var lineUpAdapter: LineUpUpdateAdapterDropdown
@@ -91,20 +93,24 @@ class MatchUpdateFragment : Fragment() {
         }
 
         binding.Actualizar.setOnClickListener {
-            val date = "${binding.editTextFecha.text} - ${binding.editTextTHora.text}"
-            val opponent = binding.opponentInput.text.toString()
-            val result = binding.resultInput.text.toString()
-            val finished = binding.switchCompleted.isChecked
+            if (NetworkUtils.isNetworkAvailable(requireContext())){
+                val date = "${binding.editTextFecha.text} - ${binding.editTextTHora.text}"
+                val opponent = binding.opponentInput.text.toString()
+                val result = binding.resultInput.text.toString()
+                val finished = binding.switchCompleted.isChecked
 
-            val updatedMatch = Match(
-                id = match.id,
-                date = date,
-                opponent = opponent,
-                result = result,
-                finished = finished,
-                squad = selectedLineUp
-            )
-            updateMatch(updatedMatch)
+                val updatedMatch = Match(
+                    id = match.id,
+                    date = date,
+                    opponent = opponent,
+                    result = result,
+                    finished = finished,
+                    squad = selectedLineUp
+                )
+                updateMatch(updatedMatch)
+            }else{
+                Toast.makeText(context, getString(R.string.toast_error_no_connection_editMatch), Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -192,7 +198,7 @@ class MatchUpdateFragment : Fragment() {
     }
 
     private fun updateLineUpView() {
-        binding.spinnerTextView.text = selectedLineUp?.name ?: "Selecciona una alineación"
+        binding.spinnerTextView.text = selectedLineUp?.name ?: getString(R.string.select_lineUp_macth)
     }
 
     private fun showLineUpSelectionDialog() {
@@ -203,13 +209,13 @@ class MatchUpdateFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         val dialog = AlertDialog.Builder(requireContext())
-            .setTitle("Seleccionar Alineación")
+            .setTitle(getString(R.string.dialog_match_lineUp))
             .setView(dialogView)
-            .setPositiveButton("OK") { dialog, _ ->
+            .setPositiveButton(R.string.dialog_match_lineUp_positive_btn) { dialog, _ ->
                 dialog.dismiss()
                 updateLineUpView()
             }
-            .setNegativeButton("Cancel") { dialog, _ ->
+            .setNegativeButton(R.string.dialog_match_lineUp_negative_btn) { dialog, _ ->
                 dialog.dismiss()
             }
             .create()
@@ -247,12 +253,12 @@ class MatchUpdateFragment : Fragment() {
                     db.collection("matches").document(docId)
                         .update(updatedValues as Map<String, Any>)
                         .addOnSuccessListener {
-                            Toast.makeText(context, "Partido actualizado", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, getString(R.string.toast_match_update), Toast.LENGTH_SHORT).show()
                             val action = MatchUpdateFragmentDirections.actionMatchUpdateFragmentToMatchListFragment()
                             findNavController().navigate(action)
                         }
                         .addOnFailureListener { error ->
-                            Toast.makeText(context, "Error al actualizar el partido", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, getString(R.string.toast_match_update_error), Toast.LENGTH_SHORT).show()
                             Log.e("Firestore", "Error al actualizar los valores del partido: ${error.message}")
                         }
                 } else {
@@ -261,7 +267,7 @@ class MatchUpdateFragment : Fragment() {
             }
             .addOnFailureListener { e ->
                 Log.e("Firestore", "Error al obtener el documento del partido", e)
-                Toast.makeText(context, "Error al actualizar el partido", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.toast_match_update_error), Toast.LENGTH_SHORT).show()
             }
     }
 }

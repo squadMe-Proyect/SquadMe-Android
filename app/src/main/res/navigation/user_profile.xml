@@ -8,7 +8,7 @@
     <fragment
 
         android:id="@+id/user_profile"
-        android:name="com.example.squadme.MainActivity.UserProfile.user_profileFragment"
+        android:name="com.example.squadme.MainActivity.UserProfile.UserProfileFragment"
         android:label="fragment_user_profile"
         tools:layout="@layout/fragment_user_profile" />
 </navigation>

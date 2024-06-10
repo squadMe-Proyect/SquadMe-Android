@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="44dp"
         android:layout_marginTop="80dp"
-        android:text="Fecha"
+        android:text="@string/training_date_creation"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="36dp"
         android:layout_marginTop="56dp"
-        android:text="Hora"
+        android:text="@string/training_hour_creation"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnFecha" />
 
@@ -35,7 +35,7 @@
         android:layout_marginEnd="16dp"
         android:ems="10"
         android:inputType="text"
-        android:text="Fecha"
+        android:text="@string/training_date_creation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/btnFecha"
@@ -50,7 +50,7 @@
         android:layout_marginEnd="16dp"
         android:ems="10"
         android:inputType="text"
-        android:text="Hora"
+        android:text="@string/training_hour_creation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnHora"
         app:layout_constraintTop_toBottomOf="@+id/editTextFecha" />
@@ -60,7 +60,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Agregar Ejercicio"
+        android:text="@string/training_addExercises_creation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextHora" />
@@ -80,7 +80,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Entrenamiento Completado"
+        android:text="@string/training_state_update"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recyclerViewEjercicios" />
@@ -91,7 +91,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="76dp"
         android:layout_marginBottom="96dp"
-        android:text="Cancelar"
+        android:text="@string/cancel_btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/switchCompleted"
@@ -101,7 +101,7 @@
         android:id="@+id/btn_guardar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Guardar"
+        android:text="@string/update_btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.267"

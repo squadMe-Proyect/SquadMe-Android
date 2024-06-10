@@ -10,12 +10,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.squadme.R
 import com.example.squadme.data.Models.Player
+import com.example.squadme.databinding.ItemPlayerDetailBinding
 
 
 class SquadPlayerAdapter(
     private val players: List<Player>,
 ) : RecyclerView.Adapter<SquadPlayerAdapter.PlayerViewHolder>() {
 
+    /*
     inner class PlayerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val playerName: TextView = itemView.findViewById(R.id.playerName)
         val playerImage: ImageView = itemView.findViewById(R.id.playerImage)
@@ -29,10 +31,21 @@ class SquadPlayerAdapter(
 
         }
     }
+     */
+
+    inner class PlayerViewHolder(private val binding: ItemPlayerDetailBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(player: Player) {
+            binding.playerName.text = player.name
+
+            Glide.with(itemView.context)
+                .load(player.picture)
+                .into(binding.playerImage)
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlayerViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_player_detail, parent, false)
-        return PlayerViewHolder(view)
+        val binding = ItemPlayerDetailBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return PlayerViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: PlayerViewHolder, position: Int) {

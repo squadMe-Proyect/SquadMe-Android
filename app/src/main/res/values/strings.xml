@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">SquadMe</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string-array name="positions">
         <item>Portero</item>
@@ -16,4 +14,240 @@
         <item>4-4-2</item>
         <item>3-5-2</item>
     </string-array>
+
+    <!-- Login Fragment -->
+    <string name="email">Email</string>
+    <string name="password">Contraseña</string>
+    <string name="password_reset">Olvidé mi contraseña</string>
+    <string name="login_btn">Login</string>
+    <string name="to_register">¿No tiene cuenta? Registrate</string>
+
+    <!-- Register Fragment -->
+    <string name="name">Nombre</string>
+    <string name="surname">Apellidos</string>
+    <string name="nacionality">Nacionalidad</string>
+    <string name="team">Equipo</string>
+    <string name="confirm_password">Confirmar Contraseña</string>
+    <string name="register">Registro</string>
+
+    <!-- Match Fragment -->
+    <string name="oponent_match_creation">Oponente</string>
+    <string name="date_match_creation">Fecha</string>
+    <string name="hour_match_creation">Hora</string>
+    <string name="lineUp_match_creation">Elige una plantilla</string>
+
+    <!-- Match Detail -->
+    <string name="oponent_match_detail">Oponente:</string>
+    <string name="date_match_detail">Fecha:</string>
+    <string name="hour_match_detail">Hora:</string>
+
+
+    <!-- Player Creation -->
+    <string name="name_player_creation">Nombre</string>
+    <string name="surname_player_creation">Apellido</string>
+    <string name="email_player_creation">Email</string>
+    <string name="nacionality_player_creation">Nación</string>
+    <string name="position_player_creation">Posición</string>
+    <string name="password_player_creation">Contraseña</string>
+    <string name="numberText_player_creation">Dorsal</string>
+    <string name="photoCamera">Foto</string>
+    <string name="editCamera">Editar</string>
+
+    <!-- Player Detail Fragment -->
+    <string name="name_player">Equipo:</string>
+    <string name="surname_player">Apellido:</string>
+    <string name="email_player">Email:</string>
+    <string name="nacionality_player">Nacionalidad:</string>
+    <string name="position_player">Posición:</string>
+    <string name="team_player">Equipo:</string>
+    <string name="number_player">Dorsal:</string>
+    <string name="goal_player">Goles</string>
+    <string name="assits_player">Asistencias</string>
+    <string name="yellow_player">Amarillas</string>
+    <string name="red_player">Rojas</string>
+
+
+    <!-- Squad Fragment Creation -->
+    <string name="squad_name_creation">Nombre</string>
+    <string name="squad_formation_creation">Formación</string>
+    <string name="squad_lineUp_player_creation">Escoge los jugadores</string>
+    <string name="squad_players_counter_creation">0/11 jugadores seleccionados</string>
+
+    <!-- Training Fragment Creation -->
+    <string name="training_date_creation">Fecha</string>
+    <string name="training_hour_creation">Fecha</string>
+    <string name="training_addExercises_creation">Agregar Ejercicios</string>
+    <string name="traininig_exercisesAdded_creation">Ejercicios añadidos: </string>
+
+    <!-- Training Fragment Detail -->
+    <string name="training_date_detail">Fecha Entreno:</string>
+    <string name="training_hour_detail">Hora:</string>
+    <string name="training_state_detail">Estado:</string>
+    <string name="training_listExercises_detail">Lista de Ejercicios:</string>
+
+    <!-- Training Fragment Update -->
+    <string name="training_state_update">Entrenamiento Completado:</string>
+
+
+    <!-- Profile Fragment -->
+    <string name="profile_name">Nombre: </string>
+    <string name="profile_surname">Apellido: </string>
+    <string name="profile_email">Email: </string>
+    <string name="profile_nacionality">Nacionalidad: </string>
+    <string name="profile_rol">Rol:</string>
+
+
+    <!-- Reset Password -->
+    <string name="reset_password_text">Introduce tu email, para enviarte un enlace al email introducido para cambiar/restablecer la contraseña</string>
+    <string name="reset_password_email">Email</string>
+    <string name="reset_password_btn">Enviar al correo</string>
+
+
+    <!-- Botones cancelar y crear -->
+    <string name="cancel_btn">Cancelar</string>
+    <string name="create_btn">Crear</string>
+    <string name="update_btn">Actualizar</string>
+
+    <!-- Botones edits y borrar -->
+    <string name="edit_btn">Editar</string>
+    <string name="delete_btn">Eliminar</string>
+
+    <!-- Botones Cerrar Sesión y Cambiar Contraseña -->
+    <string name="session_btn">Cerrar Sesión</string>
+    <string name="password_btn">Cambiar Contraseña</string>
+
+
+    <!-- Toast -->
+
+    <!-- Register -->
+    <string name="toast_error_password_mismatch">Las contraseñas no coinciden</string>
+
+    <!--User profile Fragment-->
+    <string name="toast_doc_notExist">El documento no existe</string>
+    <string name="toast_error_user">Error al obtener los datos del usuario</string>
+    <string name="toast_error_user_register">Rellene bien los campos</string>
+    <string name="toast_error_user_register2">Erro al registra un usuario</string>
+    <string name="toast_error_user_register_empty_values">Por favor, complete todos los campos</string>
+    <string name="toast_error_email_empty">Error, email sin rellenar</string>
+    <string name="toast_send_email">Correo de cambio de contraseña enviado</string>
+    <string name="toast_error_rese_password_process_ended">Error, no se pudo completar el proceso, introduzca bien el email</string>
+
+
+    <!-- Matches -->
+    <!-- Match Creation -->
+    <string name="toast_error_no_connection_createMatch">No hay conexión a Internet. No se puede crear el partido.</string>
+    <string name="select_lineUp_macth">Selecciona una alineación.</string>
+    <string name="dialog_match_lineUp">Seleccionar Alineación</string>
+    <string name="dialog_match_lineUp_positive_btn">Ok</string>
+    <string name="dialog_match_lineUp_negative_btn">Cancelar</string>
+    <string name="toast_empty_oponent_value">Por favor, ingrese un nombre para el partido.</string>
+    <string name="toast_empty_lineUp_value">Por favor, seleccione una alineación.</string>
+    <string name="toast_match_create">Partido creado exitosamente</string>
+    <string name="toast_match_create_error">Error al crear el partido</string>
+
+    <!--Match Detail -->
+    <string name="match_detail_oponent_text">Oponente: </string>
+    <string name="match_detail_result_text">Resultado: </string>
+    <string name="match_detail_date_text">Fecha: </string>
+    <string name="match_detail_state_non_completed">Estado: No Completado</string>
+    <string name="match_detail_state_completed">Estado: Completado</string>
+    <string name="toast_error_no_connection_editMatch">No hay conexión a Internet. No se puede editar el partido.</string>
+    <string name="toast_error_no_completed_match_delete">No puedes eliminar un partido no completado</string>
+    <string name="toast_error_no_connection_deleteMatch">No hay conexión a Internet. No se puede eliminar el partido.</string>
+    <string name="toast_match_delete">Partido eliminado exitosamente</string>
+    <string name="toast_match_delete_error">Error al eliminar el partido</string>
+
+    <!-- Match List -->
+
+    <!-- Match Update -->
+    <string name="toast_match_update">Partido actualizado exitosamente</string>
+    <string name="toast_match_update_error">Error al actualizar el partido</string>
+
+    <!-- Player -->
+    <!-- Player Creation -->
+    <string name="toast_error_player_values_empty">Por favor, complete todos los campos</string>
+    <string name="toast_error_player_img_notUpload">Error al subir la imagen</string>
+    <string name="toast_player_create">Jugador creado exitosamente</string>
+    <string name="toast_player_create_error">Error al crear el jugador</string>
+    <string name="toast_player_error_register">Error al registrar el jugador: Usuario no encontrado</string>
+    <string name="toast_player_error_register_login_as_coach">Error al registrar el jugador: Usuario no encontrado</string>
+    <string name="toast_error_no_connection_createPlayer">No hay conexión a Internet. No se puede crear el jugador.</string>
+
+    <!-- Player Detail -->
+    <string name="player_detail_name_text">Nombre </string>
+    <string name="player_detail_surname_text">Apellido </string>
+    <string name="player_detail_email_text">Email </string>
+    <string name="player_detail_nacionality_text">Nacionalidad </string>
+    <string name="player_detail_team_text">Equipo </string>
+    <string name="player_detail_position_text">Posición </string>
+    <string name="player_detail_number_text">Dorsal </string>
+    <string name="toast_player_delete">Jugador eliminado exitosamente</string>
+    <string name="toast_player_delete_error">No se pudo eliminar el jugador</string>
+    <string name="toast_error_no_connection_deletePlayer">No hay conexión a Internet. No se puede eliminar el jugador.</string>
+
+    <!-- pLayerList -->
+    <string name="toast_error_load_playerList_cache">No se pudieron cargar los datos desde la caché</string>
+
+    <!-- Player Update -->
+    <string name="error_toast_not_galery_access">No se pudo acceder a la galería</string>
+    <string name="toast_player_update">Jugador actualizado exitosamente</string>
+    <string name="toast_player_update_error">Error al actualizar el jugador</string>
+
+    <!-- Squads -->
+
+    <!-- Squad Creation -->
+    <string name="toast_error_no_connection_createSquad">No hay conexión a Internet. No se puede crear una plantilla.</string>
+    <string name="player_creation_squads">/11 jugadores seleccionados</string>
+    <string name="dialog_title_create_squad">Selecciona los jugadores</string>
+    <string name="dialog_squad_positive_btn">Ok</string>
+    <string name="dialog_squad_negative_btn">Cancelar</string>
+    <string name="toast_error_empty_name_squad_value">Por favor, Ingrese un nombre para la plantilla</string>
+    <string name="toast_error_empty_formation_squad_value"> Por favor, seleccione una formación.</string>
+    <string name="toast_error_empty_11players_squad_value">Debe seleccionar exactamente 11 jugadores.</string>
+    <string name="toast_squad_create">Plantilla creada exitosamente</string>
+    <string name="toast_squad_create_error">Error al crear la plantilla</string>
+
+    <!-- Squad Detail -->
+    <string name="toast_error_no_connection_deleteSquad">No hay conexión a Internet. No se puede eliminar la plantilla.</string>
+    <string name="toast_squad_delete">Plantilla eliminada exitosamente</string>
+    <string name="toast_squad_delete_error">No se pudo eliminar la plantilla</string>
+
+    <!-- squadList -->
+    <string name="toast_error_load_squadList_cache">No se pudieron cargar los datos desde la caché</string>
+    <string name="toast_squad_update">Plantilla actualizado exitosamente</string>
+    <string name="toast_squad_update_error">Error al actualizar la plantilla</string>
+
+    <!-- Training -->
+    <!-- Training creation -->
+    <string name="toast_error_no_connection_createTraining">No hay conexión a Internet. No se puede crear un entreno.</string>
+    <string name="dialog_title_create_training">Añadir Ejercicio</string>
+    <string name="dialog_training_positive_btn">Agregar</string>
+    <string name="dialog_training_negative_btn">Cancelar</string>
+    <string name="toast_error_non_exercise_added">Por favor,Ingrese un ejercicio</string>
+    <string name="text_exercises_added">Ejercicios añadidios:</string>
+    <string name="toast_error_empty_values_squad">Por favor, complete todos los campos</string>
+    <string name="toast_error_date_format_invalid">Error en el formato de fecha y hora</string>
+    <string name="toast_training_create">Entrenamineto creado exitosamente</string>
+    <string name="toast_training_create_error">Error al crear el entrenamineto</string>
+
+    <!-- Training Detail -->
+    <string name="training_detail_date">Fecha: </string>
+    <string name="training_detail_hour">Hora: </string>
+    <string name="training_detail_date_non">Fecha no disponible</string>
+    <string name="training_detail_hour_non">Hora no disponible</string>
+    <string name="training_detail_state_non_completed">Estado: No Completado</string>
+    <string name="training_detail_state_completed">Estado: Completado</string>
+    <string name="toast_error_no_completed_training_delete">No puedes eliminar un entrenamiento no completado</string>
+    <string name="toast_error_no_connection_deleteTraining">No hay conexión a Internet. No se puede eliminar el entrenamiento.</string>
+    <string name="toast_training_delete">Entrenamiento eliminado exitosamente</string>
+    <string name="toast_training_delete_error">No se pudo eliminar el entrenamiento</string>
+
+    <!-- Training Update -->
+    <string name="toast_training_not_changes_training">No se realizaron cambios</string>
+    <string name="toast_training_update">Entrenamiento actualizada exitosamente</string>
+    <string name="toast_training_update_error">No se pudo eliminar el entrenamiento</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
 </resources>

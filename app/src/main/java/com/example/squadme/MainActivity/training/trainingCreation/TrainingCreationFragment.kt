@@ -12,10 +12,13 @@ import android.widget.EditText
 import android.widget.TimePicker
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import android.util.Log
 import androidx.navigation.fragment.findNavController
 import com.example.squadme.R
 import com.example.squadme.data.Models.Training
+import com.example.squadme.data.repository.TrainingRepository
 import com.example.squadme.databinding.FragmentTrainingCreationBinding
+import com.example.squadme.utils.NetworkUtils
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -33,13 +36,14 @@ class TrainingCreationFragment : Fragment() {
     private val ejercicios = mutableListOf<String>()
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
+    private lateinit var repository: TrainingRepository
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentTrainingCreationBinding.inflate(layoutInflater, container, false)
+        binding = FragmentTrainingCreationBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -59,7 +63,11 @@ class TrainingCreationFragment : Fragment() {
         }
 
         binding.btnCrear.setOnClickListener {
-            crearTraining()
+            if (NetworkUtils.isNetworkAvailable(requireContext())){
+                crearTraining()
+            }else{
+                Toast.makeText(context, getString(R.string.toast_error_no_connection_createTraining), Toast.LENGTH_SHORT).show()
+            }
         }
 
         binding.btnCancelar.setOnClickListener {
@@ -117,18 +125,18 @@ class TrainingCreationFragment : Fragment() {
         val editTextExerciseName = dialogView.findViewById<EditText>(R.id.editTextExerciseName)
 
         val dialog = AlertDialog.Builder(requireContext())
-            .setTitle("Añadir Ejercicio")
+            .setTitle(getString(R.string.dialog_title_create_training))
             .setView(dialogView)
-            .setPositiveButton("Agregar") { _, _ ->
+            .setPositiveButton(getString(R.string.dialog_training_positive_btn)) { _, _ ->
                 val exerciseName = editTextExerciseName.text.toString()
                 if (exerciseName.isNotEmpty()) {
                     ejercicios.add(exerciseName)
                     updateEjerciciosTextView()
                 } else {
-                    Toast.makeText(context, "Por favor ingrese un ejercicio", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, getString(R.string.toast_error_non_exercise_added), Toast.LENGTH_SHORT).show()
                 }
             }
-            .setNegativeButton("Cancelar", null)
+            .setNegativeButton(getString(R.string.dialog_training_negative_btn), null)
             .create()
 
         dialog.show()
@@ -136,15 +144,16 @@ class TrainingCreationFragment : Fragment() {
 
     private fun updateEjerciciosTextView() {
         val ejerciciosTexto = ejercicios.joinToString("\n")
-        binding.textViewEjercicios.text = "Ejercicios añadidos:\n$ejerciciosTexto"
+        binding.textViewEjercicios.text = getString(R.string.text_exercises_added) + "\n$ejerciciosTexto"
     }
+
 
     private fun crearTraining() {
         val fecha = binding.editTextFecha.text.toString()
         val hora = binding.editTextHora.text.toString()
 
         if (fecha.isEmpty() || hora.isEmpty() || ejercicios.isEmpty()) {
-            Toast.makeText(context, "Por favor complete todos los campos", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, getString(R.string.toast_error_empty_values_squad), Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -155,7 +164,7 @@ class TrainingCreationFragment : Fragment() {
         try {
             date = dateFormat.parse(dateString) ?: throw IllegalArgumentException("Fecha inválida")
         } catch (e: ParseException) {
-            Toast.makeText(context, "Error en el formato de fecha y hora", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, getString(R.string.toast_error_date_format_invalid), Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -186,15 +195,17 @@ class TrainingCreationFragment : Fragment() {
                 training.id = documentReference.id
                 db.collection("trainings").document(training.id!!).set(training)
                     .addOnSuccessListener {
-                        Toast.makeText(context, "Entrenamiento creado exitosamente", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, getString(R.string.toast_training_create), Toast.LENGTH_SHORT).show()
                         findNavController().popBackStack()
                     }
                     .addOnFailureListener { e ->
-                        Toast.makeText(context, "Error al crear el entrenamiento: ${e.message}", Toast.LENGTH_SHORT).show()
+                        //Toast.makeText(context, "Error al crear el entrenamiento: ${e.message}", Toast.LENGTH_SHORT).show()
+                        Log.d("TrainingCreationFragment", "Error al crear el entrenamiento: ${e.message}")
+                        Toast.makeText(context, getString(R.string.toast_training_create_error), Toast.LENGTH_SHORT).show()
                     }
             }
             .addOnFailureListener { e ->
-                Toast.makeText(context, "Error al crear el entrenamiento: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.toast_training_create_error), Toast.LENGTH_SHORT).show()
             }
     }
 }

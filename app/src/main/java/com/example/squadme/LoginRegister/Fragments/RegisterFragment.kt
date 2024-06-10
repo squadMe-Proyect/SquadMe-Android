@@ -14,7 +14,8 @@ import androidx.fragment.app.Fragment
 import com.example.squadme.MainActivity.MainActivity
 import com.example.squadme.data.Models.Coach
 import com.example.squadme.databinding.FragmentRegisterBinding
-import com.google.firebase.FirebaseApp
+import com.example.squadme.utils.FirestoreSingleton
+import com.example.squadme.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -27,7 +28,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class RegisterFragment : Fragment() {
     private lateinit var binding: FragmentRegisterBinding
     private lateinit var firebaseAuth: FirebaseAuth
-    private val db = Firebase.firestore
+    private val db = FirestoreSingleton.getInstance()
     private val sharedPreferences by lazy { requireActivity().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE) }
 
 
@@ -49,11 +50,17 @@ class RegisterFragment : Fragment() {
         binding.registerButton.setOnClickListener {
             val email:String = binding.emailInput.text.toString()
             val password:String = binding.passwordInput.text.toString()
+            val confirmPassword: String = binding.confirmPasswordInput.text.toString()
             val name: String = binding.nameInput.text.toString()
             val nationality:String = binding.nacionalityInput.text.toString()
             val surname = binding.surnameInput.text.toString()
             val role = "Admin"
             val equipo = binding.teamInput.text.toString()
+
+            if (password != confirmPassword) {
+                showToast(getString(R.string.toast_error_password_mismatch))
+                return@setOnClickListener
+            }
             val coach = Coach(name, email, nationality, equipo, role, surname)
             register(coach, password)
         }
@@ -61,15 +68,19 @@ class RegisterFragment : Fragment() {
 
     private fun register(coach:Coach, password:String){
         if (coach.email.isEmpty() || password.isEmpty()){
-            showAlert("Rellene bien los cambios")
+            //showAlert("Rellene bien los cambios")
+            showToast(getString(R.string.toast_error_user_register))
             return
         }else{
             firebaseAuth.createUserWithEmailAndPassword(coach.email, password).addOnCompleteListener{
                 if (it.isSuccessful){
-                    savePasswordToPreferences(password)
+                    //savePasswordToPreferences(password)
+                    saveUserDataToPreferences(coach, password)
                     postRegister(coach)
+
                 }else{
-                    showAlert("Error al registrar un usuario ")
+                    //showAlert("Error al registrar un usuario ")
+                    showToast(getString(R.string.toast_error_user_register2))
                 }
             }
         }
@@ -78,7 +89,8 @@ class RegisterFragment : Fragment() {
 
     private fun postRegister(coach: Coach) {
         if (coach.name.isEmpty() || coach.email.isEmpty() || coach.nationality.isEmpty() || coach.surname.isEmpty() || coach.team.isEmpty()) {
-            showToast("Por favor, complete todos los campos")
+            //showToast("Por favor, complete todos los campos")
+            showToast(getString(R.string.toast_error_user_register_empty_values))
             return
         }
 
@@ -101,26 +113,31 @@ class RegisterFragment : Fragment() {
                     activity?.finish()
                 }
                 .addOnFailureListener {
-                    showToast("Error al añadir un usuario a la colección")
+                    //showToast("Error al añadir un usuario a la colección")
+                    Log.d("LoginFragment","Error al añadir un usuario a la colección" )
                 }
         } else {
-            showToast("Error: Usuario actual nulo")
+            //showToast("Error: Usuario actual nulo")
+            Log.d("LoginFragment","Error: Usuario actual nulo" )
         }
 
     }
 
-    private fun savePasswordToPreferences(password: String) {
+
+    private fun saveUserDataToPreferences(coach: Coach, password: String) {
         with(sharedPreferences.edit()) {
+            putString("userName", coach.name)
+            putString("userSurname", coach.surname)
+            putString("userEmail", coach.email)
+            putString("userNationality", coach.nationality)
+            putString("userRole", coach.rol)
+            putString("userTeam", coach.team)
             putString("coachPassword", password)
             apply()
         }
     }
 
 
-
-    private fun showAlert(message: String) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-    }
 
     private fun showToast(message: String) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()

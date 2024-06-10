@@ -7,23 +7,23 @@
         android:layout_height="match_parent"
         tools:context=".MainActivity.players.playerCreation.PlayerCreationFragment">
 
-        <ImageView
-            android:id="@+id/photo"
-            android:layout_width="221dp"
-            android:layout_height="114dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginEnd="92dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+    <ImageView
+        android:id="@+id/photo"
+        android:layout_width="299dp"
+        android:layout_height="115dp"
+        android:layout_marginTop="36dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        </ImageView>
+    </ImageView>
 
-        <com.google.android.material.textfield.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/name_label"
             android:layout_width="304dp"
             android:layout_height="59dp"
             android:layout_marginTop="20dp"
-            android:hint="Nombre"
+            android:hint="@string/name_player_creation"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/photo">
@@ -42,7 +42,7 @@
             android:layout_width="304dp"
             android:layout_height="59dp"
             android:layout_marginTop="20dp"
-            android:hint="Apellido"
+            android:hint="@string/surname_player_creation"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintStart_toStartOf="parent"
@@ -62,7 +62,7 @@
             android:layout_width="304dp"
             android:layout_height="59dp"
             android:layout_marginTop="20dp"
-            android:hint="Email"
+            android:hint="@string/email_player_creation"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintStart_toStartOf="parent"
@@ -82,7 +82,7 @@
             android:layout_width="304dp"
             android:layout_height="59dp"
             android:layout_marginTop="20dp"
-            android:hint="Nación"
+            android:hint="@string/nacionality_player_creation"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintStart_toStartOf="parent"
@@ -97,6 +97,16 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="52dp"
+        android:text="@string/numberText_player_creation"
+        app:layout_constraintBottom_toTopOf="@+id/number"
+        app:layout_constraintStart_toStartOf="parent">
+
+    </androidx.appcompat.widget.AppCompatTextView>
 
     <NumberPicker
         android:id="@+id/number"
@@ -115,7 +125,7 @@
         android:layout_height="67dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="48dp"
-        android:hint="Posición"
+        android:hint="@string/position_player_creation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nation_label">
 
@@ -134,7 +144,7 @@
             android:layout_width="304dp"
             android:layout_height="59dp"
             android:layout_marginTop="20dp"
-            android:hint="Contraseña"
+            android:hint="@string/password_player_creation"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintStart_toStartOf="parent"
@@ -154,7 +164,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="76dp"
-        android:text="Crear"
+        android:text="@string/create_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password_label"></Button>
 
@@ -164,7 +174,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="84dp"
         android:layout_marginTop="20dp"
-        android:text="Cancelar"
+        android:text="@string/cancel_btn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password_label">
 

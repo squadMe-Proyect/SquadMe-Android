@@ -17,17 +17,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.squadme.R
 import com.example.squadme.data.Models.Training
 import com.example.squadme.databinding.FragmentTrainingUpdateBinding
+import com.example.squadme.utils.FirestoreSingleton
 import com.google.firebase.Timestamp
-import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import android.util.Log
 
 @AndroidEntryPoint
 class TrainingUpdateFragment : Fragment() {
     private lateinit var binding: FragmentTrainingUpdateBinding
-    private val db = FirebaseFirestore.getInstance()
+    val db = FirestoreSingleton.getInstance()
     private val calendar: Calendar = Calendar.getInstance()
     private val exercises = mutableListOf<String>()
     private lateinit var exerciseAdapter: TrainingExerciseUpdateAdapter
@@ -94,20 +95,20 @@ class TrainingUpdateFragment : Fragment() {
 
         binding.btnAgregarEjercicio.setOnClickListener {
             val builder = AlertDialog.Builder(requireContext())
-            builder.setTitle("Agregar Ejercicio")
+            builder.setTitle(getString(R.string.dialog_title_create_training))
             val input = EditText(requireContext())
             input.inputType = InputType.TYPE_CLASS_TEXT
             builder.setView(input)
-            builder.setPositiveButton("Agregar") { _, _ ->
+            builder.setPositiveButton(getString(R.string.dialog_training_positive_btn)) { _, _ ->
                 val ejercicio = input.text.toString()
                 if (ejercicio.isNotBlank()) {
                     exercises.add(ejercicio)
                     exerciseAdapter.notifyDataSetChanged()
                 } else {
-                    Toast.makeText(context, "Ejercicio no puede estar vacío", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, getString(R.string.toast_error_non_exercise_added), Toast.LENGTH_SHORT).show()
                 }
             }
-            builder.setNegativeButton("Cancelar") { dialog, _ -> dialog.cancel() }
+            builder.setNegativeButton(getString(R.string.dialog_training_negative_btn)) { dialog, _ -> dialog.cancel() }
             builder.show()
         }
 
@@ -126,7 +127,7 @@ class TrainingUpdateFragment : Fragment() {
         val completado = binding.switchCompleted.isChecked
 
         if (fecha.isEmpty() || hora.isEmpty() || exercises.isEmpty()) {
-            Toast.makeText(context, "Por favor complete todos los campos", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, getString(R.string.toast_error_empty_values_squad), Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -143,7 +144,7 @@ class TrainingUpdateFragment : Fragment() {
             exercises == training.exercises &&
             completado == training.completed
         ) {
-            Toast.makeText(context, "No se hicieron cambios", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, getString(R.string.toast_training_not_changes_training), Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -158,15 +159,19 @@ class TrainingUpdateFragment : Fragment() {
             db.collection("trainings").document(trainingId)
                 .update(trainingUpdate)
                 .addOnSuccessListener {
-                    Toast.makeText(context, "Entrenamiento actualizado exitosamente", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, getString(R.string.toast_training_update), Toast.LENGTH_SHORT).show()
                     val action = TrainingUpdateFragmentDirections.actionTrainingUpdateFragmentToTrainingListFragment()
                     findNavController().navigate(action)
                 }
                 .addOnFailureListener { e ->
-                    Toast.makeText(context, "Error al actualizar el entrenamiento: ${e.message}", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(context, "Error al actualizar el entrenamiento: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Log.d("TrainingCreationFragment","Error al actualizar el entrenamiento: ${e.message}" )
+                    Toast.makeText(context, getString(R.string.toast_training_update_error), Toast.LENGTH_SHORT).show()
                 }
         } else {
-            Toast.makeText(context, "ID de entrenamiento no válido", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(context, "ID de entrenamiento no válido", Toast.LENGTH_SHORT).show()
+            Log.d("TrainingCreationFragment", "ID de entrenamiento no válido")
+            Toast.makeText(context, getString(R.string.toast_training_update_error), Toast.LENGTH_SHORT).show()
         }
     }
 }

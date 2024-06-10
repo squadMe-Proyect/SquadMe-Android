@@ -19,8 +19,8 @@
 
     <ImageView
         android:id="@+id/player_img"
-        android:layout_width="279dp"
-        android:layout_height="103dp"
+        android:layout_width="270dp"
+        android:layout_height="138dp"
         android:layout_gravity="left"
         android:layout_marginTop="72dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,7 +34,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="32dp"
         android:layout_marginRight="30dp"
-        android:text="Nombre:"
+        android:text="@string/name_player"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/player_img"></TextView>
@@ -47,7 +47,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="4dp"
         android:layout_marginRight="30dp"
-        android:text="Apellido:"
+        android:text="@string/surname_player"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent"
@@ -60,7 +60,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="4dp"
         android:layout_marginRight="30dp"
-        android:text="Email:"
+        android:text="@string/email_player"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.733"
         app:layout_constraintStart_toStartOf="parent"
@@ -73,7 +73,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="4dp"
         android:layout_marginRight="30dp"
-        android:text="Nacionalidad:"
+        android:text="@string/nacionality_player"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.733"
         app:layout_constraintStart_toStartOf="parent"
@@ -86,7 +86,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="4dp"
         android:layout_marginRight="30dp"
-        android:text="Posición:"
+        android:text="@string/position_player"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.733"
         app:layout_constraintStart_toStartOf="parent"
@@ -99,7 +99,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="4dp"
         android:layout_marginRight="30dp"
-        android:text="Equipo:"
+        android:text="@string/team_player"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.733"
         app:layout_constraintStart_toStartOf="parent"
@@ -112,7 +112,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="4dp"
         android:layout_marginRight="30dp"
-        android:text="Dorsal:"
+        android:text="@string/number_player"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.733"
         app:layout_constraintStart_toStartOf="parent"
@@ -135,7 +135,7 @@
 
             <!-- Celda 1 -->
             <TextView
-                android:text="Goles"
+                android:text="@string/goal_player"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -143,21 +143,21 @@
 
             <!-- Celda 2 -->
             <TextView
-                android:text="Asistencias"
+                android:text="@string/assits_player"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"/>
 
             <TextView
-                android:text="Amarillas"
+                android:text="@string/yellow_player"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"/>
 
             <TextView
-                android:text="Rojas"
+                android:text="@string/red_player"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -209,7 +209,7 @@
         android:layout_marginBottom="96dp"
         android:backgroundTint="@color/design_default_color_secondary"
         android:drawableLeft="@drawable/edit"
-        android:text="Editar"
+        android:text="@string/edit_btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/delete_btn"></Button>
 
@@ -220,7 +220,7 @@
         android:layout_marginBottom="96dp"
         android:backgroundTint="@color/design_default_color_error"
         android:drawableLeft="@drawable/delete"
-        android:text="Eliminar"
+        android:text="@string/delete_btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.835"

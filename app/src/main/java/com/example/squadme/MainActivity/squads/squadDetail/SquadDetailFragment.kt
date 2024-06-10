@@ -10,16 +10,19 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.squadme.R
 import com.example.squadme.data.Models.LineUp
 import com.example.squadme.databinding.FragmentSquadDetailBinding
-import com.google.firebase.firestore.FirebaseFirestore
+import com.example.squadme.utils.FirestoreSingleton
+import com.example.squadme.utils.NetworkUtils
+import android.util.Log
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SquadDetailFragment : Fragment() {
     private lateinit var binding: FragmentSquadDetailBinding
     private lateinit var playerAdapter: SquadPlayerAdapter
-    private val db = FirebaseFirestore.getInstance()
+    private val db = FirestoreSingleton.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,13 +46,21 @@ class SquadDetailFragment : Fragment() {
         binding.playersRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.playersRecyclerView.adapter = playerAdapter
 
+        binding.toolbar.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
         binding.editBtn.setOnClickListener {
             val action = SquadDetailFragmentDirections.actionSquadDetailFragmentToSquadUpdateFragment(squad)
             findNavController().navigate(action)
         }
 
         binding.deleteBtn.setOnClickListener {
-            eliminarSquad(squad.id)
+            if (NetworkUtils.isNetworkAvailable(requireContext())){
+                eliminarSquad(squad.id)
+            }else{
+                Toast.makeText(context, getString(R.string.toast_error_no_connection_deleteSquad), Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -59,14 +70,16 @@ class SquadDetailFragment : Fragment() {
             db.collection("squads").document(squadId)
                 .delete()
                 .addOnSuccessListener {
-                    Toast.makeText(context, "Plantilla eliminado exitosamente", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, getString(R.string.toast_squad_delete), Toast.LENGTH_SHORT).show()
                     findNavController().popBackStack()
                 }
                 .addOnFailureListener { e ->
-                    Toast.makeText(context, "Error al eliminar la plantilla: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Log.d("SquadDetailFragment","Error al eliminar la plantilla: ${e.message}" )
+                    Toast.makeText(context, getString(R.string.toast_squad_delete_error), Toast.LENGTH_SHORT).show()
                 }
         } else {
-            Toast.makeText(context, "ID de plantilla no válido", Toast.LENGTH_SHORT).show()
+            Log.d("SquadDetailFragment", "ID de plantilla no válido")
+            Toast.makeText(context, getString(R.string.toast_squad_delete_error), Toast.LENGTH_SHORT).show()
         }
     }
 }

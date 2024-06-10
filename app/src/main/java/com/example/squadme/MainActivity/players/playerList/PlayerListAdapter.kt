@@ -21,6 +21,7 @@ class PlayerListAdapter(private val context: Context, private val onClick:((View
 
         fun bindPlayer(player: Player) {
             binding.playerTitle.text = player.name
+            binding.playerPosition.text = player.position
             Glide.with(context)
                 .load(player.picture)
                 .apply(RequestOptions().centerCrop())

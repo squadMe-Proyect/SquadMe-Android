@@ -15,8 +15,6 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 class TrainingListAdapter(
-    private val context: Context,
-    private val imageUrls: List<Int>, // Array de URLs de imágenes
     private val onClick: (View, Training) -> Unit
 ) : ListAdapter<Training, TrainingListAdapter.TrainingViewHolder>(DiffCallback) {
 
@@ -39,14 +37,6 @@ class TrainingListAdapter(
                 binding.trainingDateTime.text = "Fecha no disponible"
             }
 
-            // Seleccionar una imagen aleatoria del array de URLs proporcionado
-            if (imageUrls.isNotEmpty()) {
-                val randomUrl = imageUrls.random()
-                Glide.with(context)
-                    .load(randomUrl)
-                    .apply(RequestOptions().centerCrop())
-                    .into(binding.playerImg)
-            }
             binding.trainingCard.setOnClickListener {
                 onClick(it, training)
             }
