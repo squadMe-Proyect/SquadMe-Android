@@ -184,6 +184,7 @@
     <string name="toast_player_delete">Jugador eliminado exitosamente</string>
     <string name="toast_player_delete_error">No se pudo eliminar el jugador</string>
     <string name="toast_error_no_connection_deletePlayer">No hay conexión a Internet. No se puede eliminar el jugador.</string>
+    <string name="toast_error_no_connection_editPlayer">No hay conexión a Internet. No se puede editar el jugador.</string>
 
     <!-- pLayerList -->
     <string name="toast_error_load_playerList_cache">No se pudieron cargar los datos desde la caché</string>
@@ -217,6 +218,9 @@
     <string name="toast_squad_update">Plantilla actualizado exitosamente</string>
     <string name="toast_squad_update_error">Error al actualizar la plantilla</string>
 
+    <!-- squad update -->
+    <string name="toast_error_no_connection_editSquad">No hay conexión a Internet. No se puede editar la plantilla.</string>
+
     <!-- Training -->
     <!-- Training creation -->
     <string name="toast_error_no_connection_createTraining">No hay conexión a Internet. No se puede crear un entreno.</string>
@@ -246,7 +250,7 @@
     <string name="toast_training_not_changes_training">No se realizaron cambios</string>
     <string name="toast_training_update">Entrenamiento actualizada exitosamente</string>
     <string name="toast_training_update_error">No se pudo eliminar el entrenamiento</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="toast_error_no_connection_editTraining">No hay conexión a Internet. No se puede editar el entrenamiento.</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 

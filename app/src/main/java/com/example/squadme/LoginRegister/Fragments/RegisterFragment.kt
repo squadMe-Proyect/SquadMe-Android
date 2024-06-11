@@ -16,6 +16,7 @@ import com.example.squadme.data.Models.Coach
 import com.example.squadme.databinding.FragmentRegisterBinding
 import com.example.squadme.utils.FirestoreSingleton
 import com.example.squadme.R
+import com.example.squadme.utils.UserManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -108,6 +109,7 @@ class RegisterFragment : Fragment() {
 
             db.collection("coaches").document(userId).set(coachData)
                 .addOnSuccessListener {
+                    UserManager.isAdmin = true
                     val intent = Intent(requireContext(), MainActivity::class.java)
                     startActivity(intent)
                     activity?.finish()

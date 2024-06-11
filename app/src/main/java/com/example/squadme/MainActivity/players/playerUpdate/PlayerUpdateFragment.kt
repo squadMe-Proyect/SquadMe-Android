@@ -22,6 +22,7 @@ import com.example.squadme.data.Models.Match
 import com.example.squadme.data.Models.Player
 import com.example.squadme.databinding.FragmentPlayerUpdateBinding
 import com.example.squadme.utils.FirestoreSingleton
+import com.example.squadme.utils.NetworkUtils
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -92,7 +93,11 @@ class PlayerUpdateFragment : Fragment() {
         }
 
         binding.editarButton.setOnClickListener {
-            updatePlayer(player)
+            if (NetworkUtils.isNetworkAvailable(requireContext())){
+                updatePlayer(player)
+            }else{
+                Toast.makeText(context, getString(R.string.toast_error_no_connection_editPlayer), Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

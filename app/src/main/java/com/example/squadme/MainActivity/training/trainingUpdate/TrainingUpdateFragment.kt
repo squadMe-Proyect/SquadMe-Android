@@ -24,6 +24,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 import android.util.Log
+import com.example.squadme.utils.NetworkUtils
 
 @AndroidEntryPoint
 class TrainingUpdateFragment : Fragment() {
@@ -113,7 +114,11 @@ class TrainingUpdateFragment : Fragment() {
         }
 
         binding.btnGuardar.setOnClickListener {
-            guardarCambios(training.id)
+            if (NetworkUtils.isNetworkAvailable(requireContext())){
+                guardarCambios(training.id)
+            }else{
+                Toast.makeText(context, getString(R.string.toast_error_no_connection_editTraining), Toast.LENGTH_SHORT).show()
+            }
         }
 
         binding.btnCancelar.setOnClickListener {

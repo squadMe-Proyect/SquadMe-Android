@@ -16,6 +16,7 @@ import com.example.squadme.MainActivity.MainActivity
 import com.example.squadme.databinding.FragmentLoginBinding
 import com.example.squadme.utils.FirestoreSingleton
 import android.util.Log
+import com.example.squadme.utils.UserManager
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
@@ -207,8 +208,10 @@ class LoginFragment : Fragment() {
                     with(sharedPreferences.edit()) {
                         if (coachDocument.exists()) {
                             putString("userRole", "admin")
+                            UserManager.isAdmin = true
                         } else if (playerDocument.exists()) {
                             putString("userRole", "player")
+                            UserManager.isAdmin = false
                             val coachId = playerDocument.getString("coachId")
                             putString("coachId", coachId)
                         } else {

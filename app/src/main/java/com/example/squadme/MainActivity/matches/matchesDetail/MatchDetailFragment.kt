@@ -19,122 +19,6 @@ import androidx.navigation.findNavController
 import com.example.squadme.MainActivity.matches.matchesList.MatchListFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 
-/*
-@AndroidEntryPoint
-class MatchDetailFragment : Fragment() {
-    private lateinit var binding: FragmentMatchDetailBinding
-    private val db = FirestoreSingleton.getInstance()
-    private lateinit var playerAdapter: MatchPlayerLineupAdapter
-    private var isAdmin: Boolean = false
-
-    /**
-     * Called to have the fragment instantiate its user interface view.
-     *
-     * @param inflater The LayoutInflater object that can be used to inflate any views in the fragment.
-     * @param container If non-null, this is the parent view that the fragment's UI should be attached to.
-     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here.
-     * @return Return the View for the fragment's UI, or null.
-     */
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentMatchDetailBinding.inflate(layoutInflater, container, false)
-        return binding.root
-    }
-
-    /**
-     * Called immediately after onCreateView() has returned, but before any saved state has been restored in to the view.
-     *
-     * @param view The View returned by onCreateView().
-     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here.
-     */
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-
-        val args: MatchDetailFragmentArgs by navArgs()
-        val match: Match = args.match
-
-
-
-        binding.matchOpponent.text = getString(R.string.match_detail_oponent_text) + "${match.opponent}"
-        binding.matchResult.text = getString(R.string.match_detail_result_text) + "${match.result}"
-        binding.matchDate.text = getString(R.string.match_detail_date_text) + "${match.date}"
-
-        binding.squadTitle.text = match.squad?.name
-        binding.squadFormation.text = match.squad?.lineUp
-
-        playerAdapter = MatchPlayerLineupAdapter(match.squad!!.players)
-        binding.playersRecyclerView.layoutManager = LinearLayoutManager(context)
-        binding.playersRecyclerView.adapter = playerAdapter
-
-        binding.matchStatus.text = if (match.finished) {
-            //"Estado: Completado"
-            getString(R.string.match_detail_state_completed)
-        } else {
-            //"Estado: No Completado"
-            getString(R.string.match_detail_state_non_completed)
-        }
-
-        binding.toolbar.setOnClickListener {
-            findNavController().popBackStack()
-        }
-
-        binding.editBtn.setOnClickListener {
-            if (NetworkUtils.isNetworkAvailable(requireContext())) {
-                if (isAdmin) {
-                    val action = MatchDetailFragmentDirections.actionMatchDetailFragmentToMatchUpdateFragment(match)
-                    findNavController().navigate(action)
-                } else {
-                    Toast.makeText(requireContext(), "No tienes permiso para editar un jugador.", Toast.LENGTH_SHORT).show()
-                }
-            } else {
-                Toast.makeText(requireContext(), "No hay conexión a Internet", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        binding.deleteBtn.setOnClickListener {
-            if (NetworkUtils.isNetworkAvailable(requireContext())) {
-                if (match.finished){
-                    eliminarMatch(match.id)
-                } else {
-                    Toast.makeText(context, getString(R.string.toast_error_no_completed_match_delete), Toast.LENGTH_SHORT).show()
-                }
-            } else {
-                Toast.makeText(context, getString(R.string.toast_error_no_connection_deleteMatch), Toast.LENGTH_SHORT).show()
-            }
-        }
-
-    }
-
-    /**
-     * Deletes the match with the given ID from the Firestore database.
-     *
-     * @param matchId The ID of the match to delete.
-     */
-    private fun eliminarMatch(matchId: String?){
-        if (matchId != null) {
-            db.collection("matches").document(matchId)
-                .delete()
-                .addOnSuccessListener {
-                    Toast.makeText(context, getString(R.string.toast_match_delete), Toast.LENGTH_SHORT).show()
-                    findNavController().popBackStack()
-                }
-                .addOnFailureListener { e ->
-                    Log.d("MatchDetailFragment", "Error al eliminar el partido: ${e.message}")
-                    Toast.makeText(context, getString(R.string.toast_match_delete_error), Toast.LENGTH_SHORT).show()
-
-                }
-        } else {
-            Log.d("MatchDetailFragment", "ID de partido no válido")
-        }
-    }
-}
-
- */
-
 @AndroidEntryPoint
 class MatchDetailFragment : Fragment() {
     private lateinit var binding: FragmentMatchDetailBinding
@@ -156,6 +40,7 @@ class MatchDetailFragment : Fragment() {
 
         val args: MatchDetailFragmentArgs by navArgs()
         val match: Match = args.match
+        isAdmin = args.isAdmin
 
         // Mostrar detalles del partido
         binding.matchOpponent.text = getString(R.string.match_detail_oponent_text) + "${match.opponent}"

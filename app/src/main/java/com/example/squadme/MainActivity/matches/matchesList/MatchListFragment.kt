@@ -45,10 +45,14 @@ class MatchListFragment : Fragment() {
         firestore = FirestoreSingleton.getInstance()
         currentUserId = auth.currentUser?.uid ?: ""
 
-        adapter = MatchListAdapter() { _, match ->
-            val actionToDetail = MatchListFragmentDirections.actionMatchListFragmentToMatchDetailFragment(match)
-            view.findNavController().navigate(actionToDetail)
+
+        adapter = MatchListAdapter { _, match ->
+            val action = MatchListFragmentDirections
+                .actionMatchListFragmentToMatchDetailFragment(match, isAdmin)
+            view.findNavController().navigate(action)
         }
+
+
         binding.matchList.adapter = adapter
 
         binding.btnCreationMatch.setOnClickListener {

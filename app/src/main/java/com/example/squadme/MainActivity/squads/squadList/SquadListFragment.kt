@@ -12,9 +12,11 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.squadme.R
 import com.example.squadme.data.Models.LineUp
+import com.example.squadme.data.Models.User
 import com.example.squadme.databinding.FragmentSquadListBinding
 import com.example.squadme.utils.FirestoreSingleton
 import com.example.squadme.utils.NetworkUtils
+import com.example.squadme.utils.UserManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.android.gms.tasks.Tasks
@@ -28,7 +30,6 @@ import dagger.hilt.android.AndroidEntryPoint
         private lateinit var firestore: FirebaseFirestore
         private lateinit var currentUserId: String
         private lateinit var adapter: SquadListAdapter
-        private var isAdmin: Boolean = false
 
         override fun onCreateView(
             inflater: LayoutInflater,
@@ -63,7 +64,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
             binding.createBtn.setOnClickListener {
                 if (NetworkUtils.isNetworkAvailable(requireContext())) {
-                    if (isAdmin) {
+                    if (UserManager.isAdmin) {
                         val action =
                             SquadListFragmentDirections.actionSquadListFragmentToSquadCreationFragment()
                         findNavController().navigate(action)
@@ -96,12 +97,10 @@ import dagger.hilt.android.AndroidEntryPoint
 
                     when {
                         coachDocument.exists() -> {
-                            isAdmin = true
                             fetchSquadsByAdmin()
                         }
 
                         playerDocument.exists() -> {
-                            isAdmin = false
                             val coachId = playerDocument.getString("coachId")
                             coachId?.let { fetchSquadsFromCache("player") }
                         }
@@ -141,7 +140,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
         private fun fetchSquadsFromCache(userType: String) {
-            if (isAdmin) {
+            if (UserManager.isAdmin) {
                 firestore.collection("squads")
                     .get(Source.CACHE)
                     .addOnSuccessListener { querySnapshot ->

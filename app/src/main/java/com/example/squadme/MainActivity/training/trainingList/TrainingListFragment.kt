@@ -16,6 +16,7 @@ import com.example.squadme.data.Models.Training
 import com.example.squadme.databinding.FragmentTrainingListBinding
 import com.example.squadme.utils.FirestoreSingleton
 import com.example.squadme.utils.NetworkUtils
+import com.example.squadme.utils.UserManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -30,7 +31,6 @@ class TrainingListFragment : Fragment() {
     private lateinit var firestore: FirebaseFirestore
     private lateinit var currentUserId: String
     private lateinit var trainingListAdapter: TrainingListAdapter
-    private var isAdmin: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,7 +50,7 @@ class TrainingListFragment : Fragment() {
 
 
 
-        trainingListAdapter = TrainingListAdapter() { view, training ->
+        trainingListAdapter = TrainingListAdapter { view, training ->
             val action = TrainingListFragmentDirections.actionTrainingListFragmentToTrainingDetailFragment(training)
             findNavController().navigate(action)
         }
@@ -66,7 +66,7 @@ class TrainingListFragment : Fragment() {
 
         binding.createTrain.setOnClickListener {
             if (NetworkUtils.isNetworkAvailable(requireContext())) {
-                if (isAdmin) {
+                if (UserManager.isAdmin) {
                     val action = TrainingListFragmentDirections.actionTrainingListFragmentToTrainingCreationFragment()
                     findNavController().navigate(action)
                 } else {
@@ -90,11 +90,9 @@ class TrainingListFragment : Fragment() {
 
                 when {
                     coachDocument.exists() -> {
-                        isAdmin = true
                         fetchTrainingsByAdmin()
                     }
                     playerDocument.exists() -> {
-                        isAdmin = false
                         val coachId = playerDocument.getString("coachId")
                         coachId?.let { fetchTrainingsFromCache("player") }
                     }
@@ -132,7 +130,7 @@ class TrainingListFragment : Fragment() {
     }
 
     private fun fetchTrainingsFromCache(userType: String) {
-        if (isAdmin) {
+        if (UserManager.isAdmin) {
             firestore.collection("trainings")
                 .get(Source.CACHE)
                 .addOnSuccessListener { querySnapshot ->

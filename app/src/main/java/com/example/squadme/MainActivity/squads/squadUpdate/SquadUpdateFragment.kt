@@ -20,6 +20,7 @@ import com.example.squadme.data.Models.LineUp
 import com.example.squadme.data.Models.Player
 import com.example.squadme.databinding.FragmentSquadUpdateBinding
 import com.example.squadme.utils.FirestoreSingleton
+import com.example.squadme.utils.NetworkUtils
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
@@ -95,7 +96,11 @@ class SquadUpdateFragment : Fragment() {
         }
 
         binding.updateButton.setOnClickListener {
-            updateSquad(squad.id!!)
+            if (NetworkUtils.isNetworkAvailable(requireContext())){
+                updateSquad(squad.id!!)
+            }else{
+                Toast.makeText(context, getString(R.string.toast_error_no_connection_editSquad), Toast.LENGTH_SHORT).show()
+            }
         }
 
         binding.cancelButton.setOnClickListener {

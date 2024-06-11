@@ -10,11 +10,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import android.util.Log
+import com.example.squadme.MainActivity.matches.matchesDetail.MatchDetailFragmentDirections
 import com.example.squadme.R
 import com.example.squadme.data.Models.Training
 import com.example.squadme.databinding.FragmentTrainingDetailBinding
 import com.example.squadme.utils.FirestoreSingleton
 import com.example.squadme.utils.NetworkUtils
+import com.example.squadme.utils.UserManager
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -38,7 +40,7 @@ class TrainingDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val args: TrainingDetailFragmentArgs by navArgs()
-        val training:Training = args.training
+        val training: Training = args.training
 
 
         val timestamp = training.date
@@ -51,7 +53,7 @@ class TrainingDetailFragment : Fragment() {
             val formattedTime = timeFormat.format(date)
 
             binding.trainDate.text = getString(R.string.training_detail_date) + " $formattedDate"
-            binding.trainHour.text = getString(R.string.training_detail_hour) +  " $formattedTime"
+            binding.trainHour.text = getString(R.string.training_detail_hour) + " $formattedTime"
         } else {
             binding.trainDate.text = getString(R.string.training_detail_date_non)
             binding.trainHour.text = getString(R.string.training_detail_hour_non)
@@ -74,11 +76,32 @@ class TrainingDetailFragment : Fragment() {
             findNavController().popBackStack()
         }
 
+        /*
         binding.editBtn.setOnClickListener {
             val action = TrainingDetailFragmentDirections.actionTrainingDetailFragmentToTrainingUpdateFragment(training)
             findNavController().navigate(action)
         }
+         */
 
+        binding.editBtn.setOnClickListener {
+            if (NetworkUtils.isNetworkAvailable(requireContext())) {
+                if (UserManager.isAdmin) {
+                    val action = TrainingDetailFragmentDirections.actionTrainingDetailFragmentToTrainingUpdateFragment(training)
+                    findNavController().navigate(action)
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        "No tienes permiso para editar un jugador.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            } else {
+                Toast.makeText(requireContext(), "No hay conexión a Internet", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+
+        /*
         binding.deleteBtn.setOnClickListener {
             if (NetworkUtils.isNetworkAvailable(requireContext())) {
                 if (training.completed) {
@@ -90,9 +113,39 @@ class TrainingDetailFragment : Fragment() {
                 Toast.makeText(context, getString(R.string.toast_error_no_connection_deleteTraining), Toast.LENGTH_SHORT).show()
             }
         }
+         */
+
+        binding.deleteBtn.setOnClickListener {
+            if (NetworkUtils.isNetworkAvailable(requireContext())) {
+                if (UserManager.isAdmin) {
+                    if (training.completed) {
+                        eliminarTraining(training.id)
+                    } else {
+                        Toast.makeText(
+                            context,
+                            getString(R.string.toast_error_no_completed_training_delete),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        "No tienes permiso para eliminar un entrenamiento.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            } else {
+                Toast.makeText(
+                    context,
+                    getString(R.string.toast_error_no_connection_deleteTraining),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
 
-    private fun eliminarTraining(trainingId: String?) {
+
+        private fun eliminarTraining(trainingId: String?) {
         if (trainingId != null) {
             db.collection("trainings").document(trainingId)
                 .delete()

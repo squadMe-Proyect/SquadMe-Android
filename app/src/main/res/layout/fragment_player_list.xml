@@ -26,10 +26,11 @@
         android:id="@+id/btn_creationPlayer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/add_icon"
+        android:layout_marginTop="516dp"
+        android:layout_marginEnd="44dp"
         android:contentDescription="Jugador"
-        android:layout_marginTop="540dp"
-        android:layout_marginEnd="72dp"
+        android:src="@drawable/add_icon"
+        app:backgroundTint="@color/md_theme_dark_inversePrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 

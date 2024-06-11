@@ -16,6 +16,8 @@ import com.example.squadme.databinding.FragmentSquadDetailBinding
 import com.example.squadme.utils.FirestoreSingleton
 import com.example.squadme.utils.NetworkUtils
 import android.util.Log
+import com.example.squadme.MainActivity.matches.matchesDetail.MatchDetailFragmentDirections
+import com.example.squadme.utils.UserManager
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -51,14 +53,27 @@ class SquadDetailFragment : Fragment() {
         }
 
         binding.editBtn.setOnClickListener {
-            val action = SquadDetailFragmentDirections.actionSquadDetailFragmentToSquadUpdateFragment(squad)
-            findNavController().navigate(action)
+            if (NetworkUtils.isNetworkAvailable(requireContext())) {
+                if (UserManager.isAdmin) {
+                    val action = SquadDetailFragmentDirections.actionSquadDetailFragmentToSquadUpdateFragment(squad)
+                    findNavController().navigate(action)
+                } else {
+                    Toast.makeText(requireContext(), "No tienes permiso para editar un jugador.", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                Toast.makeText(requireContext(), "No hay conexión a Internet", Toast.LENGTH_SHORT).show()
+            }
         }
 
+
         binding.deleteBtn.setOnClickListener {
-            if (NetworkUtils.isNetworkAvailable(requireContext())){
-                eliminarSquad(squad.id)
-            }else{
+            if (NetworkUtils.isNetworkAvailable(requireContext())) {
+                if (UserManager.isAdmin) {
+                    eliminarSquad(squad.id)
+                } else {
+                    Toast.makeText(requireContext(), "No tienes permiso para eliminar una plantilla.", Toast.LENGTH_SHORT).show()
+                }
+            } else {
                 Toast.makeText(context, getString(R.string.toast_error_no_connection_deleteSquad), Toast.LENGTH_SHORT).show()
             }
         }
