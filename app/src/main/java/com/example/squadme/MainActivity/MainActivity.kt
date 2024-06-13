@@ -24,6 +24,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var firestore: FirebaseFirestore
 
+    /**
+     * Set up the activity, configure the app navigation
+     *
+     * @param savedInstanceState If non-null, this activity is being re-constructed from a previous saved state as given here
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
