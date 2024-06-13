@@ -33,6 +33,9 @@ class SquadCreationFragment : Fragment() {
     private lateinit var selectedPlayers: MutableSet<Player>
     private lateinit var playerAdapter: PlayerAdapterDropdown
 
+    /**
+     * Initialize the spinner adapter with formations on resume
+     */
     override fun onResume() {
         super.onResume()
         val formations = resources.getStringArray(R.array.formation)
@@ -40,6 +43,14 @@ class SquadCreationFragment : Fragment() {
         binding.formationItem.setAdapter(arrayAdapter)
     }
 
+    /**
+     * Inflate the layout for this fragment and initialize view binding
+     *
+     * @param inflater The LayoutInflater object that can be used to inflate any views in the fragment
+     * @param container If non-null, this is the parent view that the fragment's UI should be attached to
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here
+     * @return Return the View for the fragment's UI
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -48,6 +59,12 @@ class SquadCreationFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Set up the view once it has been created
+     *
+     * @param view The View returned by onCreateView(LayoutInflater, ViewGroup, Bundle)
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -69,7 +86,7 @@ class SquadCreationFragment : Fragment() {
             snapshot?.documents?.forEach { document ->
                 val player = document.toObject(Player::class.java)
                 player?.let {
-                    it.id = document.id  // Set the document ID as the player's ID
+                    it.id = document.id
                     if (it.coachId == currentUserId && !it.name.isNullOrEmpty()) {
                         playerList.add(it)
                     }
@@ -96,6 +113,9 @@ class SquadCreationFragment : Fragment() {
         }
     }
 
+    /**
+     * Set up the player adapter for the player selection dialog
+     */
     private fun setupPlayerAdapter() {
         playerAdapter = PlayerAdapterDropdown(playerList) { player, isSelected ->
             if (isSelected) {
@@ -108,16 +128,28 @@ class SquadCreationFragment : Fragment() {
         }
     }
 
+
+    /**
+     * Update the spinner view with selected player names
+     */
+
     private fun updateSpinnerView() {
         val selectedPlayerNames = selectedPlayers.joinToString(", ") { it.name ?: "" }
         binding.spinnerTextView.text = selectedPlayerNames
     }
 
+    /**
+     * Update the selected players count displayed
+     */
+
     private fun updateSelectedPlayersCount() {
-        //val countText = "${selectedPlayers.size}/11 jugadores seleccionados"
         val countText = "${selectedPlayers.size}" + getString(R.string.player_creation_squads)
         binding.selectedPlayersCount.text = countText
     }
+
+    /**
+     * Show player selection dialog with a list of players
+     */
 
     private fun showPlayerSelectionDialog() {
         val dialogView =
@@ -142,6 +174,9 @@ class SquadCreationFragment : Fragment() {
         dialog.show()
     }
 
+    /**
+      * Validate and create the squad in Firestore
+      */
     private fun createSquad() {
         val squadName = binding.nameInput.text.toString()
         val formation = binding.formationItem.text.toString()

@@ -67,11 +67,12 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewEjercicios"
-        android:layout_width="408dp"
-        android:layout_height="216dp"
+        android:layout_width="308dp"
+        android:layout_height="160dp"
         android:layout_marginTop="16dp"
         app:layout_constraintBottom_toTopOf="@id/switchCompleted"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnAgregarEjercicio" />
 
@@ -104,9 +105,9 @@
         android:text="@string/update_btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.267"
+        app:layout_constraintHorizontal_bias="0.256"
         app:layout_constraintStart_toEndOf="@+id/btn_cancelar"
         app:layout_constraintTop_toBottomOf="@+id/switchCompleted"
-        app:layout_constraintVertical_bias="0.157" />
+        app:layout_constraintVertical_bias="0.417" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

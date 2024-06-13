@@ -16,137 +16,32 @@ import com.example.squadme.MainActivity.MainActivity
 import com.example.squadme.databinding.FragmentLoginBinding
 import com.example.squadme.utils.FirestoreSingleton
 import android.util.Log
+import com.example.squadme.R
 import com.example.squadme.utils.UserManager
-import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.android.gms.tasks.Tasks
-import com.google.firebase.firestore.firestore
 import dagger.hilt.android.AndroidEntryPoint
 
-/*
-@AndroidEntryPoint
-class LoginFragment : Fragment() {
-    private lateinit var binding:FragmentLoginBinding
-    private lateinit var firebaseAuth:FirebaseAuth
-    private val db =FirestoreSingleton.getInstance()
-    private val sharedPreferences by lazy { requireActivity().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE) }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentLoginBinding.inflate(inflater, container, false)
-        firebaseAuth = FirebaseAuth.getInstance()
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-
-
-        binding.loginButton.setOnClickListener {
-            val email:String = binding.emailInput.text.toString()
-            val password:String = binding.passwordInput.text.toString()
-            login(email, password)
-        }
-
-        binding.toRegisterFragment.setOnClickListener{
-            val action = LoginFragmentDirections.actionLoginFragmentToRegisterFragment()
-            view.findNavController().navigate(action)
-        }
-
-        binding.passwordReset.setOnClickListener{
-            val action = LoginFragmentDirections.actionLoginFragmentToResetPasswordFragment()
-            findNavController().navigate(action)
-        }
-    }
-
-
-    private fun login(email:String, password:String){
-        if (email.isNotEmpty() && password.isNotEmpty()){
-            firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener{
-                if (it.isSuccessful){
-                    //savePasswordToPreferences(password)
-                    saveUserDataToPreferences(email, password)
-                    val intent = Intent(requireContext(), MainActivity::class.java)
-                    startActivity(intent)
-                    activity?.finish()
-                } else {
-                    showAlert()
-                }
-            }.addOnFailureListener { exception ->
-                // Maneja la excepción aquí
-                Log.d("LoginFragment","Error: ${exception.message}")
-            }
-        } else {
-            showToast("Error")
-        }
-    }
-
-    private fun saveUserDataToPreferences(email: String, password: String) {
-        // Fetch user data from Firestore and save to SharedPreferences
-        val currentUser = firebaseAuth.currentUser
-        currentUser?.let { user ->
-            val userId = user.uid
-            db.collection("coaches").document(userId).get()
-                .addOnSuccessListener { document ->
-                    if (document.exists()) {
-                        val name = document.getString("name")
-                        val surname = document.getString("surname")
-                        val nationality = document.getString("nationality")
-                        val role = document.getString("role")
-                        val team = document.getString("team")
-
-                        with(sharedPreferences.edit()) {
-                            putString("userName", name)
-                            putString("userSurname", surname)
-                            putString("userEmail", email)
-                            putString("userNationality", nationality)
-                            putString("userRole", role)
-                            putString("userTeam", team)
-                            putString("coachPassword", password)
-                            apply()
-                        }
-                    } else {
-                        // Handle case where the document does not exist
-                        showToast("No se encontraron datos del usuario")
-                    }
-                }
-                .addOnFailureListener {
-                    // Handle any errors that occur
-                    Log.d("LoginFragment","Error al obtener los datos del usuario: ${it.message}")
-                }
-        }
-    }
-
-
-    private fun showAlert(){
-        val builder = AlertDialog.Builder(context)
-        builder.setTitle("Error")
-        builder.setMessage("Se ha producido un error al loguear un usuario")
-        builder.setPositiveButton("Aceptar", null)
-        val dialog: AlertDialog = builder.create()
-        dialog.show()
-    }
-
-    private fun showToast(message: String) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-    }
-
-}
- */
-
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
+    /*
+     * Declare variables for view binding, Firebase authentication, Firestore instance, and shared preferences
+     */
     private lateinit var binding: FragmentLoginBinding
     private lateinit var firebaseAuth: FirebaseAuth
     private val db = FirestoreSingleton.getInstance()
     private val sharedPreferences by lazy { requireActivity().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE) }
 
+    /**
+     * Inflate the layout for this fragment and initialize FirebaseAuth
+     *
+     * @param inflater The LayoutInflater object that can be used to inflate any views in the fragment
+     * @param container If non-null, this is the parent view that the fragment's UI should be attached to
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here
+     * @return Return the View for the fragment's UI, or null
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -157,6 +52,12 @@ class LoginFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Set up the view once it has been created
+     *
+     * @param view The View returned by onCreateView(LayoutInflater, ViewGroup, Bundle)
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -177,22 +78,32 @@ class LoginFragment : Fragment() {
         }
     }
 
+
+    /**
+     * Login logic
+     *
+     * @param email The email entered by the user
+     * @param password The password entered by the user
+     */
     private fun login(email: String, password: String) {
         if (email.isNotEmpty() && password.isNotEmpty()) {
             firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
                 if (it.isSuccessful) {
                     saveUserRoleToPreferences()
                 } else {
-                    showAlert()
+                    Toast.makeText(context, getString(R.string.error_login), Toast.LENGTH_SHORT).show()
                 }
             }.addOnFailureListener { exception ->
                 Log.d("LoginFragment", "Error: ${exception.message}")
             }
         } else {
-            showToast("Error")
+            Toast.makeText(context, getString(R.string.error_login), Toast.LENGTH_SHORT).show()
         }
     }
 
+    /**
+     * Save the user's role to shared preferences
+     */
     private fun saveUserRoleToPreferences() {
         val currentUser = firebaseAuth.currentUser
         currentUser?.let { user ->
@@ -215,7 +126,7 @@ class LoginFragment : Fragment() {
                             val coachId = playerDocument.getString("coachId")
                             putString("coachId", coachId)
                         } else {
-                            showToast("No se encontraron datos del usuario")
+                            Log.d("LoginFragment","No se encontraron datos del usuario")
                         }
                         apply()
                     }
@@ -229,18 +140,5 @@ class LoginFragment : Fragment() {
                     Log.d("LoginFragment", "Error al obtener los datos del usuario: ${it.message}")
                 }
         }
-    }
-
-    private fun showAlert() {
-        val builder = AlertDialog.Builder(context)
-        builder.setTitle("Error")
-        builder.setMessage("Se ha producido un error al loguear un usuario")
-        builder.setPositiveButton("Aceptar", null)
-        val dialog: AlertDialog = builder.create()
-        dialog.show()
-    }
-
-    private fun showToast(message: String) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 }

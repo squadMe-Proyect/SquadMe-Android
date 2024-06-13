@@ -12,7 +12,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.squadme.R
 import com.example.squadme.data.Models.LineUp
-import com.example.squadme.data.Models.User
 import com.example.squadme.databinding.FragmentSquadListBinding
 import com.example.squadme.utils.FirestoreSingleton
 import com.example.squadme.utils.NetworkUtils
@@ -23,6 +22,7 @@ import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Source
 import dagger.hilt.android.AndroidEntryPoint
+
     @AndroidEntryPoint
     class SquadListFragment : Fragment() {
         private lateinit var binding: FragmentSquadListBinding
@@ -31,6 +31,14 @@ import dagger.hilt.android.AndroidEntryPoint
         private lateinit var currentUserId: String
         private lateinit var adapter: SquadListAdapter
 
+        /**
+         * Inflate the layout for this fragment and initialize view binding
+         *
+         * @param inflater The LayoutInflater object that can be used to inflate any views in the fragment
+         * @param container If non-null, this is the parent view that the fragment's UI should be attached to
+         * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here
+         * @return Return the View for the fragment's UI
+         */
         override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -40,6 +48,12 @@ import dagger.hilt.android.AndroidEntryPoint
             return binding.root
         }
 
+        /**
+         * Set up the view once it has been created
+         *
+         * @param view The View returned by onCreateView(LayoutInflater, ViewGroup, Bundle)
+         * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here
+         */
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
 
@@ -69,22 +83,17 @@ import dagger.hilt.android.AndroidEntryPoint
                             SquadListFragmentDirections.actionSquadListFragmentToSquadCreationFragment()
                         findNavController().navigate(action)
                     } else {
-                        Toast.makeText(
-                            requireContext(),
-                            "No tienes permiso para crear un jugador.",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        Toast.makeText(requireContext(), getString(R.string.toast_squad_no_permissions_create_squad), Toast.LENGTH_SHORT).show()
                     }
                 } else {
-                    Toast.makeText(
-                        requireContext(),
-                        "No hay conexión a Internet",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(requireContext(), getString(R.string.toast_no_connection_match_detail), Toast.LENGTH_SHORT).show()
                 }
             }
         }
 
+        /**
+         * Check user role and fetch squads accordingly.
+         */
         private fun checkUserRoleAndFetchSquads() {
             val coachesRef = firestore.collection("coaches").document(currentUserId)
             val playersRef = firestore.collection("players").document(currentUserId)
@@ -117,6 +126,9 @@ import dagger.hilt.android.AndroidEntryPoint
                 }
         }
 
+        /**
+         * Fetch squads where the current user is an admin (coach).
+         */
         private fun fetchSquadsByAdmin() {
             firestore.collection("squads")
                 .whereEqualTo("coachId", currentUserId)
@@ -139,6 +151,11 @@ import dagger.hilt.android.AndroidEntryPoint
         }
 
 
+        /**
+         * Fetch squads from local cache based on user type.
+         *
+         * @param userType Type of user (coach, player, unknown).
+         */
         private fun fetchSquadsFromCache(userType: String) {
             if (UserManager.isAdmin) {
                 firestore.collection("squads")

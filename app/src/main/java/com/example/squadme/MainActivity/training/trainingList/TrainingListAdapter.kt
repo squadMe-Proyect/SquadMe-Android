@@ -14,19 +14,32 @@ import com.example.squadme.databinding.TrainingListItemBinding
 import java.text.SimpleDateFormat
 import java.util.Locale
 
+/**
+ * Adapter for displaying a list of trainings in a RecyclerView within the TrainingListFragment.
+ *
+ * @param onClick Callback function triggered when a training item is clicked.
+ */
 class TrainingListAdapter(
     private val onClick: (View, Training) -> Unit
 ) : ListAdapter<Training, TrainingListAdapter.TrainingViewHolder>(DiffCallback) {
 
+    /**
+     * ViewHolder for displaying individual training items.
+     *
+     * @param binding View binding object for the training item layout.
+     */
     inner class TrainingViewHolder(private val binding: TrainingListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        /**
+         * Binds training data to the TrainingViewHolder.
+         *
+         * @param training The training object to bind.
+         */
         fun bindTraining(training: Training) {
-            // Formatear la fecha y la hora
             val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
             val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
 
-            // Convertir Timestamp a Date antes de formatear
             val date = training.date?.toDate()
             if (date != null) {
                 val formattedDate = dateFormat.format(date)
@@ -43,6 +56,9 @@ class TrainingListAdapter(
         }
     }
 
+    /**
+     * DiffUtil callback for calculating the difference between two lists of trainings.
+     */
     object DiffCallback : DiffUtil.ItemCallback<Training>() {
         override fun areItemsTheSame(oldItem: Training, newItem: Training): Boolean {
             return oldItem == newItem
@@ -53,6 +69,13 @@ class TrainingListAdapter(
         }
     }
 
+    /**
+     * Creates a new TrainingViewHolder instance.
+     *
+     * @param parent The parent view group into which the new view will be added.
+     * @param viewType The type of the new view.
+     * @return A new TrainingViewHolder instance.
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrainingViewHolder {
         val binding = TrainingListItemBinding.inflate(
             LayoutInflater.from(parent.context),
@@ -62,6 +85,12 @@ class TrainingListAdapter(
         return TrainingViewHolder(binding)
     }
 
+    /**
+     * Binds training data to the TrainingViewHolder at the specified position.
+     *
+     * @param holder The TrainingViewHolder to bind data to.
+     * @param position The position of the training item in the list.
+     */
     override fun onBindViewHolder(holder: TrainingViewHolder, position: Int) {
         val training = getItem(position)
         holder.bindTraining(training)

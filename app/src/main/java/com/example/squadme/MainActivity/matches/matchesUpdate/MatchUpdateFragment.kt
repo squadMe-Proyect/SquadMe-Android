@@ -47,6 +47,17 @@ class MatchUpdateFragment : Fragment() {
     private lateinit var lineUpList: MutableList<LineUp>
     private var selectedLineUp: LineUp? = null
 
+    /**
+     * Called to have the fragment instantiate its user interface view.
+     *
+     * @param inflater The LayoutInflater object that can be used to inflate any views in the fragment.
+     * @param container If non-null, this is the parent view that the fragment's UI should be attached to.
+     *                  The fragment should not add the view itself, but this can be used to generate
+     *                  the LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous
+     *                           saved state as given here.
+     * @return Return the View for the fragment's UI, or null.
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -56,6 +67,12 @@ class MatchUpdateFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Called immediately after `onCreateView` has returned, but before any saved state has been restored in the view.
+     *
+     * @param view The View returned by `onCreateView`.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -114,6 +131,9 @@ class MatchUpdateFragment : Fragment() {
         }
     }
 
+    /**
+     * Method to show the date picker dialog.
+     */
     private fun showDatePicker() {
         val dateListener = DatePickerDialog.OnDateSetListener { _: DatePicker, year: Int, month: Int, dayOfMonth: Int ->
             calendar.set(Calendar.YEAR, year)
@@ -132,6 +152,9 @@ class MatchUpdateFragment : Fragment() {
         datePickerDialog.show()
     }
 
+    /**
+     * Method to show the time picker dialog.
+     */
     private fun showTimePicker() {
         val timeListener = TimePickerDialog.OnTimeSetListener { _: TimePicker, hourOfDay: Int, minute: Int ->
             calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
@@ -149,16 +172,27 @@ class MatchUpdateFragment : Fragment() {
         timePickerDialog.show()
     }
 
+    /**
+     * Method to update the date EditText with the selected date.
+     */
     private fun updateDateEditText() {
         val formattedDate = "${calendar.get(Calendar.DAY_OF_MONTH)}/${calendar.get(Calendar.MONTH) + 1}/${calendar.get(Calendar.YEAR)}"
         binding.editTextFecha.setText(formattedDate)
     }
 
+    /**
+     * Method to update the time EditText with the selected time.
+     */
     private fun updateTimeEditText() {
         val formattedTime = "${calendar.get(Calendar.HOUR_OF_DAY)}:${calendar.get(Calendar.MINUTE)}"
         binding.editTextTHora.setText(formattedTime)
     }
 
+    /**
+     * Method to load available LineUps for the current user.
+     *
+     * @param selectedLineUpId The ID of the currently selected LineUp.
+     */
     private fun loadLineUps(selectedLineUpId: String?) {
         lineUpList = mutableListOf()
         firestore = FirebaseFirestore.getInstance()
@@ -189,6 +223,9 @@ class MatchUpdateFragment : Fragment() {
         }
     }
 
+    /**
+     * Method to set up the LineUp adapter.
+     */
     private fun setupLineUpAdapter() {
         lineUpAdapter = LineUpUpdateAdapterDropdown(lineUpList, selectedLineUp) { lineUp ->
             selectedLineUp = lineUp
@@ -197,10 +234,16 @@ class MatchUpdateFragment : Fragment() {
         lineUpAdapter.notifyDataSetChanged()
     }
 
+    /**
+     * Method to update the UI with the selected LineUp's name.
+     */
     private fun updateLineUpView() {
         binding.spinnerTextView.text = selectedLineUp?.name ?: getString(R.string.select_lineUp_macth)
     }
 
+    /**
+     * Method to update the UI with the selected LineUp's name.
+     */
     private fun showLineUpSelectionDialog() {
         val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_lineup_selection, null)
         val recyclerView = dialogView.findViewById<RecyclerView>(R.id.dialogLineUpRecyclerView)
@@ -223,6 +266,11 @@ class MatchUpdateFragment : Fragment() {
         dialog.show()
     }
 
+    /**
+     * Method to update the match details in Firestore.
+     *
+     * @param match The updated Match object.
+     */
     private fun updateMatch(match: Match) {
         db.collection("matches")
             .document(match.id!!)

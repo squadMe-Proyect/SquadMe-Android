@@ -26,6 +26,15 @@ class SquadDetailFragment : Fragment() {
     private lateinit var playerAdapter: SquadPlayerAdapter
     private val db = FirestoreSingleton.getInstance()
 
+
+    /**
+     * Inflate the layout for this fragment and initialize view binding
+     *
+     * @param inflater The LayoutInflater object that can be used to inflate any views in the fragment
+     * @param container If non-null, this is the parent view that the fragment's UI should be attached to
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here
+     * @return Return the View for the fragment's UI
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -35,6 +44,12 @@ class SquadDetailFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Set up the view once it has been created
+     *
+     * @param view The View returned by onCreateView(LayoutInflater, ViewGroup, Bundle)
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -80,6 +95,11 @@ class SquadDetailFragment : Fragment() {
     }
 
 
+    /**
+     * Deletes the squad from Firestore based on the provided squad ID.
+     *
+     * @param squadId The ID of the squad to be deleted.
+     */
     private fun eliminarSquad(squadId: String?) {
         if (squadId != null) {
             db.collection("squads").document(squadId)

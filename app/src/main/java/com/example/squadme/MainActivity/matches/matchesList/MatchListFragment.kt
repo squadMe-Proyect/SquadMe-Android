@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.findNavController
+import com.example.squadme.R
 import com.example.squadme.data.Models.Match
 import com.example.squadme.databinding.FragmentMatchListBinding
 import com.example.squadme.utils.FirestoreSingleton
@@ -29,6 +30,17 @@ class MatchListFragment : Fragment() {
     private lateinit var adapter: MatchListAdapter
     private var isAdmin: Boolean = false
 
+    /**
+     * Called to have the fragment instantiate its user interface view.
+     *
+     * @param inflater The LayoutInflater object that can be used to inflate any views in the fragment.
+     * @param container If non-null, this is the parent view that the fragment's UI should be attached to.
+     *                  The fragment should not add the view itself, but this can be used to generate
+     *                  the LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous
+     *                           saved state as given here.
+     * @return Return the View for the fragment's UI, or null.
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -38,6 +50,12 @@ class MatchListFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Called immediately after `onCreateView` has returned, but before any saved state has been restored in the view.
+     *
+     * @param view The View returned by `onCreateView`.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -61,16 +79,19 @@ class MatchListFragment : Fragment() {
                     val action = MatchListFragmentDirections.actionMatchListFragmentToMatchCreationFragment()
                     view.findNavController().navigate(action)
                 } else {
-                    Toast.makeText(requireContext(), "No tienes permiso para crear un jugador.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.toast_no_permissions_create_match), Toast.LENGTH_SHORT).show()
                 }
             } else {
-                Toast.makeText(requireContext(), "No hay conexión a Internet", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.toast_no_connection_match_detail), Toast.LENGTH_SHORT).show()
             }
         }
 
         checkUserRoleAndFetchMatches()
     }
 
+    /**
+     * Checks the user role and fetches matches based on the role.
+     */
     private fun checkUserRoleAndFetchMatches() {
         val coachesRef = firestore.collection("coaches").document(currentUserId)
         val playersRef = firestore.collection("players").document(currentUserId)
@@ -106,6 +127,9 @@ class MatchListFragment : Fragment() {
         }
     }
 
+    /**
+     * Fetches matches created by an admin (coach) from Firestore.
+     */
     private fun fetchMatchesByAdmin() {
         firestore.collection("matches")
             .whereEqualTo("coachId", currentUserId)
@@ -126,6 +150,11 @@ class MatchListFragment : Fragment() {
             }
     }
 
+    /**
+     * Fetches matches from Firestore cache based on user type.
+     *
+     * @param userType User type ("player" for player, "coach" for admin, "unknown" for others).
+     */
     private fun fetchMatchesFromCache(userType: String) {
         if (isAdmin) {
             firestore.collection("matches")
@@ -144,7 +173,6 @@ class MatchListFragment : Fragment() {
                 }
                 .addOnFailureListener { exception ->
                     Log.e("MatchListFragment", "Error fetching matches from cache: $exception")
-                    //Toast.makeText(requireContext(), "No se pudieron cargar los datos desde la caché", Toast.LENGTH_SHORT).show()
                 }
         } else {
             val prefs = requireActivity().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
@@ -166,7 +194,6 @@ class MatchListFragment : Fragment() {
                     }
                     .addOnFailureListener { exception ->
                         Log.e("MatchListFragment", "Error fetching matches from cache: $exception")
-                        //Toast.makeText(requireContext(), "No se pudieron cargar los datos desde la caché", Toast.LENGTH_SHORT).show()
                     }
             }
         }

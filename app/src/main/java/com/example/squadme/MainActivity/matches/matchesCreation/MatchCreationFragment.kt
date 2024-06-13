@@ -273,7 +273,6 @@ class MatchCreationFragment : Fragment() {
                     }
             }
             .addOnFailureListener { e ->
-                //Toast.makeText(requireContext(), "Error al crear el partido: ${e.message}", Toast.LENGTH_SHORT).show()
                 Log.d("MatchCreationFragment", "Error al crear el partido: ${e.message}")
                 Toast.makeText(requireContext(), getString(R.string.toast_match_create_error), Toast.LENGTH_SHORT).show()
             }

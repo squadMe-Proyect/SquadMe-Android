@@ -25,6 +25,14 @@ class PlayerDetailFragment : Fragment() {
     private lateinit var binding: FragmentPlayerDetailBinding
     private val db = FirestoreSingleton.getInstance()
 
+    /**
+     * Inflate the layout for this fragment and initialize view binding
+     *
+     * @param inflater The LayoutInflater object that can be used to inflate any views in the fragment
+     * @param container If non-null, this is the parent view that the fragment's UI should be attached to
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here
+     * @return Return the View for the fragment's UI
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -34,6 +42,12 @@ class PlayerDetailFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Set up the view once it has been created
+     *
+     * @param view The View returned by onCreateView(LayoutInflater, ViewGroup, Bundle)
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -59,12 +73,6 @@ class PlayerDetailFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        /*
-        binding.editBtn.setOnClickListener {
-            val action = PlayerDetailFragmentDirections.actionPlayerDetailFragmentToPlayerUpdateFragment(player)
-            findNavController().navigate(action)
-        }
-         */
 
         binding.editBtn.setOnClickListener {
             if (NetworkUtils.isNetworkAvailable(requireContext())) {
@@ -72,10 +80,10 @@ class PlayerDetailFragment : Fragment() {
                     val action = PlayerDetailFragmentDirections.actionPlayerDetailFragmentToPlayerUpdateFragment(player)
                     findNavController().navigate(action)
                 } else {
-                    Toast.makeText(requireContext(), "No tienes permiso para editar un jugador.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.toast_no_permissions_edit_player), Toast.LENGTH_SHORT).show()
                 }
             } else {
-                Toast.makeText(requireContext(), "No hay conexión a Internet", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.toast_no_connection_match_detail), Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -119,7 +127,7 @@ class PlayerDetailFragment : Fragment() {
                             Log.w(TAG, "Error querying player document", e)
                         }
                 } else {
-                    Toast.makeText(requireContext(), "No tienes permiso para eliminar un jugador.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.toast_no_permissions_delete_player), Toast.LENGTH_SHORT).show()
                 }
             } else {
                 Toast.makeText(context, getString(R.string.toast_error_no_connection_deletePlayer), Toast.LENGTH_SHORT).show()

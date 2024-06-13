@@ -4,13 +4,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import com.example.squadme.LoginRegister.Fragments.ResetPasswordFragment
 import com.example.squadme.R
 import com.example.squadme.databinding.ActivityLoginBinding
 import com.example.squadme.utils.FirestoreSingleton
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreSettings
-import com.google.firebase.firestore.MemoryCacheSettings
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,6 +18,11 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var firestore: FirebaseFirestore
 
 
+    /**
+     * Set up the activity, configure Firestore settings, and navigate based on intent extras
+     *
+     * @param savedInstanceState If non-null, this activity is being re-constructed from a previous saved state as given here
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val firestoreSettings = FirebaseFirestoreSettings.Builder()
@@ -33,12 +36,10 @@ class LoginActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.LoginActivity) as NavHostFragment
         navController = navHostFragment.navController
 
-        // Obtén el ID del fragmento a abrir desde los extras del intent
         val fragmentToOpen = intent.getStringExtra("fragment_to_open")
         if (fragmentToOpen == "reset_password_fragment") {
             navController.navigate(R.id.resetPasswordFragment)
         } else {
-            // Si no hay un fragmento específico para abrir, navega al fragmento predeterminado
             navController.navigate(R.id.login_register)
         }
     }

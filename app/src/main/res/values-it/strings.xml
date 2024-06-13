@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SquadMe</string>
+
+    <string-array name="positions">
+        <item>Portiere</item>
+        <item>Difensore</item>
+        <item>Centrocampista</item>
+        <item>Attaccante</item>
+    </string-array>
+
+    <string-array name="formation">
+        <item>4-3-3</item>
+        <item>4-4-2</item>
+        <item>3-4-3</item>
+    </string-array>
+
+    <!-- Login Fragment -->
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="password_reset">Password dimenticata</string>
+    <string name="login_btn">Accedi</string>
+    <string name="to_register">Non hai un account? Registrati</string>
+    <string name="error_login">Impossibile effettuare l\'accesso dell\'utente</string>
+
+    <!-- Register Fragment -->
+    <string name="name">Nome</string>
+    <string name="surname">Cognome</string>
+    <string name="nacionality">Nazionalità</string>
+    <string name="team">Squadra</string>
+    <string name="confirm_password">Conferma password</string>
+    <string name="register">Registrati</string>
+
+    <!-- Match Fragment -->
+    <string name="oponent_match_creation">Avversario</string>
+    <string name="date_match_creation">Data</string>
+    <string name="hour_match_creation">Ora</string>
+    <string name="lineUp_match_creation">Seleziona una formazione</string>
+
+    <!-- Match Detail -->
+    <string name="oponent_match_detail">Avversario:</string>
+    <string name="date_match_detail">Data:</string>
+    <string name="hour_match_detail">Ora:</string>
+
+    <!-- Player Creation -->
+    <string name="name_player_creation">Nome</string>
+    <string name="surname_player_creation">Cognome</string>
+    <string name="email_player_creation">Email</string>
+    <string name="nacionality_player_creation">Nazionalità</string>
+    <string name="position_player_creation">Ruolo</string>
+    <string name="password_player_creation">Password</string>
+    <string name="numberText_player_creation">Numero</string>
+    <string name="photoCamera">Foto</string>
+    <string name="editCamera">Modifica</string>
+
+    <!-- Player Detail Fragment -->
+    <string name="name_player">Nome:</string>
+    <string name="surname_player">Cognome:</string>
+    <string name="email_player">Email:</string>
+    <string name="nacionality_player">Nazionalità:</string>
+    <string name="position_player">Ruolo:</string>
+    <string name="team_player">Squadra:</string>
+    <string name="number_player">Numero:</string>
+    <string name="goal_player">Goal</string>
+    <string name="assits_player">Assist</string>
+    <string name="yellow_player">Ammonizioni</string>
+    <string name="red_player">Espulsioni</string>
+
+    <!-- Squad Fragment Creation -->
+    <string name="squad_name_creation">Nome</string>
+    <string name="squad_formation_creation">Formazione</string>
+    <string name="squad_lineUp_player_creation">Seleziona i giocatori</string>
+    <string name="squad_players_counter_creation">0/11 giocatori selezionati</string>
+
+    <!-- Training Fragment Creation -->
+    <string name="training_date_creation">Data</string>
+    <string name="training_hour_creation">Ora</string>
+    <string name="training_addExercises_creation">Aggiungi esercizi</string>
+    <string name="traininig_exercisesAdded_creation">Esercizi aggiunti:</string>
+
+    <!-- Training Fragment Detail -->
+    <string name="training_date_detail">Data allenamento:</string>
+    <string name="training_hour_detail">Ora:</string>
+    <string name="training_state_detail">Stato:</string>
+    <string name="training_listExercises_detail">Elenco esercizi:</string>
+
+    <!-- Training Fragment Update -->
+    <string name="training_state_update">Allenamento completato:</string>
+
+    <!-- Profile Fragment -->
+    <string name="profile_name">Nome:</string>
+    <string name="profile_surname">Cognome:</string>
+    <string name="profile_email">Email:</string>
+    <string name="profile_nacionality">Nazionalità:</string>
+    <string name="profile_rol">Ruolo:</string>
+
+    <!-- Reset Password -->
+    <string name="reset_password_text">Inserisci la tua email per inviare un link all\'indirizzo inserito per cambiare/reimpostare la password</string>
+    <string name="reset_password_email">Email</string>
+    <string name="reset_password_btn">Invia email</string>
+
+    <!-- Cancel and Create Buttons -->
+    <string name="cancel_btn">Annulla</string>
+    <string name="create_btn">Crea</string>
+    <string name="update_btn">Aggiorna</string>
+
+    <!-- Edit and Delete Buttons -->
+    <string name="edit_btn">Modifica</string>
+    <string name="delete_btn">Elimina</string>
+
+    <!-- Logout and Change Password Buttons -->
+    <string name="session_btn">Disconnetti</string>
+    <string name="password_btn">Cambia password</string>
+
+    <!-- Toast Messages -->
+
+    <!-- Register -->
+    <string name="toast_error_password_mismatch">Le password non corrispondono</string>
+
+    <!-- User Profile Fragment -->
+    <string name="toast_doc_notExist">Il documento non esiste</string>
+    <string name="toast_error_user">Errore nel recupero dei dati dell\'utente</string>
+    <string name="toast_error_user_register">Compila correttamente i campi</string>
+    <string name="toast_error_user_register2">Errore durante la registrazione dell\'utente</string>
+    <string name="toast_error_user_register_empty_values">Compila tutti i campi</string>
+    <string name="toast_error_email_empty">Errore, email non fornita</string>
+    <string name="toast_send_email">Email di reimpostazione della password inviata</string>
+    <string name="toast_error_rese_password_process_ended">Errore, impossibile completare il processo, inserire correttamente l\'email</string>
+
+    <!-- Matches -->
+    <!-- Match Creation -->
+    <string name="toast_error_no_connection_createMatch">Nessuna connessione Internet. Impossibile creare la partita.</string>
+    <string name="select_lineUp_macth">Seleziona una formazione.</string>
+    <string name="dialog_match_lineUp">Seleziona la formazione</string>
+    <string name="dialog_match_lineUp_positive_btn">Ok</string>
+    <string name="dialog_match_lineUp_negative_btn">Annulla</string>
+    <string name="toast_empty_oponent_value">Inserisci un nome per la partita.</string>
+    <string name="toast_empty_lineUp_value">Seleziona una formazione.</string>
+    <string name="toast_match_create">Partita creata con successo</string>
+    <string name="toast_match_create_error">Errore nella creazione della partita</string>
+
+    <!-- Match Detail -->
+    <string name="match_detail_oponent_text">Avversario:</string>
+    <string name="match_detail_result_text">Risultato:</string>
+    <string name="match_detail_date_text">Data:</string>
+    <string name="match_detail_state_non_completed">Stato: Non completato</string>
+    <string name="match_detail_state_completed">Stato: Completato</string>
+    <string name="toast_error_no_connection_editMatch">Nessuna connessione Internet. Impossibile modificare la partita.</string>
+    <string name="toast_error_no_completed_match_delete">Non puoi eliminare una partita non completata</string>
+    <string name="toast_error_no_connection_deleteMatch">Nessuna connessione Internet. Impossibile eliminare la partita.</string>
+    <string name="toast_match_delete">Partita eliminata con successo</string>
+    <string name="toast_match_delete_error">Errore nell\'eliminazione della partita</string>
+    <string name="toast_no_permissions_edit_match">Non hai il permesso di modificare una partita.</string>
+    <string name="toast_no_connection_match_detail">Nessuna connessione Internet</string>
+    <string name="toast_no_permissions_delete_match">Non hai il permesso di eliminare una partita.</string>
+
+    <!-- Match List -->
+    <string name="toast_no_permissions_create_match">Non hai il permesso di creare una partita.</string>
+
+    <!-- Match Update -->
+    <string name="toast_match_update">Partita aggiornata con successo</string>
+    <string name="toast_match_update_error">Errore nell\'aggiornamento della partita</string>
+
+    <!-- Player -->
+    <!-- Player Creation -->
+    <string name="toast_error_player_values_empty">Compila tutti i campi</string>
+    <string name="toast_error_player_img_notUpload">Errore nel caricamento dell\'immagine</string>
+    <string name="toast_player_create">Giocatore creato con successo</string>
+    <string name="toast_player_create_error">Errore nella creazione del giocatore</string>
+    <string name="toast_player_error_register">Errore durante la registrazione del giocatore: Utente non trovato</string>
+    <string name="toast_player_error_register_login_as_coach">Errore durante la registrazione del giocatore: Utente non trovato</string>
+    <string name="toast_error_no_connection_createPlayer">Nessuna connessione Internet. Impossibile creare il giocatore.</string>
+
+
+    <!-- Player Detail -->
+    <string name="error_toast_not_galery_access">Impossibile accedere alla galleria</string>
+    <string name="player_detail_name_text">Nome </string>
+    <string name="player_detail_surname_text">Cognome </string>
+    <string name="player_detail_email_text">Email </string>
+    <string name="player_detail_nacionality_text">Nazionalità </string>
+    <string name="player_detail_team_text">Squadra </string>
+    <string name="player_detail_position_text">Posizione </string>
+    <string name="player_detail_number_text">Numero di maglia </string>
+    <string name="toast_error_no_connection_editPlayer">Nessuna connessione Internet. Impossibile modificare il giocatore.</string>
+
+
+    <!-- Player Update -->
+    <string name="toast_player_update">Giocatore aggiornato con successo</string>
+    <string name="toast_player_update_error">Errore nell\'aggiornamento del giocatore</string>
+    <string name="toast_no_permissions_edit_player">Non hai il permesso di modificare un giocatore.</string>
+    <string name="toast_no_permissions_delete_player">Non hai il permesso di eliminare un giocatore.</string>
+
+    <!-- Player List -->
+    <string name="toast_error_load_playerList_cache">Impossibile caricare i dati dalla cache</string>
+    <string name="toast_error_no_perimissions_createPlayer">Non hai il permesso di creare un giocatore.</string>
+
+    <!-- Player Delete -->
+    <string name="toast_player_delete">Giocatore eliminato con successo</string>
+    <string name="toast_player_delete_error">Errore nell\'eliminazione del giocatore</string>
+    <string name="toast_error_no_connection_deletePlayer">Nessuna connessione Internet. Impossibile eliminare il giocatore.</string>
+
+    <!-- Squads -->
+
+    <!-- Squad Creation -->
+    <string name="toast_error_no_connection_createSquad">Nessuna connessione Internet. Impossibile creare la squadra.</string>
+    <string name="player_creation_squads">/11 giocatori selezionati</string>
+    <string name="dialog_title_create_squad">Seleziona i giocatori</string>
+    <string name="dialog_squad_positive_btn">Ok</string>
+    <string name="dialog_squad_negative_btn">Annulla</string>
+    <string name="toast_error_empty_name_squad_value">Inserisci un nome per la squadra</string>
+    <string name="toast_error_empty_formation_squad_value">Seleziona una formazione.</string>
+    <string name="toast_error_empty_11players_squad_value">Devi selezionare esattamente 11 giocatori.</string>
+    <string name="toast_squad_create">Squadra creata con successo</string>
+    <string name="toast_squad_create_error">Errore nella creazione della squadra</string>
+
+    <!-- Squad Detail -->
+    <string name="toast_error_no_connection_deleteSquad">Nessuna connessione Internet. Impossibile eliminare la squadra.</string>
+    <string name="toast_squad_delete">Squadra eliminata con successo</string>
+    <string name="toast_squad_delete_error">Errore nell\'eliminazione della squadra</string>
+
+    <!-- Squad List -->
+    <string name="toast_error_load_squadList_cache">Impossibile caricare i dati dalla cache</string>
+    <string name="toast_squad_update">Squadra aggiornata con successo</string>
+    <string name="toast_squad_update_error">Errore nell\'aggiornamento della squadra</string>
+    <string name="toast_squad_no_permissions_create_squad">Non hai il permesso di creare una squadra.</string>
+
+    <!-- Squad Update -->
+    <string name="toast_error_no_connection_editSquad">Nessuna connessione Internet. Impossibile modificare la squadra.</string>
+
+    <!-- Training -->
+    <!-- Training Creation -->
+    <string name="toast_error_no_connection_createTraining">Nessuna connessione Internet. Impossibile creare l\'allenamento.</string>
+    <string name="dialog_title_create_training">Aggiungi un esercizio</string>
+    <string name="dialog_training_positive_btn">Aggiungi</string>
+    <string name="dialog_training_negative_btn">Annulla</string>
+    <string name="toast_error_non_exercise_added">Inserisci un esercizio</string>
+    <string name="text_exercises_added">Esercizi aggiunti:</string>
+    <string name="toast_error_empty_values_squad">Compila tutti i campi</string>
+    <string name="toast_error_date_format_invalid">Errore nel formato della data e dell\'ora</string>
+    <string name="toast_training_create">Allenamento creato con successo</string>
+    <string name="toast_training_create_error">Errore nella creazione dell\'allenamento</string>
+
+    <!-- Training List -->
+    <string name="toast_error_no_perimissions_createTraining">Non hai il permesso di creare un allenamento.</string>
+
+    <!-- Training Detail -->
+    <string name="training_detail_date">Data:</string>
+    <string name="training_detail_hour">Ora:</string>
+    <string name="training_detail_date_non">Data non disponibile</string>
+    <string name="training_detail_hour_non">Ora non disponibile</string>
+    <string name="training_detail_state_non_completed">Stato: Non completato</string>
+    <string name="training_detail_state_completed">Stato: Completato</string>
+    <string name="toast_error_no_completed_training_delete">Non puoi eliminare un allenamento non completato</string>
+    <string name="toast_error_no_connection_deleteTraining">Nessuna connessione Internet. Impossibile eliminare l\'allenamento.</string>
+    <string name="toast_training_delete">Allenamento eliminato con successo</string>
+    <string name="toast_training_delete_error">Errore nell\'eliminazione dell\'allenamento</string>
+    <string name="toast_training_edit_perimissions_error">Non hai il permesso di modificare un allenamento.</string>
+    <string name="toast_no_permissions_delete_training">Non hai il permesso di eliminare un allenamento.</string>
+
+    <!-- Training Update -->
+    <string name="toast_training_not_changes_training">Nessun cambiamento effettuato</string>
+    <string name="toast_training_update">Allenamento aggiornato con successo</string>
+    <string name="toast_training_update_error">Errore nell\'aggiornamento dell\'allenamento</string>
+    <string name="toast_error_no_connection_editTraining">Nessuna connessione Internet. Impossibile modificare l\'allenamento.</string>
+    <string name="hello_blank_fragment">Ciao, frammento vuoto</string>
+</resources>

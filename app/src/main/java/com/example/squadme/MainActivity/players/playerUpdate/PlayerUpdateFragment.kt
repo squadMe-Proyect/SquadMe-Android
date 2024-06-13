@@ -15,16 +15,12 @@ import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.load
-import com.example.squadme.MainActivity.matches.matchesUpdate.MatchUpdateFragmentDirections
 import com.example.squadme.MainActivity.players.playerDetail.PlayerDetailFragmentArgs
 import com.example.squadme.R
-import com.example.squadme.data.Models.Match
 import com.example.squadme.data.Models.Player
 import com.example.squadme.databinding.FragmentPlayerUpdateBinding
 import com.example.squadme.utils.FirestoreSingleton
 import com.example.squadme.utils.NetworkUtils
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -34,6 +30,9 @@ class PlayerUpdateFragment : Fragment() {
     private var selectedImageUri: Uri? = null
     private val db = FirestoreSingleton.getInstance()
 
+    /**
+     * Initialize the spinner adapter with formations on resume
+     */
     override fun onResume() {
         super.onResume()
         val positions = resources.getStringArray(R.array.positions)
@@ -41,6 +40,14 @@ class PlayerUpdateFragment : Fragment() {
         binding.positionItem.setAdapter(arrayAdapter)
     }
 
+    /**
+     * Inflate the layout for this fragment and initialize view binding
+     *
+     * @param inflater The LayoutInflater object that can be used to inflate any views in the fragment
+     * @param container If non-null, this is the parent view that the fragment's UI should be attached to
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here
+     * @return Return the View for the fragment's UI
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -50,6 +57,12 @@ class PlayerUpdateFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Set up the view once it has been created
+     *
+     * @param view The View returned by onCreateView(LayoutInflater, ViewGroup, Bundle)
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -101,6 +114,9 @@ class PlayerUpdateFragment : Fragment() {
         }
     }
 
+    /**
+     * Open gallery to select an image for updating player's profile picture.
+     */
     private fun openGallery() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         if (intent.resolveActivity(requireActivity().packageManager) != null) {
@@ -110,6 +126,13 @@ class PlayerUpdateFragment : Fragment() {
         }
     }
 
+    /**
+     * Handle result from gallery activity for selecting an image.
+     *
+     * @param requestCode The request code passed to startActivityForResult()
+     * @param resultCode The result code returned by the child activity
+     * @param data An Intent that carries the result data
+     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == GALLERY_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
@@ -118,6 +141,12 @@ class PlayerUpdateFragment : Fragment() {
         }
     }
 
+    /**
+     * Upload selected image to Firebase Storage.
+     *
+     * @param imageUri The URI of the image to upload
+     * @param callback Callback function invoked after image upload completes
+     */
     private fun uploadImageToFirebaseStorage(imageUri: Uri, callback: (String) -> Unit) {
         val storageReference = FirebaseStorage.getInstance().reference.child("images/${System.currentTimeMillis()}.jpg")
 
@@ -133,6 +162,11 @@ class PlayerUpdateFragment : Fragment() {
             }
     }
 
+    /**
+     * Update player details in Firestore database.
+     *
+     * @param player The Player object whose details are being updated
+     */
     private fun updatePlayer(player: Player) {
         db.collection("players")
             .whereEqualTo("name", player.name)
@@ -184,6 +218,12 @@ class PlayerUpdateFragment : Fragment() {
             }
     }
 
+    /**
+     * Update player document in Firestore with new values.
+     *
+     * @param docId The document ID of the player in Firestore
+     * @param updatedValues Map containing updated player details
+     */
     private fun updatePlayerInFirestore(docId: String, updatedValues: Map<String, Any>) {
         db.collection("players").document(docId)
             .update(updatedValues)

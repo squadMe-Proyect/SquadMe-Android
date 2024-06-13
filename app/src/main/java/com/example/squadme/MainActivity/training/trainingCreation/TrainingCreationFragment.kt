@@ -16,7 +16,6 @@ import android.util.Log
 import androidx.navigation.fragment.findNavController
 import com.example.squadme.R
 import com.example.squadme.data.Models.Training
-import com.example.squadme.data.repository.TrainingRepository
 import com.example.squadme.databinding.FragmentTrainingCreationBinding
 import com.example.squadme.utils.NetworkUtils
 import com.google.firebase.Timestamp
@@ -36,8 +35,16 @@ class TrainingCreationFragment : Fragment() {
     private val ejercicios = mutableListOf<String>()
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
-    private lateinit var repository: TrainingRepository
 
+
+    /**
+     * Inflate the layout for this fragment and initialize view binding
+     *
+     * @param inflater The LayoutInflater object that can be used to inflate any views in the fragment
+     * @param container If non-null, this is the parent view that the fragment's UI should be attached to
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here
+     * @return Return the View for the fragment's UI
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -47,6 +54,12 @@ class TrainingCreationFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Set up the view once it has been created
+     *
+     * @param view The View returned by onCreateView(LayoutInflater, ViewGroup, Bundle)
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -75,6 +88,9 @@ class TrainingCreationFragment : Fragment() {
         }
     }
 
+    /**
+     * Method to show the date picker dialog.
+     */
     private fun showDatePicker() {
         val dateListener = DatePickerDialog.OnDateSetListener { _: DatePicker, year: Int, month: Int, dayOfMonth: Int ->
             calendar.set(Calendar.YEAR, year)
@@ -93,6 +109,9 @@ class TrainingCreationFragment : Fragment() {
         datePickerDialog.show()
     }
 
+    /**
+     * Method to show the time picker dialog.
+     */
     private fun showTimePicker() {
         val timeListener = TimePickerDialog.OnTimeSetListener { _: TimePicker, hourOfDay: Int, minute: Int ->
             calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
@@ -110,16 +129,25 @@ class TrainingCreationFragment : Fragment() {
         timePickerDialog.show()
     }
 
+    /**
+     * Method to update the date EditText with the selected date.
+     */
     private fun updateDateEditText() {
         val formattedDate = "${calendar.get(Calendar.DAY_OF_MONTH)}/${calendar.get(Calendar.MONTH) + 1}/${calendar.get(Calendar.YEAR)}"
         binding.editTextFecha.setText(formattedDate)
     }
 
+    /**
+     * Method to update the time EditText with the selected time.
+     */
     private fun updateTimeEditText() {
         val formattedTime = String.format("%02d:%02d", calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE))
         binding.editTextHora.setText(formattedTime)
     }
 
+    /**
+     * Method to show the dialog for adding exercises to the training session.
+     */
     private fun showAddExerciseDialog() {
         val dialogView = layoutInflater.inflate(R.layout.dialog_add_exercise, null)
         val editTextExerciseName = dialogView.findViewById<EditText>(R.id.editTextExerciseName)
@@ -142,12 +170,18 @@ class TrainingCreationFragment : Fragment() {
         dialog.show()
     }
 
+    /**
+     * Method to update the TextView showing the added exercises.
+     */
     private fun updateEjerciciosTextView() {
         val ejerciciosTexto = ejercicios.joinToString("\n")
         binding.textViewEjercicios.text = getString(R.string.text_exercises_added) + "\n$ejerciciosTexto"
     }
 
 
+    /**
+     * Method to create the training session and save it to Firestore.
+     */
     private fun crearTraining() {
         val fecha = binding.editTextFecha.text.toString()
         val hora = binding.editTextHora.text.toString()
@@ -168,10 +202,8 @@ class TrainingCreationFragment : Fragment() {
             return
         }
 
-        // Convert the Date object to a Timestamp
         val timestamp = Timestamp(date)
 
-        // Get the current user ID
         val currentUser = auth.currentUser
         val coachId = currentUser?.uid
 
@@ -180,7 +212,6 @@ class TrainingCreationFragment : Fragment() {
             return
         }
 
-        // Create a Training object
         var training = Training(
             coachId = coachId,
             date = timestamp,
@@ -191,7 +222,6 @@ class TrainingCreationFragment : Fragment() {
         db.collection("trainings")
             .add(training)
             .addOnSuccessListener { documentReference ->
-                // Guardar el ID del documento
                 training.id = documentReference.id
                 db.collection("trainings").document(training.id!!).set(training)
                     .addOnSuccessListener {
@@ -209,6 +239,3 @@ class TrainingCreationFragment : Fragment() {
             }
     }
 }
-
-
-

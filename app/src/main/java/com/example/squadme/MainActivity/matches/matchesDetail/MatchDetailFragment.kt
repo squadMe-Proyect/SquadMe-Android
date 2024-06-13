@@ -26,6 +26,17 @@ class MatchDetailFragment : Fragment() {
     private val db = FirestoreSingleton.getInstance()
     private var isAdmin: Boolean = false
 
+    /**
+     * Called to have the fragment instantiate its user interface view.
+     *
+     * @param inflater The LayoutInflater object that can be used to inflate any views in the fragment.
+     * @param container If non-null, this is the parent view that the fragment's UI should be attached to.
+     *                  The fragment should not add the view itself, but this can be used to generate
+     *                  the LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous
+     *                           saved state as given here.
+     * @return Return the View for the fragment's UI, or null.
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -34,6 +45,13 @@ class MatchDetailFragment : Fragment() {
         binding = FragmentMatchDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
+
+    /**
+     * Called immediately after `onCreateView` has returned, but before any saved state has been restored in the view.
+     *
+     * @param view The View returned by `onCreateView`.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here.
+     */
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -74,19 +92,23 @@ class MatchDetailFragment : Fragment() {
                     val action = MatchDetailFragmentDirections.actionMatchDetailFragmentToMatchUpdateFragment(match)
                     findNavController().navigate(action)
                 } else {
-                    Toast.makeText(requireContext(), "No tienes permiso para editar un jugador.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.toast_no_permissions_edit_match), Toast.LENGTH_SHORT).show()
                 }
             } else {
-                Toast.makeText(requireContext(), "No hay conexión a Internet", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.toast_no_connection_match_detail), Toast.LENGTH_SHORT).show()
             }
         }
 
         binding.deleteBtn.setOnClickListener {
             if (NetworkUtils.isNetworkAvailable(requireContext())) {
-                if (match.finished) {
-                    eliminarMatch(match.id)
+                if (isAdmin) {
+                    if (match.finished) {
+                        eliminarMatch(match.id)
+                    } else {
+                        Toast.makeText(context, getString(R.string.toast_error_no_completed_match_delete), Toast.LENGTH_SHORT).show()
+                    }
                 } else {
-                    Toast.makeText(context, getString(R.string.toast_error_no_completed_match_delete), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.toast_no_permissions_delete_match), Toast.LENGTH_SHORT).show()
                 }
             } else {
                 Toast.makeText(context, getString(R.string.toast_error_no_connection_deleteMatch), Toast.LENGTH_SHORT).show()
@@ -94,6 +116,11 @@ class MatchDetailFragment : Fragment() {
         }
     }
 
+    /**
+     * Deletes a match from Firestore.
+     *
+     * @param matchId The ID of the match to be deleted.
+     */
     private fun eliminarMatch(matchId: String?) {
         if (matchId != null) {
             db.collection("matches").document(matchId)

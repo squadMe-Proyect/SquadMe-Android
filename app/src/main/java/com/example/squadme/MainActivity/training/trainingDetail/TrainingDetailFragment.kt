@@ -27,6 +27,14 @@ class TrainingDetailFragment : Fragment() {
     private lateinit var exerciseAdapter: TrainingExerciseAdapter
     private val db = FirestoreSingleton.getInstance()
 
+    /**
+     * Inflate the layout for this fragment and initialize view binding
+     *
+     * @param inflater The LayoutInflater object that can be used to inflate any views in the fragment
+     * @param container If non-null, this is the parent view that the fragment's UI should be attached to
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here
+     * @return Return the View for the fragment's UI
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -36,6 +44,12 @@ class TrainingDetailFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Set up the view once it has been created
+     *
+     * @param view The View returned by onCreateView(LayoutInflater, ViewGroup, Bundle)
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -76,12 +90,6 @@ class TrainingDetailFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        /*
-        binding.editBtn.setOnClickListener {
-            val action = TrainingDetailFragmentDirections.actionTrainingDetailFragmentToTrainingUpdateFragment(training)
-            findNavController().navigate(action)
-        }
-         */
 
         binding.editBtn.setOnClickListener {
             if (NetworkUtils.isNetworkAvailable(requireContext())) {
@@ -89,31 +97,15 @@ class TrainingDetailFragment : Fragment() {
                     val action = TrainingDetailFragmentDirections.actionTrainingDetailFragmentToTrainingUpdateFragment(training)
                     findNavController().navigate(action)
                 } else {
-                    Toast.makeText(
-                        requireContext(),
-                        "No tienes permiso para editar un jugador.",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(requireContext(), getString(R.string.toast_training_edit_perimissions_error), Toast.LENGTH_SHORT).show()
                 }
             } else {
-                Toast.makeText(requireContext(), "No hay conexión a Internet", Toast.LENGTH_SHORT)
+                Toast.makeText(requireContext(), getString(R.string.toast_no_connection_match_detail), Toast.LENGTH_SHORT)
                     .show()
             }
         }
 
-        /*
-        binding.deleteBtn.setOnClickListener {
-            if (NetworkUtils.isNetworkAvailable(requireContext())) {
-                if (training.completed) {
-                    eliminarTraining(training.id)
-                } else {
-                    Toast.makeText(context, getString(R.string.toast_error_no_completed_training_delete), Toast.LENGTH_SHORT).show()
-                }
-            } else {
-                Toast.makeText(context, getString(R.string.toast_error_no_connection_deleteTraining), Toast.LENGTH_SHORT).show()
-            }
-        }
-         */
+
 
         binding.deleteBtn.setOnClickListener {
             if (NetworkUtils.isNetworkAvailable(requireContext())) {
@@ -130,7 +122,7 @@ class TrainingDetailFragment : Fragment() {
                 } else {
                     Toast.makeText(
                         requireContext(),
-                        "No tienes permiso para eliminar un entrenamiento.",
+                        getString(R.string.toast_no_permissions_delete_training),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -145,7 +137,12 @@ class TrainingDetailFragment : Fragment() {
     }
 
 
-        private fun eliminarTraining(trainingId: String?) {
+    /**
+     * Method to delete a training session from Firestore.
+     *
+     * @param trainingId The ID of the training session to delete.
+     */
+    private fun eliminarTraining(trainingId: String?) {
         if (trainingId != null) {
             db.collection("trainings").document(trainingId)
                 .delete()

@@ -35,6 +35,9 @@ class PlayerCreationFragment : Fragment() {
     private lateinit var coachEmail: String
     private lateinit var coachPassword: String
 
+    /**
+     * Initialize the spinner adapter with formations on resume
+     */
     override fun onResume() {
         super.onResume()
         val positions = resources.getStringArray(R.array.positions)
@@ -42,6 +45,14 @@ class PlayerCreationFragment : Fragment() {
         binding.positionItem.setAdapter(arrayAdapter)
     }
 
+    /**
+     * Inflate the layout for this fragment and initialize view binding
+     *
+     * @param inflater The LayoutInflater object that can be used to inflate any views in the fragment
+     * @param container If non-null, this is the parent view that the fragment's UI should be attached to
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here
+     * @return Return the View for the fragment's UI
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -51,6 +62,12 @@ class PlayerCreationFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Set up the view once it has been created
+     *
+     * @param view The View returned by onCreateView(LayoutInflater, ViewGroup, Bundle)
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -137,6 +154,12 @@ class PlayerCreationFragment : Fragment() {
         }
     }
 
+    /**
+     * Uploads the player's image to Firebase Storage.
+     *
+     * @param imageUri The URI of the player's image.
+     * @param callback The callback function called after uploading the image with the download URL.
+     */
     private fun uploadImageToFirebaseStorage(imageUri: Uri, callback: (String) -> Unit) {
         val storageReference = FirebaseStorage.getInstance().reference.child("images/${System.currentTimeMillis()}.jpg")
 
@@ -152,6 +175,14 @@ class PlayerCreationFragment : Fragment() {
             }
     }
 
+
+    /**
+     * Registers the player in Firebase Authentication.
+     *
+     * @param email The player's email address.
+     * @param password The player's password.
+     * @param onSuccess The callback function called after successfully registering the player with the player's UID.
+     */
     private fun createPlayer(player: Player, playerUid: String, onSuccess: () -> Unit) {
         db.collection("players").document(playerUid)
             .set(player)
@@ -166,6 +197,11 @@ class PlayerCreationFragment : Fragment() {
             }
     }
 
+    /**
+     * Obtiene la contraseña del coach desde SharedPreferences.
+     *
+     * @return Contraseña del coach.
+     */
     private fun registerPlayerAuth(email: String, password: String, onSuccess: (String) -> Unit) {
         firebaseAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
@@ -184,10 +220,18 @@ class PlayerCreationFragment : Fragment() {
             }
     }
 
+    /**
+     * Retrieves the coach's password from SharedPreferences.
+     *
+     * @return The coach's password.
+     */
     private fun getPasswordFromPreferences(): String {
         return sharedPreferences.getString("coachPassword", "") ?: ""
     }
 
+    /**
+     * Re-logs in as a coach after creating the player.
+     */
     private fun signInCoachAgain() {
         if (coachEmail.isNotEmpty() && coachPassword.isNotEmpty()) {
             firebaseAuth.signInWithEmailAndPassword(coachEmail, coachPassword)
@@ -196,7 +240,6 @@ class PlayerCreationFragment : Fragment() {
                         Log.d(TAG, "Coach ha vuelto a iniciar sesión correctamente")
                         findNavController().navigate(R.id.action_playerCreationFragment_to_playerListFragment)
                     } else {
-                        //Toast.makeText(context, "Error al volver a iniciar sesión como coach: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
                         Log.d("PlayerCreationFragment", "Error al volver a iniciar sesión como coach: ${task.exception?.message}")
                         Toast.makeText(context, getString(R.string.toast_player_error_register_login_as_coach), Toast.LENGTH_SHORT).show()
                     }

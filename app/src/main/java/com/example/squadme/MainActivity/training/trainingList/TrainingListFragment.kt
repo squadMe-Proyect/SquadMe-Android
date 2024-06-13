@@ -32,6 +32,14 @@ class TrainingListFragment : Fragment() {
     private lateinit var currentUserId: String
     private lateinit var trainingListAdapter: TrainingListAdapter
 
+    /**
+     * Inflate the layout for this fragment and initialize view binding
+     *
+     * @param inflater The LayoutInflater object that can be used to inflate any views in the fragment
+     * @param container If non-null, this is the parent view that the fragment's UI should be attached to
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here
+     * @return Return the View for the fragment's UI
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -41,6 +49,12 @@ class TrainingListFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Set up the view once it has been created
+     *
+     * @param view The View returned by onCreateView(LayoutInflater, ViewGroup, Bundle)
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -70,14 +84,17 @@ class TrainingListFragment : Fragment() {
                     val action = TrainingListFragmentDirections.actionTrainingListFragmentToTrainingCreationFragment()
                     findNavController().navigate(action)
                 } else {
-                    Toast.makeText(requireContext(), "No tienes permiso para crear un jugador.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.toast_error_no_perimissions_createTraining), Toast.LENGTH_SHORT).show()
                 }
             } else {
-                Toast.makeText(requireContext(), "No hay conexión a Internet", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.toast_no_connection_match_detail), Toast.LENGTH_SHORT).show()
             }
         }
     }
 
+    /**
+     * Checks the user's role and fetches trainings accordingly.
+     */
     private fun checkUserRoleAndFetchTrainings() {
         val coachesRef = firestore.collection("coaches").document(currentUserId)
         val playersRef = firestore.collection("players").document(currentUserId)
@@ -94,27 +111,30 @@ class TrainingListFragment : Fragment() {
                     }
                     playerDocument.exists() -> {
                         val coachId = playerDocument.getString("coachId")
-                        coachId?.let { fetchTrainingsFromCache("player") }
+                        coachId?.let { fetchTrainingsFromCache() }
                     }
                     else -> {
                         Log.e("TrainingListFragment", "User is neither coach nor player.")
-                        fetchTrainingsFromCache("unknown")
+                        fetchTrainingsFromCache()
                     }
                 }
             }
             .addOnFailureListener { exception ->
                 Log.e("TrainingListFragment", "Error checking user role: $exception")
-                fetchTrainingsFromCache("unknown")
+                fetchTrainingsFromCache()
             }
     }
 
+    /**
+     * Fetches trainings filtered by admin role.
+     */
     private fun fetchTrainingsByAdmin() {
         firestore.collection("trainings")
             .whereEqualTo("coachId", currentUserId)
             .addSnapshotListener { snapshot, exception ->
                 if (exception != null) {
                     Log.e("TrainingListFragment", "Error fetching trainings by admin: $exception")
-                    fetchTrainingsFromCache("coach")
+                    fetchTrainingsFromCache()
                     return@addSnapshotListener
                 }
 
@@ -129,7 +149,11 @@ class TrainingListFragment : Fragment() {
             }
     }
 
-    private fun fetchTrainingsFromCache(userType: String) {
+    /**
+     * Fetches trainings from cache .
+     *
+     */
+    private fun fetchTrainingsFromCache() {
         if (UserManager.isAdmin) {
             firestore.collection("trainings")
                 .get(Source.CACHE)

@@ -27,6 +27,14 @@ class UserProfileFragment : Fragment() {
     private lateinit var firebaseAuth: FirebaseAuth
     private val db = FirestoreSingleton.getInstance()
 
+    /**
+     * Inflate the layout for this fragment and initialize view binding
+     *
+     * @param inflater The LayoutInflater object that can be used to inflate any views in the fragment
+     * @param container If non-null, this is the parent view that the fragment's UI should be attached to
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here
+     * @return Return the View for the fragment's UI, or null
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -36,6 +44,12 @@ class UserProfileFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Set up the view once it has been created
+     *
+     * @param view The View returned by onCreateView(LayoutInflater, ViewGroup, Bundle)
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -46,7 +60,6 @@ class UserProfileFragment : Fragment() {
             val uid = currentUser.uid
             Log.d("UserProfileFragment", "Current UID: $uid")
 
-            // Primero intenta obtener los datos del caché
             obtenerDatosDesdeCache(uid)
         }
 
@@ -65,6 +78,11 @@ class UserProfileFragment : Fragment() {
         }
     }
 
+    /**
+     * Try to fetch user data from cache
+     *
+     * @param uid The UID of the current user
+     */
     private fun obtenerDatosDesdeCache(uid: String) {
         db.collection("coaches").document(uid)
             .get(Source.CACHE)
@@ -72,16 +90,19 @@ class UserProfileFragment : Fragment() {
                 if (document.exists()) {
                     mostrarDatosUsuario(document)
                 } else {
-                    // Si no es entrenador, verifica si es jugador
                     obtenerDatosJugadorDesdeCache(uid)
                 }
             }
             .addOnFailureListener {
-                // Si falla el caché, intenta obtener los datos del servidor
                 obtenerDatosDesdeServidor(uid)
             }
     }
 
+    /**
+     * Try to fetch player data from cache
+     *
+     * @param uid The UID of the current user
+     */
     private fun obtenerDatosJugadorDesdeCache(uid: String) {
         db.collection("players").document(uid)
             .get(Source.CACHE)
@@ -89,23 +110,25 @@ class UserProfileFragment : Fragment() {
                 if (playerDocument.exists()) {
                     mostrarDatosUsuario(playerDocument)
                 } else {
-                    // Si no existen datos en el caché, intenta obtener del servidor
                     obtenerDatosDesdeServidor(uid)
                 }
             }
             .addOnFailureListener {
-                // Si falla el caché, intenta obtener los datos del servidor
                 obtenerDatosDesdeServidor(uid)
             }
     }
 
+    /**
+     * Try to fetch user data from the server
+     *
+     * @param uid The UID of the current user
+     */
     private fun obtenerDatosDesdeServidor(uid: String) {
         db.collection("coaches").document(uid).get()
             .addOnSuccessListener { document ->
                 if (document.exists()) {
                     mostrarDatosUsuario(document)
                 } else {
-                    // Si no es entrenador, verifica si es jugador
                     db.collection("players").document(uid).get()
                         .addOnSuccessListener { playerDocument ->
                             if (playerDocument.exists()) {
@@ -127,6 +150,11 @@ class UserProfileFragment : Fragment() {
             }
     }
 
+    /**
+     * Display user data retrieved from Firestore
+     *
+     * @param document The DocumentSnapshot containing user data
+     */
     private fun mostrarDatosUsuario(document: DocumentSnapshot) {
         val name = document.getString("name")
         val surname = document.getString("surname")
@@ -142,6 +170,11 @@ class UserProfileFragment : Fragment() {
         binding.userRole.text = getString(R.string.profile_rol) + " $role"
     }
 
+    /**
+     * Show a toast message
+     *
+     * @param message The message to be shown in the toast
+     */
     private fun showToast(message: String) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }

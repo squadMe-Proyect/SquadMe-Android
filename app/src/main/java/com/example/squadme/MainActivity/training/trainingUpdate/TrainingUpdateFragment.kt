@@ -34,6 +34,14 @@ class TrainingUpdateFragment : Fragment() {
     private val exercises = mutableListOf<String>()
     private lateinit var exerciseAdapter: TrainingExerciseUpdateAdapter
 
+    /**
+     * Inflate the layout for this fragment and initialize view binding
+     *
+     * @param inflater The LayoutInflater object that can be used to inflate any views in the fragment
+     * @param container If non-null, this is the parent view that the fragment's UI should be attached to
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here
+     * @return Return the View for the fragment's UI
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -43,13 +51,18 @@ class TrainingUpdateFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Set up the view once it has been created
+     *
+     * @param view The View returned by onCreateView(LayoutInflater, ViewGroup, Bundle)
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val args: TrainingUpdateFragmentArgs by navArgs()
         val training: Training = args.training
 
-        // Populate existing data
         val timestamp = training.date
         if (timestamp != null) {
             val date = timestamp.toDate()
@@ -65,7 +78,6 @@ class TrainingUpdateFragment : Fragment() {
             binding.switchCompleted.isChecked = training.completed
         }
 
-        // Initialize RecyclerView
         exerciseAdapter = TrainingExerciseUpdateAdapter(exercises) { exercise ->
             exercises.remove(exercise)
             exerciseAdapter.notifyDataSetChanged()
@@ -126,6 +138,11 @@ class TrainingUpdateFragment : Fragment() {
         }
     }
 
+    /**
+     * Saves changes made to the training details.
+     *
+     * @param trainingId The ID of the training session to be updated.
+     */
     private fun guardarCambios(trainingId: String?) {
         val fecha = binding.editTextFecha.text.toString()
         val hora = binding.editTextHora.text.toString()

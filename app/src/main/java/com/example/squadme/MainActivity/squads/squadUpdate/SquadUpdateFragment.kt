@@ -14,7 +14,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.squadme.MainActivity.squads.squadCreation.PlayerAdapterDropdown
 import com.example.squadme.R
 import com.example.squadme.data.Models.LineUp
 import com.example.squadme.data.Models.Player
@@ -22,7 +21,6 @@ import com.example.squadme.databinding.FragmentSquadUpdateBinding
 import com.example.squadme.utils.FirestoreSingleton
 import com.example.squadme.utils.NetworkUtils
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,6 +34,9 @@ class SquadUpdateFragment : Fragment() {
     private lateinit var playerAdapter: PlayerAdapterDropdownUpdate
     private lateinit var selectedPlayerAdapter: SquadPlayerUpdateAdapter
 
+    /**
+     * Initialize the spinner adapter with formations on resume
+     */
     override fun onResume() {
         super.onResume()
         val formations = resources.getStringArray(R.array.formation)
@@ -43,6 +44,14 @@ class SquadUpdateFragment : Fragment() {
         binding.formationDropdown.setAdapter(arrayAdapter)
     }
 
+    /**
+     * Inflate the layout for this fragment and initialize view binding
+     *
+     * @param inflater The LayoutInflater object that can be used to inflate any views in the fragment
+     * @param container If non-null, this is the parent view that the fragment's UI should be attached to
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here
+     * @return Return the View for the fragment's UI
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -51,6 +60,12 @@ class SquadUpdateFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Set up the view once it has been created
+     *
+     * @param view The View returned by onCreateView(LayoutInflater, ViewGroup, Bundle)
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -67,7 +82,6 @@ class SquadUpdateFragment : Fragment() {
         binding.nameInput.setText(squad.name)
         binding.formationDropdown.setText(squad.lineUp)
 
-        //selectedPlayers.addAll(squad.players)
 
         val playersRef = firestore.collection("players")
 
@@ -111,6 +125,9 @@ class SquadUpdateFragment : Fragment() {
         updateSelectedPlayersCount()
     }
 
+    /**
+     * Sets up the adapter for the dropdown list of players.
+     */
     private fun setupPlayerAdapter() {
         playerAdapter = PlayerAdapterDropdownUpdate(playerList, selectedPlayers) { player, isSelected ->
             if (isSelected) {
@@ -123,6 +140,9 @@ class SquadUpdateFragment : Fragment() {
         }
     }
 
+    /**
+     * Sets up the RecyclerView for displaying selected players.
+     */
     private fun setupRecyclerView() {
         selectedPlayerAdapter = SquadPlayerUpdateAdapter(selectedPlayers.toMutableList()) { player ->
             selectedPlayers.remove(player)
@@ -135,15 +155,24 @@ class SquadUpdateFragment : Fragment() {
         }
     }
 
+    /**
+     * Updates the count of selected players displayed in the UI.
+     */
     private fun updateSelectedPlayersCount() {
         val countText = "${selectedPlayers.size}" + getString(R.string.player_creation_squads)
         binding.selectedPlayersCount.text = countText
     }
 
+    /**
+     * Updates the RecyclerView displaying selected players with new data.
+     */
     private fun updateSelectedPlayerRecyclerView() {
         selectedPlayerAdapter.updateData(selectedPlayers.toList())
     }
 
+    /**
+     * Shows a dialog for selecting players to add to the squad.
+     */
     private fun showPlayerSelectionDialog() {
         val dialogView =
             LayoutInflater.from(context).inflate(R.layout.dialog_player_selection, null)
@@ -167,6 +196,11 @@ class SquadUpdateFragment : Fragment() {
         dialog.show()
     }
 
+    /**
+     * Updates the squad details in Firestore.
+     *
+     * @param squadId The ID of the squad to update.
+     */
     private fun updateSquad(squadId: String) {
         val squadName = binding.nameInput.text.toString()
         val formation = binding.formationDropdown.text.toString()

@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.findNavController
-import com.example.squadme.MainActivity.matches.matchesList.MatchListFragmentDirections
 import com.example.squadme.R
 import com.example.squadme.data.Models.Player
 import com.example.squadme.databinding.FragmentPlayerListBinding
@@ -21,8 +20,6 @@ import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.FirebaseFirestoreException
-import com.google.firebase.firestore.FirebaseFirestoreSettings
 import com.google.firebase.firestore.Source
 
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,6 +31,14 @@ class PlayerListFragment : Fragment() {
     private lateinit var currentUserId: String
     private lateinit var adapter: PlayerListAdapter
 
+    /**
+     * Inflate the layout for this fragment and initialize view binding
+     *
+     * @param inflater The LayoutInflater object that can be used to inflate any views in the fragment
+     * @param container If non-null, this is the parent view that the fragment's UI should be attached to
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here
+     * @return Return the View for the fragment's UI
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -43,6 +48,12 @@ class PlayerListFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Set up the view once it has been created
+     *
+     * @param view The View returned by onCreateView(LayoutInflater, ViewGroup, Bundle)
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -62,16 +73,19 @@ class PlayerListFragment : Fragment() {
                     val action = PlayerListFragmentDirections.actionPlayerListFragmentToCameraPreviewFragment()
                     view.findNavController().navigate(action)
                 } else {
-                    Toast.makeText(requireContext(), "No tienes permiso para crear un jugador.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.toast_error_no_perimissions_createPlayer), Toast.LENGTH_SHORT).show()
                 }
             } else {
-                Toast.makeText(requireContext(), "No hay conexión a Internet", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.toast_no_connection_match_detail), Toast.LENGTH_SHORT).show()
             }
         }
 
         checkUserRoleAndFetchPlayers()
     }
 
+    /**
+     * Check user role (admin or coach) and fetch players from Firestore based on the role
+     */
     private fun checkUserRoleAndFetchPlayers() {
         val coachesRef = firestore.collection("coaches").document(currentUserId)
         val playersRef = firestore.collection("players").document(currentUserId)
@@ -84,11 +98,9 @@ class PlayerListFragment : Fragment() {
 
                     when {
                         coachDocument.exists() -> {
-                            //isAdmin = true
                             fetchPlayersByAdmin()
                         }
                         playerDocument.exists() -> {
-                            //isAdmin = false
                             val coachId = playerDocument.getString("coachId")
                             coachId?.let { fetchPlayersFromCache("player") }
                         }
@@ -108,6 +120,9 @@ class PlayerListFragment : Fragment() {
         }
     }
 
+    /**
+     * Fetch players from Firestore filtered by admin role
+     */
     private fun fetchPlayersByAdmin() {
         firestore.collection("players")
             .whereEqualTo("coachId", currentUserId)
@@ -128,6 +143,11 @@ class PlayerListFragment : Fragment() {
             }
     }
 
+    /**
+     * Fetch players from Firestore cache based on user type
+     *
+     * @param userType The type of user ('admin', 'coach', or 'unknown')
+     */
     private fun fetchPlayersFromCache(userType: String) {
         if (UserManager.isAdmin) {
             firestore.collection("players")

@@ -1,7 +1,6 @@
 package com.example.squadme.LoginRegister.Fragments
 
 
-import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -18,11 +17,6 @@ import com.example.squadme.utils.FirestoreSingleton
 import com.example.squadme.R
 import com.example.squadme.utils.UserManager
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ktx.database
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -34,6 +28,14 @@ class RegisterFragment : Fragment() {
 
 
 
+    /**
+     * Inflate the layout for this fragment and initialize FirebaseAuth
+     *
+     * @param inflater The LayoutInflater object that can be used to inflate any views in the fragment
+     * @param container If non-null, this is the parent view that the fragment's UI should be attached to
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here
+     * @return Return the View for the fragment's UI, or null
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -44,6 +46,12 @@ class RegisterFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Set up the view once it has been created
+     *
+     * @param view The View returned by onCreateView(LayoutInflater, ViewGroup, Bundle)
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -67,20 +75,24 @@ class RegisterFragment : Fragment() {
         }
     }
 
+    /**
+     * Handle register logic
+     *
+     * @param coach The Coach object containing the user's details
+     * @param password The password entered by the user
+     */
+
     private fun register(coach:Coach, password:String){
         if (coach.email.isEmpty() || password.isEmpty()){
-            //showAlert("Rellene bien los cambios")
             showToast(getString(R.string.toast_error_user_register))
             return
         }else{
             firebaseAuth.createUserWithEmailAndPassword(coach.email, password).addOnCompleteListener{
                 if (it.isSuccessful){
-                    //savePasswordToPreferences(password)
                     saveUserDataToPreferences(coach, password)
                     postRegister(coach)
 
                 }else{
-                    //showAlert("Error al registrar un usuario ")
                     showToast(getString(R.string.toast_error_user_register2))
                 }
             }
@@ -88,9 +100,13 @@ class RegisterFragment : Fragment() {
     }
 
 
+    /**
+     * Save user data to Firestore and navigate to the main activity
+     *
+     * @param coach The Coach object containing the user's details
+     */
     private fun postRegister(coach: Coach) {
         if (coach.name.isEmpty() || coach.email.isEmpty() || coach.nationality.isEmpty() || coach.surname.isEmpty() || coach.team.isEmpty()) {
-            //showToast("Por favor, complete todos los campos")
             showToast(getString(R.string.toast_error_user_register_empty_values))
             return
         }
@@ -115,17 +131,21 @@ class RegisterFragment : Fragment() {
                     activity?.finish()
                 }
                 .addOnFailureListener {
-                    //showToast("Error al añadir un usuario a la colección")
                     Log.d("LoginFragment","Error al añadir un usuario a la colección" )
                 }
         } else {
-            //showToast("Error: Usuario actual nulo")
             Log.d("LoginFragment","Error: Usuario actual nulo" )
         }
 
     }
 
 
+    /**
+     * Save user data to shared preferences
+     *
+     * @param coach The Coach object containing the user's details
+     * @param password The password entered by the user
+     */
     private fun saveUserDataToPreferences(coach: Coach, password: String) {
         with(sharedPreferences.edit()) {
             putString("userName", coach.name)
@@ -141,6 +161,11 @@ class RegisterFragment : Fragment() {
 
 
 
+    /**
+     * Show a toast message
+     *
+     * @param message The message to be shown in the toast
+     */
     private fun showToast(message: String) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }

@@ -17,6 +17,15 @@ import dagger.hilt.android.AndroidEntryPoint
 class ResetPasswordFragment : Fragment() {
     private lateinit var binding: FragmentResetPasswordBinding
     private lateinit var firebaseAuth: FirebaseAuth
+
+    /**
+     * Inflate the layout for this fragment and initialize FirebaseAuth
+     *
+     * @param inflater The LayoutInflater object that can be used to inflate any views in the fragment
+     * @param container If non-null, this is the parent view that the fragment's UI should be attached to
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here
+     * @return Return the View for the fragment's UI, or null
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -25,6 +34,13 @@ class ResetPasswordFragment : Fragment() {
         binding = FragmentResetPasswordBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
+
+    /**
+     * Set up the view once it has been created
+     *
+     * @param view The View returned by onCreateView(LayoutInflater, ViewGroup, Bundle)
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         firebaseAuth = Firebase.auth
@@ -35,9 +51,13 @@ class ResetPasswordFragment : Fragment() {
         }
     }
 
+    /**
+     * Password reset logic
+     *
+     * @param email The email address entered by the user
+     */
     private fun sendPasswordReset(email: String){
         if(email.isNullOrEmpty()){
-            //Toast.makeText(this.requireContext(),"Error, email sin rellenar", Toast.LENGTH_SHORT).show()
             Toast.makeText(this.requireContext(),getString(R.string.toast_error_email_empty), Toast.LENGTH_SHORT).show()
         }else{
             firebaseAuth.sendPasswordResetEmail(email)
@@ -50,5 +70,4 @@ class ResetPasswordFragment : Fragment() {
                 }
         }
     }
-
 }
