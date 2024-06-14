@@ -13,6 +13,8 @@ import android.widget.TimePicker
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import android.util.Log
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.squadme.R
 import com.example.squadme.data.Models.Training
@@ -32,10 +34,9 @@ import java.util.Locale
 class TrainingCreationFragment : Fragment() {
     private lateinit var binding: FragmentTrainingCreationBinding
     private val calendar: Calendar = Calendar.getInstance()
-    private val ejercicios = mutableListOf<String>()
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
-
+    private val viewModel: TrainingViewModel by viewModels()
 
     /**
      * Inflate the layout for this fragment and initialize view binding
@@ -85,6 +86,13 @@ class TrainingCreationFragment : Fragment() {
 
         binding.btnCancelar.setOnClickListener {
             findNavController().popBackStack()
+        }
+
+        // Observa cambios en la lista de ejercicios
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.ejercicios.collect { ejercicios ->
+                updateEjerciciosTextView(ejercicios)
+            }
         }
     }
 
@@ -158,8 +166,7 @@ class TrainingCreationFragment : Fragment() {
             .setPositiveButton(getString(R.string.dialog_training_positive_btn)) { _, _ ->
                 val exerciseName = editTextExerciseName.text.toString()
                 if (exerciseName.isNotEmpty()) {
-                    ejercicios.add(exerciseName)
-                    updateEjerciciosTextView()
+                    viewModel.addEjercicio(exerciseName)
                 } else {
                     Toast.makeText(context, getString(R.string.toast_error_non_exercise_added), Toast.LENGTH_SHORT).show()
                 }
@@ -173,11 +180,10 @@ class TrainingCreationFragment : Fragment() {
     /**
      * Method to update the TextView showing the added exercises.
      */
-    private fun updateEjerciciosTextView() {
+    private fun updateEjerciciosTextView(ejercicios: List<String>) {
         val ejerciciosTexto = ejercicios.joinToString("\n")
         binding.textViewEjercicios.text = getString(R.string.text_exercises_added) + "\n$ejerciciosTexto"
     }
-
 
     /**
      * Method to create the training session and save it to Firestore.
@@ -186,12 +192,11 @@ class TrainingCreationFragment : Fragment() {
         val fecha = binding.editTextFecha.text.toString()
         val hora = binding.editTextHora.text.toString()
 
-        if (fecha.isEmpty() || hora.isEmpty() || ejercicios.isEmpty()) {
+        if (fecha.isEmpty() || hora.isEmpty() || viewModel.ejercicios.value.isEmpty()) {
             Toast.makeText(context, getString(R.string.toast_error_empty_values_squad), Toast.LENGTH_SHORT).show()
             return
         }
 
-        // Convert date and time strings to a Date object
         val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
         val dateString = "$fecha $hora"
         val date: Date
@@ -212,11 +217,11 @@ class TrainingCreationFragment : Fragment() {
             return
         }
 
-        var training = Training(
+        val training = Training(
             coachId = coachId,
             date = timestamp,
-            exercises = ejercicios,
-            completed = false // Set completed to false
+            exercises = viewModel.ejercicios.value,
+            completed = false
         )
 
         db.collection("trainings")
@@ -229,7 +234,6 @@ class TrainingCreationFragment : Fragment() {
                         findNavController().popBackStack()
                     }
                     .addOnFailureListener { e ->
-                        //Toast.makeText(context, "Error al crear el entrenamiento: ${e.message}", Toast.LENGTH_SHORT).show()
                         Log.d("TrainingCreationFragment", "Error al crear el entrenamiento: ${e.message}")
                         Toast.makeText(context, getString(R.string.toast_training_create_error), Toast.LENGTH_SHORT).show()
                     }
@@ -239,3 +243,5 @@ class TrainingCreationFragment : Fragment() {
             }
     }
 }
+
+

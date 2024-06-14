@@ -3,7 +3,6 @@ package com.example.squadme.MainActivity.squads.squadUpdate
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.squadme.data.Models.Player
 import com.example.squadme.databinding.ItemPlayerUpdateBinding
 

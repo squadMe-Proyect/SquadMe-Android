@@ -11,12 +11,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -30,16 +30,15 @@ import java.util.Locale
 class CameraPreviewFragment : Fragment() {
 
     private lateinit var binding: FragmentCameraPreviewBinding
-    private lateinit var imageCapture: ImageCapture
+    private var imageCapture: ImageCapture? = null
 
-    companion object{
-        private  val REQUEST_CODE_PERMISSIONS = 10
-        val REQUIRED_PERMISSIONS
-                = mutableListOf(
+    companion object {
+        private const val REQUEST_CODE_PERMISSIONS = 10
+        val REQUIRED_PERMISSIONS = mutableListOf(
             Manifest.permission.CAMERA,
             Manifest.permission.RECORD_AUDIO
         ).apply {
-            if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.P){
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
                 add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
             }
         }.toTypedArray()
@@ -58,7 +57,7 @@ class CameraPreviewFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentCameraPreviewBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -71,13 +70,18 @@ class CameraPreviewFragment : Fragment() {
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (allPermissionGranted()){
+
+        // Deshabilitar el botón inicialmente
+        binding.buttonPhoto.isEnabled = false
+
+        if (allPermissionsGranted()) {
             startCamera()
-        }else{
-            ActivityCompat.requestPermissions(
-                requireActivity(), REQUIRED_PERMISSIONS,  REQUEST_CODE_PERMISSIONS
+        } else {
+            requestPermissions(
+                REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
             )
         }
+
         binding.buttonPhoto.setOnClickListener {
             takePhoto()
         }
@@ -104,9 +108,13 @@ class CameraPreviewFragment : Fragment() {
             try {
                 cameraProvider.unbindAll()
                 cameraProvider.bindToLifecycle(
-                    this, cameraSelector, preview, imageCapture)
+                    this, cameraSelector, preview, imageCapture
+                )
 
-            } catch(exc: Exception) {
+                // Habilitar el botón después de que la cámara esté configurada
+                binding.buttonPhoto.isEnabled = true
+
+            } catch (exc: Exception) {
                 Log.e(ContentValues.TAG, "Use case binding failed", exc)
             }
 
@@ -124,7 +132,7 @@ class CameraPreviewFragment : Fragment() {
         val contentValues = ContentValues().apply {
             put(MediaStore.MediaColumns.DISPLAY_NAME, name)
             put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
-            if(Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
                 put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/CameraX-Image")
             }
         }
@@ -134,7 +142,6 @@ class CameraPreviewFragment : Fragment() {
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 contentValues)
             .build()
-
 
         imageCapture.takePicture(
             outputOptions,
@@ -156,15 +163,45 @@ class CameraPreviewFragment : Fragment() {
                 }
             }
         )
-
-
     }
 
     /**
      * Method to check if all required permissions are granted.
      */
-    private fun allPermissionGranted() = REQUIRED_PERMISSIONS.all {
+    private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(requireContext(), it) == PackageManager.PERMISSION_GRANTED
     }
 
+    /**
+     * Handle the result of the permission request.
+     *
+     * @param requestCode The request code passed in requestPermissions.
+     * @param permissions The requested permissions.
+     * @param grantResults The grant results for the corresponding permissions.
+     */
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQUEST_CODE_PERMISSIONS) {
+            if (allPermissionsGranted()) {
+                startCamera()
+            } else {
+                Toast.makeText(requireContext(), "Permissions not granted", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    /**
+     * Start the camera when the fragment is resumed.
+     */
+    override fun onResume() {
+        super.onResume()
+        if (allPermissionsGranted()) {
+            startCamera()
+        }
+    }
 }
+

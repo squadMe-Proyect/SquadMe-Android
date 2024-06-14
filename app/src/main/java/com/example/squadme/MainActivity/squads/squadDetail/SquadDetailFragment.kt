@@ -16,7 +16,6 @@ import com.example.squadme.databinding.FragmentSquadDetailBinding
 import com.example.squadme.utils.FirestoreSingleton
 import com.example.squadme.utils.NetworkUtils
 import android.util.Log
-import com.example.squadme.MainActivity.matches.matchesDetail.MatchDetailFragmentDirections
 import com.example.squadme.utils.UserManager
 import dagger.hilt.android.AndroidEntryPoint
 

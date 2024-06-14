@@ -15,8 +15,6 @@ import com.example.squadme.databinding.FragmentMatchDetailBinding
 import com.example.squadme.utils.FirestoreSingleton
 import com.example.squadme.utils.NetworkUtils
 import android.util.Log
-import androidx.navigation.findNavController
-import com.example.squadme.MainActivity.matches.matchesList.MatchListFragmentDirections
 import com.example.squadme.utils.UserManager
 import dagger.hilt.android.AndroidEntryPoint
 
