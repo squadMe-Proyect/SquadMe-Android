@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/match" android:title="Partidos" android:icon="@drawable/match"></item>
-    <item android:id="@+id/player" android:title="Jugadores" android:icon="@drawable/player"></item>
-    <item android:id="@+id/squad" android:title="Alineaciones" android:icon="@drawable/squad"></item>
-    <item android:id="@+id/train" android:title="Entrenamientos" android:icon="@drawable/dumbbell"></item>
-    <item android:id="@+id/profile" android:title="Perfil" android:icon="@drawable/user_profile"></item>
+    <item android:id="@+id/match" android:title="@string/match_menu" android:icon="@drawable/match"></item>
+    <item android:id="@+id/player" android:title="@string/player_menu" android:icon="@drawable/player"></item>
+    <item android:id="@+id/squad" android:title="@string/squad_menu" android:icon="@drawable/squad"></item>
+    <item android:id="@+id/train" android:title="@string/training_menu" android:icon="@drawable/dumbbell"></item>
+    <item android:id="@+id/profile" android:title="@string/profile_menu" android:icon="@drawable/user_profile"></item>
 
 </menu>

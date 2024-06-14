@@ -30,7 +30,6 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
-import java.util.Date
 
 @AndroidEntryPoint
 class MatchUpdateFragment : Fragment() {
@@ -112,6 +111,12 @@ class MatchUpdateFragment : Fragment() {
                 val opponent = binding.opponentInput.text.toString()
                 val result = binding.resultInput.text.toString()
                 val finished = binding.switchCompleted.isChecked
+                val selectedLineUp = this.selectedLineUp
+
+                if (selectedLineUp == null) {
+                    Toast.makeText(requireContext(), getString(R.string.toast_empty_lineUp_value), Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
 
                 val updatedMatch = Match(
                     id = match.id,

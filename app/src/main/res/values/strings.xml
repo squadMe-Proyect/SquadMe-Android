@@ -15,6 +15,14 @@
         <item>3-4-3</item>
     </string-array>
 
+
+    <!--Menu-->
+    <string name="match_menu">Partidos</string>
+    <string name="player_menu">Jugadores</string>
+    <string name="squad_menu">Alineaciones</string>
+    <string name="training_menu">Entrenamientos</string>
+    <string name="profile_menu">Perfil</string>
+
     <!-- Login Fragment -->
     <string name="email">Email</string>
     <string name="password">Contraseña</string>

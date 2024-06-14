@@ -15,6 +15,14 @@
         <item>3-4-3</item>
     </string-array>
 
+    <!--Menu-->
+    <string name="match_menu">Matchs</string>
+    <string name="player_menu">Joueurs</string>
+    <string name="squad_menu">Formations</string>
+    <string name="training_menu">Entraînements</string>
+    <string name="profile_menu">Profil</string>
+
+
     <!-- Login Fragment -->
     <string name="email">Email</string>
     <string name="password">Mot de passe</string>
@@ -263,4 +271,11 @@
     <string name="toast_training_update_error">Erreur lors de la mise à jour de l\'entraînement</string>
     <string name="toast_error_no_connection_editTraining">Pas de connexion Internet. Impossible de modifier l\'entraînement.</string>
     <string name="hello_blank_fragment">Bonjour fragment vide</string>
+
+
+    <string name="toast_squad_not_changes">Aucun changement n\'a été apporté à l\'équipe.</string>
+    <string name="toast_squad_not_found">L\'équipe à mettre à jour n\'a pas été trouvée.</string>
+    <string name="toast_player_not_changes">Aucun changement n\'a été apporté aux données du joueur.</string>
+    <string name="toast_match_not_changes">Aucun changement n\'a été apporté aux données du match.</string>
+
 </resources>
