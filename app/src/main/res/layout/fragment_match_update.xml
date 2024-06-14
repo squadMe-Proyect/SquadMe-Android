@@ -14,12 +14,14 @@
         android:hint="Oponente"
         app:layout_constraintBottom_toTopOf="@+id/Cancelar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.543"
+        app:layout_constraintHorizontal_bias="0.623"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.108">
+        app:layout_constraintVertical_bias="0.113">
 
-        s<com.google.android.material.textfield.TextInputEditText
+        s
+
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/opponent_input"
             android:layout_width="match_parent"
             android:layout_height="match_parent">

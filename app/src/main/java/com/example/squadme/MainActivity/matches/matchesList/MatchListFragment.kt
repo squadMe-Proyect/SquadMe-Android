@@ -66,7 +66,7 @@ class MatchListFragment : Fragment() {
 
         adapter = MatchListAdapter { _, match ->
             val action = MatchListFragmentDirections
-                .actionMatchListFragmentToMatchDetailFragment(match, isAdmin)
+                .actionMatchListFragmentToMatchDetailFragment(match)
             view.findNavController().navigate(action)
         }
 

@@ -55,13 +55,13 @@
     <string name="editCamera">Editar</string>
 
     <!-- Player Detail Fragment -->
-    <string name="name_player">Nombre:</string>
-    <string name="surname_player">Apellido:</string>
-    <string name="email_player">Email:</string>
-    <string name="nacionality_player">Nacionalidad:</string>
-    <string name="position_player">Posición:</string>
-    <string name="team_player">Equipo:</string>
-    <string name="number_player">Dorsal:</string>
+    <string name="name_player">Nombre: </string>
+    <string name="surname_player">Apellido: </string>
+    <string name="email_player">Email: </string>
+    <string name="nacionality_player">Nacionalidad: </string>
+    <string name="position_player">Posición: </string>
+    <string name="team_player">Equipo: </string>
+    <string name="number_player">Dorsal: </string>
     <string name="goal_player">Goles</string>
     <string name="assits_player">Asistencias</string>
     <string name="yellow_player">Amarillas</string>

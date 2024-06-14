@@ -20,9 +20,9 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/name_label"
-        android:layout_width="309dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="310dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="15dp"
         android:hint="@string/name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
@@ -43,9 +43,9 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/surname_label"
-        android:layout_width="309dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="310dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="15dp"
         android:hint="@string/surname"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -63,9 +63,9 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/email_label"
-        android:layout_width="309dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="310dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="15dp"
         android:hint="@string/email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -82,9 +82,9 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/nacionality_label"
-        android:layout_width="309dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="310dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="15dp"
         android:hint="@string/nacionality"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -103,9 +103,9 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/team_label"
-        android:layout_width="309dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="310dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="15dp"
         android:hint="@string/team"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -124,9 +124,9 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/password_label"
-        android:layout_width="309dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="310dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="15dp"
         android:hint="@string/password"
         app:endIconMode="password_toggle"
         app:layout_constraintEnd_toEndOf="parent"
@@ -146,9 +146,9 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/confirm_password_label"
-        android:layout_width="309dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="310dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="15dp"
         android:hint="@string/confirm_password"
         app:endIconMode="password_toggle"
         app:layout_constraintEnd_toEndOf="parent"
@@ -171,7 +171,7 @@
         android:id="@+id/register_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:text="@string/register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

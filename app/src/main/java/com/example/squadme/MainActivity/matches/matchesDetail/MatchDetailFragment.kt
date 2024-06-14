@@ -17,6 +17,7 @@ import com.example.squadme.utils.NetworkUtils
 import android.util.Log
 import androidx.navigation.findNavController
 import com.example.squadme.MainActivity.matches.matchesList.MatchListFragmentDirections
+import com.example.squadme.utils.UserManager
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -58,7 +59,6 @@ class MatchDetailFragment : Fragment() {
 
         val args: MatchDetailFragmentArgs by navArgs()
         val match: Match = args.match
-        isAdmin = args.isAdmin
 
         // Mostrar detalles del partido
         binding.matchOpponent.text = getString(R.string.match_detail_oponent_text) + "${match.opponent}"
@@ -88,7 +88,7 @@ class MatchDetailFragment : Fragment() {
 
         binding.editBtn.setOnClickListener {
             if (NetworkUtils.isNetworkAvailable(requireContext())) {
-                if (isAdmin) {
+                if (UserManager.isAdmin) {
                     val action = MatchDetailFragmentDirections.actionMatchDetailFragmentToMatchUpdateFragment(match)
                     findNavController().navigate(action)
                 } else {
@@ -101,7 +101,7 @@ class MatchDetailFragment : Fragment() {
 
         binding.deleteBtn.setOnClickListener {
             if (NetworkUtils.isNetworkAvailable(requireContext())) {
-                if (isAdmin) {
+                if (UserManager.isAdmin) {
                     if (match.finished) {
                         eliminarMatch(match.id)
                     } else {

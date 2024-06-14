@@ -17,23 +17,20 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.squadme.MainActivity.matches.matchesCreation.LineUpAdapterDropdown
 import com.example.squadme.MainActivity.matches.matchesDetail.MatchDetailFragmentArgs
-import com.example.squadme.MainActivity.matches.matchesDetail.MatchDetailFragmentDirections
 import com.example.squadme.R
 import com.example.squadme.data.Models.LineUp
 import com.example.squadme.data.Models.Match
-import com.example.squadme.databinding.FragmentMatchListBinding
 import com.example.squadme.databinding.FragmentMatchUpdateBinding
 import com.example.squadme.utils.FirestoreSingleton
 import com.example.squadme.utils.NetworkUtils
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
+import java.util.Date
 
 @AndroidEntryPoint
 class MatchUpdateFragment : Fragment() {

@@ -34,6 +34,7 @@ class LoginFragment : Fragment() {
     private val db = FirestoreSingleton.getInstance()
     private val sharedPreferences by lazy { requireActivity().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE) }
 
+
     /**
      * Inflate the layout for this fragment and initialize FirebaseAuth
      *
@@ -89,7 +90,7 @@ class LoginFragment : Fragment() {
         if (email.isNotEmpty() && password.isNotEmpty()) {
             firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
                 if (it.isSuccessful) {
-                    saveUserRoleToPreferences()
+                    saveUserRoleToPreferences(email, password)
                 } else {
                     Toast.makeText(context, getString(R.string.error_login), Toast.LENGTH_SHORT).show()
                 }
@@ -104,7 +105,7 @@ class LoginFragment : Fragment() {
     /**
      * Save the user's role to shared preferences
      */
-    private fun saveUserRoleToPreferences() {
+    private fun saveUserRoleToPreferences(email: String, password: String) {
         val currentUser = firebaseAuth.currentUser
         currentUser?.let { user ->
             val userId = user.uid
@@ -118,6 +119,8 @@ class LoginFragment : Fragment() {
 
                     with(sharedPreferences.edit()) {
                         if (coachDocument.exists()) {
+                            putString("coachEmail", email)
+                            putString("coachPassword", password)
                             putString("userRole", "admin")
                             UserManager.isAdmin = true
                         } else if (playerDocument.exists()) {

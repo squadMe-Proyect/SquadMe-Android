@@ -34,10 +34,6 @@
         <argument
             android:name="match"
             app:argType="com.example.squadme.data.Models.Match"></argument>
-        <argument
-            android:name="isAdmin"
-            app:argType="boolean"
-            android:defaultValue="false" />
         <action
             android:id="@+id/action_matchDetailFragment_to_matchUpdateFragment"
             app:destination="@id/matchUpdateFragment" />

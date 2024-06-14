@@ -167,6 +167,8 @@ class PlayerUpdateFragment : Fragment() {
      *
      * @param player The Player object whose details are being updated
      */
+
+    /*
     private fun updatePlayer(player: Player) {
         db.collection("players")
             .whereEqualTo("name", player.name)
@@ -206,6 +208,93 @@ class PlayerUpdateFragment : Fragment() {
                         }
                     } else {
                         updatedValues["picture"] = player.picture ?:""
+                        updatePlayerInFirestore(docId, updatedValues)
+                    }
+                } else {
+                    Log.d("Firestore", "No se encontró el documento del jugador con el nombre: ${player.name}")
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.e("Firestore", "Error al obtener el documento del jugador", e)
+                Toast.makeText(context, getString(R.string.toast_player_update_error), Toast.LENGTH_SHORT).show()
+            }
+    }
+
+     */
+
+    /**
+     * Update player document in Firestore with new values.
+     *
+     * @param docId The document ID of the player in Firestore
+     * @param updatedValues Map containing updated player details
+     */
+
+    /*
+    private fun updatePlayerInFirestore(docId: String, updatedValues: Map<String, Any>) {
+        db.collection("players").document(docId)
+            .update(updatedValues)
+            .addOnSuccessListener {
+                Toast.makeText(context, getString(R.string.toast_player_update), Toast.LENGTH_SHORT).show()
+                val action = PlayerUpdateFragmentDirections.actionPlayerUpdateFragmentToPlayerListFragment()
+                findNavController().navigate(action)
+            }
+            .addOnFailureListener { error ->
+                Toast.makeText(context, getString(R.string.toast_player_update_error), Toast.LENGTH_SHORT).show()
+                Log.e("Firestore", "Error al actualizar los valores del jugador: ${error.message}")
+            }
+    }
+
+     */
+
+    private fun updatePlayer(player: Player) {
+        db.collection("players")
+            .whereEqualTo("name", player.name)
+            .whereEqualTo("surname", player.surname)
+            .get()
+            .addOnSuccessListener { documents ->
+                if (!documents.isEmpty) {
+                    val playerDocument = documents.first()
+                    val docId = playerDocument.id
+
+                    // Obtener los nuevos valores desde los campos de entrada
+                    val newPicture = binding.photo.toString()
+                    val newName = binding.nameInput.text.toString()
+                    val newSurname = binding.surnameInput.text.toString()
+                    val newNation = binding.nationInput.text.toString()
+                    val newPosition = binding.positionItem.text.toString()
+                    val newNumber = binding.number.value
+                    val newGoal = binding.goles.value
+                    val newAssists = binding.asistenciasPicker.value
+                    val newAmarillas = binding.amarillasPicker.value
+                    val newRojas = binding.rojasPicker.value
+
+                    // Crear un mapa con los valores actualizados
+                    val updatedValues = mutableMapOf<String, Any>()
+                    if(newPicture != player.picture) updatedValues["picture"] = newPicture
+                    if (newName != player.name) updatedValues["name"] = newName
+                    if (newSurname != player.surname) updatedValues["surname"] = newSurname
+                    if (newNation != player.nation) updatedValues["nation"] = newNation
+                    if (newPosition != player.position) updatedValues["position"] = newPosition
+                    if (newNumber != player.numbers) updatedValues["numbers"] = newNumber
+                    if (newGoal != player.goal) updatedValues["goal"] = newGoal
+                    if (newAssists != player.assists) updatedValues["assists"] = newAssists
+                    if (newAmarillas != player.yellowCards) updatedValues["yellowCards"] = newAmarillas
+                    if (newRojas != player.redCards) updatedValues["redCards"] = newRojas
+
+                    // Verificar si se han realizado cambios
+                    if (updatedValues.isEmpty()) {
+                        Toast.makeText(context, getString(R.string.toast_player_not_changes), Toast.LENGTH_SHORT).show()
+                        return@addOnSuccessListener
+                    }
+
+                    // Actualizar la imagen del jugador si se ha seleccionado una nueva
+                    if (selectedImageUri != null) {
+                        uploadImageToFirebaseStorage(selectedImageUri!!) { downloadUrl ->
+                            updatedValues["picture"] = downloadUrl
+                            updatePlayerInFirestore(docId, updatedValues)
+                        }
+                    } else {
+                        updatedValues["picture"] = player.picture ?: ""
                         updatePlayerInFirestore(docId, updatedValues)
                     }
                 } else {
